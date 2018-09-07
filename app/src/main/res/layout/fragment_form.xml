@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tab_unfilled_color"
+    tools:context="com.scorg.forms.fragments.FormFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/appbar_padding_top"
+        android:background="@null"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_tab_height"
+            android:background="@drawable/tab_layout_background"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabMaxWidth="580dp"
+            app:tabMinWidth="160dp"
+            app:tabMode="fixed"
+            app:tabPaddingEnd="0dp"
+            app:tabPaddingStart="0dp" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.scorg.forms.customui.CustomViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp10"
+            android:paddingTop="@dimen/view_margin">
+
+            <com.scorg.forms.customui.CustomButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginEnd="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:background="@drawable/button_selector"
+                android:padding="@dimen/dp10"
+                android:text="@string/previous"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.scorg.forms.customui.CustomButton
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_selector"
+                android:padding="@dimen/dp10"
+                android:text="@string/next"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.scorg.forms.customui.CustomButton
+                android:id="@+id/submitEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_selector"
+                android:padding="@dimen/dp10"
+                android:text="@string/submit"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

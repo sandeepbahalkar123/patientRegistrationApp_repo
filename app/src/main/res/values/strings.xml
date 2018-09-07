@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">Patient RegForm</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="next">Next</string>
+    <string name="submit">Submit</string>
+    <string name="previous">Previous</string>
+    <string name="select_date">Select Date</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="enter_mobile_no">Enter mobile number</string>
+    <string name="err_invalid_mobile_no">Enter valid mobile number</string>
+    <string name="enter_email">Enter email address</string>
+    <string name="err_invalid_email">Enter valid email</string>
+
+    <string name="roboto_bold">roboto_bold.ttf</string>
+    <string name="roboto_medium">roboto_medium.ttf</string>
+    <string name="roboto_regular">roboto_regular.ttf</string>
+
+    <string name="edit">Edit</string>
+    <string name="change_photo">Take Photo</string>
+    <string name="exit_message">Are you sure you want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="new_registration">New Registration</string>
+    <string name="clear">Clear</string>
+    <string name="undertaking">Undertaking</string>
+    <string name="digital_signature">Electronic Signature</string>
+    <string name="ok">OK</string>
+    <string name="date">Date:&#160;</string>
+    <string name="name">Name</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="feedback">Feedback</string>
+    <string name="others">Please specify</string>
+    <string name="rating_reason">Would you like to specify the reason for low rating?</string>
+    <string name="internet">Please check your Internet Connection</string>
+    <string name="timeout">Timeout error</string>
+    <string name="server_error">Server Error</string>
+    <string name="log_in">Login</string>
+    <string name="your_health">Your Own Healthcare Repository</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_patient_mobile_no">Enter patient mobile number</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Are you sure you want to logout</string>
+    <string name="cancel">Cancel</string>
+    <string name="for_example_server_path">e.g. 172.16.100.79:8080</string>
+    <string name="server_path">Enter the server path</string>
+    <string name="wrong_server_path">Re-enter correct server path</string>
+    <string name="change_ip">Change IP</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="username_invalid">Please enter username.</string>
+    <string name="select_at_least_one_profile">Please select at least one Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="container_fragment">Container Fragment</string>
+    <string name="back_to_mobile_screen_message">Do you wish to return on the patient login page?</string>
+    <string name="need_to_save_profile">You need to save profile info first</string>
+
+</resources>

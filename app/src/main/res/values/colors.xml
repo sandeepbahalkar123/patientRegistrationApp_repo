@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<color name="colorPrimaryDark">#0E7EAB</color>
+    <color name="colorAccent">#48C1E7</color>
+    <color name="colorPrimary">#27a8d1</color>
+    <color name="tab_unfilled_color">#e7ecef</color>-->
+
+    <color name="colorPrimaryDark">#09354A</color>
+    <color name="colorAccent">#3F4049</color>
+    <color name="colorPrimary">#0A405A</color>
+
+    <color name="tab_unfilled_color">#e7ecef</color>
+    <color name="form_background">#9DD05B</color>
+    <!--<color name="title_background">#1eace3</color>-->
+    <color name="title_background">#526690</color>
+
+    <color name="button">#9DD05B</color>
+    <color name="button_pressed">#698b3e</color>
+    <color name="disable_button">#B7DC87</color>
+
+    <color name="register_button">#048CB6</color>
+
+    <color name="text_color">#808080</color>
+    <color name="red">#FF0000</color>
+    <color name="white">#FFFFFF</color>
+
+</resources>

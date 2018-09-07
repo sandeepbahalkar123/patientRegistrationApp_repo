@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="400dp"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_back_white">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_rounded_back_title"
+        android:padding="@dimen/view_margin"
+        android:text="Select Clinic and Location"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dp40">
+
+        <com.scorg.forms.customui.CustomSpinner
+            android:id="@+id/dropDownClinic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:textSize="@dimen/field_text_size" />
+
+        <com.scorg.forms.customui.CustomSpinner
+            android:id="@+id/dropDownLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/view_margin"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:textSize="@dimen/field_text_size" />
+
+    </LinearLayout>
+
+    <com.scorg.forms.customui.CustomButton
+        android:id="@+id/okButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="OK"
+        android:background="@drawable/button_selector"/>
+
+</LinearLayout>

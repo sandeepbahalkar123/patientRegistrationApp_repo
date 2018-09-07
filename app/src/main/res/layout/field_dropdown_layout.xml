@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/labelView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_weight="0.6"
+        android:paddingBottom="@dimen/label_view_padding"
+        android:paddingTop="@dimen/label_view_padding"
+        android:textSize="@dimen/field_text_size"
+        tools:text="Name" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/field_padding_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.scorg.forms.customui.CustomSpinner
+                android:id="@+id/dropDown"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:textSize="@dimen/field_text_size" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <com.scorg.forms.customui.CustomTextView
+            android:id="@+id/dropDownError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/error_message_padding"
+            android:paddingBottom="@dimen/error_message_padding"
+            tools:text="Select Answer"
+            android:textColor="@color/red"
+            android:textSize="@dimen/error_message_text" />
+
+    </LinearLayout>
+
+</LinearLayout>

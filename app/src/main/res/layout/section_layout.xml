@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/sectionTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tab_unfilled_color"
+        android:paddingBottom="@dimen/view_margin"
+        android:paddingEnd="@dimen/view_margin"
+        android:paddingStart="@dimen/view_margin"
+        android:paddingTop="@dimen/view_margin"
+        android:textSize="@dimen/section_title_text_size"
+        app:customFont="@string/roboto_medium"
+        tools:text="Section 1" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/profilePhotoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/view_margin"
+            android:layout_marginEnd="@dimen/dp26"
+            android:layout_marginStart="@dimen/dp26"
+            android:layout_marginTop="@dimen/dp26"
+            android:background="@drawable/profile_photo_back"
+            android:orientation="vertical"
+            android:padding="@dimen/dp5">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/profilePhoto"
+                android:layout_width="@dimen/profile_photo_width"
+                android:layout_height="@dimen/profile_photo_height"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_camera" />
+
+            <com.scorg.forms.customui.CustomTextView
+                android:id="@+id/editButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/title_background"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dp8"
+                android:paddingEnd="@dimen/dp5"
+                android:paddingLeft="@dimen/dp10"
+                android:paddingRight="@dimen/dp5"
+                android:paddingStart="@dimen/dp10"
+                android:paddingTop="@dimen/dp8"
+                android:text="@string/change_photo"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                app:customFont="@string/roboto_medium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/profilePhotoLayout"
+            android:layout_alignLeft="@+id/profilePhotoLayout"
+            android:layout_alignRight="@+id/profilePhotoLayout"
+            android:layout_alignStart="@+id/profilePhotoLayout"
+            android:layout_below="@+id/profilePhotoLayout"
+            android:visibility="gone"
+            android:gravity="center_horizontal">
+
+            <com.scorg.forms.customui.CustomTextView
+                android:id="@+id/mobileText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/view_margin"
+                android:drawablePadding="@dimen/dp5"
+                android:textSize="14sp"
+                android:tint="@color/colorPrimary"
+                app:customFont="@string/roboto_medium"
+                tools:text="8208127880" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fieldsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/profilePhotoLayout"
+            android:layout_toRightOf="@id/profilePhotoLayout"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp8"
+            android:paddingEnd="@dimen/view_margin"
+            android:paddingStart="@dimen/view_margin"
+            android:paddingTop="@dimen/dp8" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/labelView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/label_view_padding"
+        android:paddingBottom="@dimen/label_view_padding"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_weight="0.6"
+        android:textSize="@dimen/field_text_size"
+        tools:text="Name" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/field_padding_top">
+
+        <com.scorg.forms.customui.FlowRadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal" />
+
+        <com.scorg.forms.customui.CustomTextView
+            android:id="@+id/radioGroupError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/error_message_padding"
+            android:paddingBottom="@dimen/error_message_padding"
+            tools:text="Select Answer"
+            android:textColor="@color/red"
+            android:textSize="@dimen/error_message_text" />
+
+    </LinearLayout>
+
+</LinearLayout>

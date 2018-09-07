@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scorg.forms.customui.CustomRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/field_text_size"
+    tools:text="Dr. Alex"
+    android:padding="@dimen/dp10" />

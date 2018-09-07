@@ -1,0 +1,8 @@
+<com.scorg.forms.customui.CustomCheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="?android:attr/spinnerDropDownItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp50"
+    android:ellipsize="marquee"
+    android:textSize="@dimen/field_text_size"
+    android:singleLine="true" />

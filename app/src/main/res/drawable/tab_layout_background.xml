@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:gravity="bottom"
+        android:top="@dimen/tab_arrow_height">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@color/tab_unfilled_color" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/tab_arrow_height"
+        android:gravity="top">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@color/tab_unfilled_color" />
+        </shape>
+    </item>
+
+</layer-list>

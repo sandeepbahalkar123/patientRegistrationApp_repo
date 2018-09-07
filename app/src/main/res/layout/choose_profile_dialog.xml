@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="400dp"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_back_white">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_rounded_back_title"
+        android:padding="@dimen/view_margin"
+        android:text="Select Profile"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp20" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dp10"/>
+
+    <com.scorg.forms.customui.CustomButton
+        android:id="@+id/okButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="OK"
+        android:background="@drawable/button_selector"/>
+
+</LinearLayout>

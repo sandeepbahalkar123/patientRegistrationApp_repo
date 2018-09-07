@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.scorg.forms.fragments.NewRegistrationFragment">
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp0"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v4.widget.Space
+            android:layout_width="@dimen/dp0"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/clinicLogoBig"
+                android:layout_width="296dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                tools:src="@drawable/imgpsh_fullsize" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_margin"
+                android:orientation="vertical">
+
+                <com.scorg.forms.customui.CustomTextView
+                    android:id="@+id/clinicName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/view_margin"
+                    android:gravity="center"
+                    tools:text="Satyamev Jayate"
+                    android:textSize="28sp"
+                    app:customFont="@string/roboto_bold" />
+
+                <com.scorg.forms.customui.CustomTextView
+                    android:id="@+id/clinicTagLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/view_margin"
+                    android:gravity="center"
+                    tools:text="Satyamev Jayate"
+                    android:textSize="@dimen/section_title_text_size"
+                    app:customFont="@string/roboto_medium" />
+
+                <com.scorg.forms.customui.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp12"
+                    android:gravity="center"
+                    android:text="@string/enter_patient_mobile_no"
+                    android:textSize="@dimen/section_title_text_size"
+                    app:customFont="@string/roboto_medium" />
+
+                <com.scorg.forms.customui.CustomEditText
+                    android:id="@+id/mobileText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/view_margin"
+                    android:gravity="center"
+                    android:imeOptions="actionGo"
+                    android:inputType="phone"
+                    android:textSize="@dimen/section_title_text_size" />
+
+                <com.scorg.forms.customui.CustomButton
+                    android:id="@+id/getInfoButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp12"
+                    android:background="@drawable/button_register"
+                    android:text="@string/submit"
+                    android:textColor="@android:color/white"
+                    app:customFont="@string/roboto_medium"
+                    app:srcCompat="@drawable/ic_navigate_next_24dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="@dimen/dp0"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp0"
+        android:layout_weight="1.4" />
+
+</LinearLayout>

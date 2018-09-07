@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/labelView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_weight="0.6"
+        android:padding="@dimen/dp12"
+        android:textSize="@dimen/field_text_size"
+        tools:text="Name" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <com.scorg.forms.customui.CustomTextView
+            android:id="@+id/labelValueText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/field_text_size"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:padding="@dimen/dp12"
+            tools:text="Ganesh Shirole" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.scorg.forms.customui.CustomTextView
+        android:id="@+id/labelView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        app:customFont="@string/roboto_medium"
+        android:paddingTop="@dimen/label_view_padding"
+        android:textSize="@dimen/field_text_size"
+        tools:text="Name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/field_padding_top">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/otherTextBoxParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/dp12"
+            tools:visibility="visible">
+
+            <com.scorg.forms.customui.CustomEditText
+                android:id="@+id/otherTextBox"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/others"
+                android:inputType="textMultiLine" />
+
+            <com.scorg.forms.customui.CustomTextView
+                android:id="@+id/unitTextView"
+                android:layout_width="0dp"
+                android:layout_weight=".7"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/dp5"
+                android:textSize="@dimen/unit_text"
+                tools:text="Kilo Gram" />
+
+        </LinearLayout>
+
+        <com.scorg.forms.customui.CustomTextView
+            android:id="@+id/radioGroupError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/error_message_padding"
+            android:paddingTop="@dimen/error_message_padding"
+            android:textColor="@color/red"
+            android:textSize="@dimen/error_message_text"
+            tools:text="Select Answer" />
+
+    </LinearLayout>
+
+</LinearLayout>

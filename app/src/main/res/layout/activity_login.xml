@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    tools:context="com.scorg.forms.activities.LoginActivity">
+
+    <android.support.v4.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:paddingStart="@dimen/view_margin"
+            android:paddingEnd="@dimen/view_margin"
+            android:src="@drawable/vector_smart_object" />
+
+        <com.scorg.forms.customui.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/your_health"
+            android:textSize="@dimen/sp20"
+            app:customFont="@string/roboto_medium" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp80" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.scorg.forms.customui.CustomEditText
+                android:id="@+id/userNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_username"
+                android:inputType="textEmailAddress"
+                android:gravity="center"
+                android:textSize="@dimen/section_title_text_size"/>
+
+            <com.scorg.forms.customui.CustomEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_margin"
+                android:hint="@string/enter_password"
+                android:textSize="@dimen/section_title_text_size"
+                android:imeOptions="actionGo"
+                android:inputType="textPassword"
+                android:gravity="center"/>
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp80"/>
+
+            <com.scorg.forms.customui.CustomButton
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_register"
+                android:gravity="center"
+                android:text="@string/log_in"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp18" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+</LinearLayout>

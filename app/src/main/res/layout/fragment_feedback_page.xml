@@ -1,0 +1,16 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/view_margin"
+    android:scrollbars="none"
+    android:background="@color/white"
+    tools:context="com.scorg.forms.fragments.FeedbackPageFragment">
+
+    <LinearLayout
+        android:id="@+id/fieldsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</ScrollView>

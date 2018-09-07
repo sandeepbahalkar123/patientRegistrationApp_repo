@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--Used com.scorg.forms.customui.CustomTextView here because View doesn't have maxWidth and minWidth property-->
+    <LinearLayout
+        android:id="@+id/tabBackground"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/page_tab_layout_height"
+        android:background="@color/form_background"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp10"
+        android:paddingTop="@dimen/dp10">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10">
+
+            <TextView
+                android:id="@+id/leftView"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/indicatorIcon"
+                android:layout_toStartOf="@+id/indicatorIcon"
+                android:background="@android:color/white"
+                android:maxWidth="300dp"
+                android:minWidth="100dp" />
+
+            <!--<com.scorg.forms.customui.CustomTextView
+                android:id="@+id/indicatorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/unfilled_badge"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/badge_normal_text_size"
+                app:customFont="@string/roboto_medium"
+                tools:text="1" />-->
+
+            <ImageView
+                android:id="@+id/indicatorIcon"
+                android:layout_width="@dimen/tab_circle_size"
+                android:layout_height="@dimen/tab_circle_size"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/dp8"
+                android:background="@drawable/unfilled_badge"/>
+
+            <!--Used com.scorg.forms.customui.CustomTextView here because View doesn't have maxWidth and minWidth property-->
+
+            <TextView
+                android:id="@+id/rightView"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/indicatorIcon"
+                android:layout_toRightOf="@+id/indicatorIcon"
+                android:background="@android:color/white"
+                android:maxWidth="300dp"
+                android:minWidth="100dp" />
+
+        </RelativeLayout>
+
+        <com.scorg.forms.customui.CustomTextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="@dimen/dp10"
+            android:textColor="@android:color/white"
+            app:customFont="@string/roboto_medium"
+            tools:text="Personal\nInformation" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/downArrow"
+        android:layout_width="@dimen/tab_arrow_width"
+        android:layout_height="@dimen/tab_arrow_height"
+        android:tint="@color/form_background"
+        android:scaleType="fitXY"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/down_arrow" />
+
+</LinearLayout>
