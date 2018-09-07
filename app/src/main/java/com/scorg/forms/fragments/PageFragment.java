@@ -982,9 +982,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                             CommonMethods.log(TAG, bodyAsString);
                             Gson gson = new Gson();
                             CommonResponse commonResponse = gson.fromJson(bodyAsString, CommonResponse.class);
+                            if (commonResponse.getCommon().getStatusCode().equals(Constants.SUCCESS))
+                                sectionHasProfilePhoto.setProfilePhoto(commonResponse.getPatientData().getProfilePhoto());
                             CommonMethods.showToast(getContext(), commonResponse.getCommon().getStatusMessage());
-
-                            sectionHasProfilePhoto.setProfilePhoto(commonResponse.getPatientData().getProfilePhoto());
                         }
 
                         @Override

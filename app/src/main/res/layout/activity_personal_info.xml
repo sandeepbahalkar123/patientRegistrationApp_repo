@@ -29,7 +29,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp10"
                     android:layout_marginStart="@dimen/dp10"
-                    app:srcCompat="@drawable/ic_launcher"/>
+                    app:srcCompat="@mipmap/ic_launcher"/>
 
                 <com.scorg.forms.customui.CustomTextView
                     android:id="@+id/toolbarTitleTextView"

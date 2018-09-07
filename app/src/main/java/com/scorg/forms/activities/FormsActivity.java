@@ -84,8 +84,8 @@ public class FormsActivity extends AppCompatActivity implements FormFragment.But
         requestOptions.dontAnimate();
         requestOptions.override(iconSize, iconSize);
         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
-        requestOptions.placeholder(R.drawable.ic_small_icon_default);
-        requestOptions.error(R.drawable.ic_small_icon_default);
+        requestOptions.placeholder(R.drawable.small_app);
+        requestOptions.error(R.drawable.small_app);
         requestOptions.skipMemoryCache(true);
 
         Glide.with(FormsActivity.this)

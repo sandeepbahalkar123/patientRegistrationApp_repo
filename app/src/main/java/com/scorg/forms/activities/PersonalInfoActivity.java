@@ -124,8 +124,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
         requestOptions.dontAnimate();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
         requestOptions.skipMemoryCache(true);
-        requestOptions.error(R.drawable.ic_small_icon_default);
-        requestOptions.placeholder(R.drawable.ic_small_icon_default);
+        requestOptions.error(R.drawable.small_app);
+        requestOptions.placeholder(R.drawable.small_app);
 
         Glide.with(mContext)
                 .load(clinicLogoSmall)

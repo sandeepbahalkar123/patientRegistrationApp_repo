@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/bottomsheetpickers/bottomsheetpickers.iml" filepath="$PROJECT_DIR$/bottomsheetpickers/bottomsheetpickers.iml" />
       <module fileurl="file://$PROJECT_DIR$/cropper/cropper.iml" filepath="$PROJECT_DIR$/cropper/cropper.iml" />
       <module fileurl="file://$PROJECT_DIR$/ratingbar/ratingbar.iml" filepath="$PROJECT_DIR$/ratingbar/ratingbar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/uploadservice/uploadservice.iml" filepath="$PROJECT_DIR$/uploadservice/uploadservice.iml" />
     </modules>
   </component>
 </project>

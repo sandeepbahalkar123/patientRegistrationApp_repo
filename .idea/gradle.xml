@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/bottomsheetpickers" />
             <option value="$PROJECT_DIR$/cropper" />
             <option value="$PROJECT_DIR$/ratingbar" />
-            <option value="$PROJECT_DIR$/uploadservice" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
