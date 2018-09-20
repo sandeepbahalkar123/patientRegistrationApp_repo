@@ -1,6 +1,7 @@
 package com.scorg.forms.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -123,6 +124,7 @@ public class UndertakingFragment extends Fragment {
         mPatientName = view.findViewById(R.id.patientName);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

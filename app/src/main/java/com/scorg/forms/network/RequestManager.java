@@ -38,7 +38,6 @@ import com.scorg.forms.models.login.IpTestResponseModel;
 import com.scorg.forms.models.login.LoginModel;
 import com.scorg.forms.models.login.request.LoginRequestModel;
 import com.scorg.forms.models.master.MasterDataModel;
-import com.scorg.forms.models.profile.ProfileData;
 import com.scorg.forms.models.profile.ProfilesModel;
 import com.scorg.forms.preference.AppPreferencesManager;
 import com.scorg.forms.singleton.Device;
@@ -57,9 +56,9 @@ import java.util.Map;
 import static com.android.volley.Request.Method.POST;
 
 public class RequestManager extends ConnectRequest implements Connector, RequestTimer.RequestTimerListener {
-    private final String TAG = this.getClass().getName();
     private static final int CONNECTION_TIME_OUT = 1000 * 60;
     private static final int N0OF_RETRY = 0;
+    private final String TAG = this.getClass().getName();
     private final Gson gson;
     private AppDBHelper dbHelper;
     private String requestTag;
@@ -94,25 +93,25 @@ public class RequestManager extends ConnectRequest implements Connector, Request
     @Override
     public void connect() {
 
-            RequestPool.getInstance(this.mContext).cancellAllPreviousRequestWithSameTag(requestTag);
+        RequestPool.getInstance(this.mContext).cancellAllPreviousRequestWithSameTag(requestTag);
 
-            if (isProgressBarShown) {
-                mProgressDialog.setCancelable(true);
-                mProgressDialog.show();
-            } else {
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
+        if (isProgressBarShown) {
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+        } else {
+            if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
             }
+        }
 
-            if (mPostParams != null) {
-                stringRequest(mURL, connectionType, mHeaderParams, mPostParams, false);
-            } else if (customResponse != null) {
-                jsonRequest(mURL, connectionType, mHeaderParams, customResponse, false);
-            } else {
-                jsonRequest();
-            }
-        } /*else {
+        if (mPostParams != null) {
+            stringRequest(mURL, connectionType, mHeaderParams, mPostParams, false);
+        } else if (customResponse != null) {
+            jsonRequest(mURL, connectionType, mHeaderParams, customResponse, false);
+        } else {
+            jsonRequest();
+        }
+    } /*else {
 
             if (isOffline) {
                 if (getOfflineData() != null)
@@ -343,7 +342,7 @@ public class RequestManager extends ConnectRequest implements Connector, Request
                     //  loginRequest();
                 } else {
                     mConnectionListener.onResponse(ConnectionListener.SERVER_ERROR, null, mOldDataTag);
-                    CommonMethods.showToast(mContext, mContext.getResources().getString(R.string.server_error));
+                    CommonMethods.showToast(mContext, mContext.getResources().getString(R.string.server_error) + " " + (error.networkResponse == null ? "" : error.networkResponse.statusCode));
                 }
             } else if (error instanceof NetworkError) {
 
