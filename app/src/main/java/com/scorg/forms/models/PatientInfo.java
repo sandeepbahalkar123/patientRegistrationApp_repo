@@ -19,6 +19,9 @@ public class PatientInfo {
     @SerializedName("profileId")
     @Expose
     private String profileId;
+    @SerializedName("hospitalPatId")
+    @Expose
+    private String hospitalPatId;
 
     public String getProfilePhoto() {
         return profilePhoto;
@@ -42,5 +45,13 @@ public class PatientInfo {
 
     public void setProfileId(String profileId) {
         this.profileId = profileId;
+    }
+
+    public String getHospitalPatId() {
+        return hospitalPatId;
+    }
+
+    public void setHospitalPatId(String hospitalPatId) {
+        this.hospitalPatId = hospitalPatId;
     }
 }

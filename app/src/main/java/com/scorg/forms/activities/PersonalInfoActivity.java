@@ -101,6 +101,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
 
     private String patientName;
     private String profileId = "-1";
+    private String hospitalPatId = "-1";
 
     @SuppressWarnings("CheckResult")
     @Override
@@ -297,7 +298,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
         if (profileId.equals("-1") || personalInfo.getRelation() == null)
             selectRelationDialog(formNumber, personalInfo);
         else
-            postPersonalInfo(profileId, formNumber, personalInfo);
+            postPersonalInfo(hospitalPatId, profileId, formNumber, personalInfo);
 
 
        /* // call api with Updated fields.
@@ -332,15 +333,19 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
         else CommonMethods.showToast(mContext, getString(R.string.nothing_updated));*/
     }
 
-    private void postPersonalInfo(String profileId, int formNumber, Form personalInfo) {
+    private void postPersonalInfo(String hospitalPatId, String profileId, int formNumber, Form personalInfo) {
 
         int doctorId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_DOCTOR_ID, mContext);
+        int clinicId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_ID, mContext);
+        int clinicPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, mContext);
 
         FormRequest formRequest = new FormRequest();
         Header header = new Header();
         header.setMobileNumber(mobileText);
         header.setProfileId(profileId);
         header.setDocId(doctorId);
+        header.setClinicId(clinicId);
+        header.setHospitalPatId(clinicPatId);
 
         formRequest.setHeader(header);
         formRequest.setPersonalInfo(personalInfo);
@@ -518,7 +523,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                 if (commonResPersonal.getCommon().isSuccess()) {
                     patientName = commonResPersonal.getPatientData().getPatientName();
                     profileId = commonResPersonal.getPatientData().getProfileId();
+                    hospitalPatId = commonResPersonal.getPatientData().getHospitalPatId();
                     AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, profileId, mContext);
+                    AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, hospitalPatId, mContext);
                     addProfileFragment();
                 } else
                     CommonMethods.showToast(mContext, commonResPersonal.getCommon().getStatusMessage());
@@ -559,6 +566,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                     RadioButton radioB = radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
                     ProfileData profileD = (ProfileData) radioB.getTag();
                     profileId = profileD.getProfileId();
+                    hospitalPatId = profileD.getHospitalPatId();
                     mPatientHelper.getPatientProfile(mobileText, profileId);
                     dialog.dismiss();
                 } else
@@ -597,7 +605,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                     RadioButton radioB = radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
                     String profileRelation = (String) radioB.getText();
                     personalInfo.setRelation(profileRelation);
-                    postPersonalInfo(profileId, formNumber, personalInfo);
+                    postPersonalInfo(hospitalPatId, profileId, formNumber, personalInfo);
                     dialog.dismiss();
                 } else
                     CommonMethods.showToast(okButton.getContext(), getResources().getString(R.string.select_at_least_one_profile));
@@ -679,6 +687,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
             formFragment.onActivityResult(requestCode, resultCode, data);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void generateForm() {
         // Form Tab

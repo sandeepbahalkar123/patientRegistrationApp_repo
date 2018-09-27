@@ -1,5 +1,6 @@
 package com.scorg.forms.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -366,6 +367,7 @@ public class ProfilePageFragment extends Fragment {
         mListener = null;
     }
 
+    @SuppressLint("CheckResult")
     public void setUpdatedProfilePhoto() {
 
         RequestOptions requestOpt = new RequestOptions();

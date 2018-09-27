@@ -141,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
     }
 
     private void storeInfo(int docId, String docName, ClinicList clinicDetails, ClinicLocationBrandingInfo clinicLocationBrandingInfo) {
+
         AppPreferencesManager.putInt(AppPreferencesManager.CLINIC_KEY.CLINIC_ID, clinicDetails.getClinicId(), mContext);
         AppPreferencesManager.putString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, clinicDetails.getClinicName(), mContext);
 

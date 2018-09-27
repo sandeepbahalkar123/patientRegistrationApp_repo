@@ -13,7 +13,12 @@ public class Header {
     @SerializedName("docId")
     @Expose
     private int docId;
-
+    @SerializedName("clinicId")
+    @Expose
+    private int clinicId;
+    @SerializedName("hospitalPatId")
+    @Expose
+    private int hospitalPatId;
 
     public String getMobileNumber() {
         return mobileNumber;
@@ -36,5 +41,21 @@ public class Header {
 
     public void setDocId(int docId) {
         this.docId = docId;
+    }
+
+    public int getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(int clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public int getHospitalPatId() {
+        return hospitalPatId;
+    }
+
+    public void setHospitalPatId(int hospitalPatId) {
+        this.hospitalPatId = hospitalPatId;
     }
 }

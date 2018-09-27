@@ -135,12 +135,14 @@ public class FormsActivity extends AppCompatActivity implements FormFragment.But
         String mobileNumber = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, mContext);
 
         int doctorId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_DOCTOR_ID, mContext);
+        int clinicPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, mContext);
 
         FormRequest formRequest = new FormRequest();
         Header header = new Header();
         header.setMobileNumber(mobileNumber);
         header.setProfileId(profileId);
         header.setDocId(doctorId);
+        header.setHospitalPatId(clinicPatId);
 
         formRequest.setHeader(header);
         formRequest.setForm(form);

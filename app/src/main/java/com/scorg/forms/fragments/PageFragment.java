@@ -1,6 +1,7 @@
 package com.scorg.forms.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -158,6 +159,7 @@ public class PageFragment extends Fragment implements HelperResponse {
         return rootView;
     }
 
+    @SuppressLint("CheckResult")
     private void initializeDataViews() {
 
         if (formNumber == PERSONAL_INFO_FORM)
@@ -954,6 +956,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
         String mobileNumber = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, getContext());
         String profileId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, getContext());
+        String hospitalPatId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, getContext());
 
         String uploadUrl = Config.HTTP + AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.SERVER_PATH, getContext()) + "/" + Config.POST_PROFILE_IMAGE;
 
@@ -962,6 +965,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                     .addFileToUpload(filePath, "profilePhoto")
                     .addParameter("mobileNo", mobileNumber)
                     .addParameter("profileId", profileId)
+                    .addParameter("hospitalPatId", hospitalPatId)
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override

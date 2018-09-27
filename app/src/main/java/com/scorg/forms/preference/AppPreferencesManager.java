@@ -220,6 +220,7 @@ public class AppPreferencesManager {
         String USER_NAME = "doctorname";
         String PROFILE_PHOTO = "doctorprofile";
         String PROFILE_ID = "doctorid";
+        String CLINIC_PAT_ID = "hospitalPatId";
     }
 
     public interface CLINIC_KEY {

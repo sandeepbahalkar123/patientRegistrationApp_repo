@@ -8,6 +8,11 @@ public class ProfileData {
     @SerializedName("profileId")
     @Expose
     private String profileId;
+
+    @SerializedName("hospitalPatId")
+    @Expose
+    private String hospitalPatId;
+
     @SerializedName("relation")
     @Expose
     private String relation;
@@ -18,6 +23,14 @@ public class ProfileData {
 
     public void setProfileId(String profileId) {
         this.profileId = profileId;
+    }
+
+    public String getHospitalPatId() {
+        return hospitalPatId;
+    }
+
+    public void setHospitalPatId(String hospitalPatId) {
+        this.hospitalPatId = hospitalPatId;
     }
 
     public String getRelation() {

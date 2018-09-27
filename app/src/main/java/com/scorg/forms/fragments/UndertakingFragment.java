@@ -303,12 +303,14 @@ public class UndertakingFragment extends Fragment {
         String mobileNumber = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, getContext());
         String uploadUrl = Config.HTTP + AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.SERVER_PATH, getContext()) + "/" + Config.POST_PROFILE_IMAGE;
         String profileId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, getContext());
+        String hospitalPatId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, getContext());
 
         try {
             String uploadId = new MultipartUploadRequest(getContext(), uploadUrl)
                     .addFileToUpload(filePath, "profilePhoto")
                     .addParameter("mobileNo", mobileNumber)
                     .addParameter("profileId", profileId)
+                    .addParameter("hospitalPatId", hospitalPatId)
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
