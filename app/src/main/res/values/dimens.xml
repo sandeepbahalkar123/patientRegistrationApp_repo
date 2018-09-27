@@ -54,4 +54,5 @@
     <dimen name="sp14">14sp</dimen>
     <dimen name="tab_arrow_width">32dp</dimen>
     <dimen name="page_tab_layout_height">126dp</dimen>
+    <dimen name="dp6">6dp</dimen>
 </resources>

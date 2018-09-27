@@ -334,10 +334,13 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
 
     private void postPersonalInfo(String profileId, int formNumber, Form personalInfo) {
 
+        int doctorId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_DOCTOR_ID, mContext);
+
         FormRequest formRequest = new FormRequest();
         Header header = new Header();
         header.setMobileNumber(mobileText);
         header.setProfileId(profileId);
+        header.setDocId(doctorId);
 
         formRequest.setHeader(header);
         formRequest.setPersonalInfo(personalInfo);

@@ -103,7 +103,7 @@ public class PatientHelper implements ConnectionListener {
         mConnectionFactory.createConnection(GET_PROFILE);
     }
 
-    public void getMasterData(MasterDataRequest masterDataRequest) {
+    public void getMasterDataFromAPI(MasterDataRequest masterDataRequest) {
         ConnectionFactory mConnectionFactory = new ConnectionFactory(mContext, this, null, true, GET_MASTER_DATA, Request.Method.POST, false);
         mConnectionFactory.setHeaderParams();
         mConnectionFactory.setPostParams(masterDataRequest);

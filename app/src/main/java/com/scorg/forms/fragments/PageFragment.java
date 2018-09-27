@@ -52,6 +52,7 @@ import com.scorg.forms.models.CommonResponse;
 import com.scorg.forms.models.form.Field;
 import com.scorg.forms.models.form.Page;
 import com.scorg.forms.models.form.Section;
+import com.scorg.forms.models.form.ValuesObject;
 import com.scorg.forms.models.master.MasterDataModel;
 import com.scorg.forms.models.master.request.MasterDataRequest;
 import com.scorg.forms.preference.AppPreferencesManager;
@@ -90,28 +91,26 @@ import static com.scorg.forms.util.Constants.DATE_PATTERN.DD_MM_YYYY;
 @RuntimePermissions
 public class PageFragment extends Fragment implements HelperResponse {
 
-    private static final String TAG = "PageFragment";
-    private DatePickerDialog datePickerDialog;
-    private TextView mTitleTextView;
-    private LinearLayout mSectionsContainer;
-    private LayoutInflater mInflater;
-    private String mReceivedFormName;
-
-    private ImageView profilePhoto;
-    private TextView profilePhotoEditButton;
-    private Section sectionHasProfilePhoto;
-
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
     public static final String PAGE_NUMBER = "section_number";
     public static final String PAGE = "page";
+    private static final String TAG = "PageFragment";
+    private DatePickerDialog datePickerDialog;
+    private TextView mTitleTextView;
+    private LinearLayout mSectionsContainer;
+    private LayoutInflater mInflater;
+    private String mReceivedFormName;
+    private ImageView profilePhoto;
+    private TextView profilePhotoEditButton;
+    private Section sectionHasProfilePhoto;
     private int pageNumber;
     private int formNumber;
     private Page page;
     private PatientHelper patientHelper;
-    //    private HashMap<String, ArrayList<String>> tableDataList = new HashMap<>();
+
     private Field tempField;
 
     public PageFragment() {
@@ -250,19 +249,19 @@ public class PageFragment extends Fragment implements HelperResponse {
                 editTextError.setId(CommonMethods.generateViewId());
                 field.setErrorViewId(editTextError.getId());
 
-                final ArrayList<String> dataList = field.getDataList();
-                final ArrayList<String> dataListTemp = field.getDataListTemp();
+                final ArrayList<ValuesObject> dataList = field.getDataList();
+                final ArrayList<ValuesObject> dataListTemp = field.getDataListTemp();
 
                 if (!dataList.isEmpty() && dataListTemp.isEmpty())
                     dataListTemp.addAll(dataList);
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
                         android.R.layout.simple_dropdown_item_1line, dataListTemp);
                 textBox.setAdapter(adapter);
 
                 // set pre value
-                textBox.setText(field.getValue());
-                final String preValue = field.getValue();
+                textBox.setText(field.getValue().toString());
+                final String preValue = field.getValue().toString();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -300,9 +299,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(String.valueOf(editable).trim());
+                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue()));
+                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
                     }
                 });
 
@@ -315,7 +314,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 tempField = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterData(masterDataRequest);
+                                patientHelper.getMasterDataFromAPI(masterDataRequest);
                             }
                         }
                     }
@@ -330,14 +329,14 @@ public class PageFragment extends Fragment implements HelperResponse {
                         try {
                             final Field fieldGroupNew = (Field) field.clone();
                             fields.add(fields.indexOf(field) + 1, fieldGroupNew);
-                            fieldGroupNew.setValue("");
+                            fieldGroupNew.setValue(new ValuesObject());
                             fieldGroupNew.setMandatory(false);
 
                             ArrayList<Field> clonedMoreFields = new ArrayList<Field>();
                             for (Field field1 :
                                     field.getTextBoxGroup()) {
                                 Field cloneField = (Field) field1.clone();
-                                cloneField.setValue("");
+                                cloneField.setValue(new ValuesObject());
                                 cloneField.setMandatory(false);
                                 clonedMoreFields.add(cloneField);
                             }
@@ -373,8 +372,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                 field.setErrorViewId(editTextError.getId());
 
                 // set pre value
-                textBox.setText(field.getValue());
-                final String preValue = field.getValue();
+                textBox.setText(field.getValue().toString());
+                final String preValue = field.getValue().toString();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -382,13 +381,13 @@ public class PageFragment extends Fragment implements HelperResponse {
                     textBox.setFilters(fArray);
                 }
 
-                final ArrayList<String> dataList = field.getDataList();
-                final ArrayList<String> dataListTemp = field.getDataListTemp();
+                final ArrayList<ValuesObject> dataList = field.getDataList();
+                final ArrayList<ValuesObject> dataListTemp = field.getDataListTemp();
 
                 if (!dataList.isEmpty() && dataListTemp.isEmpty())
                     dataListTemp.addAll(dataList);
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
                         android.R.layout.simple_dropdown_item_1line, dataListTemp);
                 textBox.setAdapter(adapter);
 
@@ -406,9 +405,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(String.valueOf(editable).trim());
+                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue()));
+                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
                     }
                 });
 
@@ -429,7 +428,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 tempField = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterData(masterDataRequest);
+                                patientHelper.getMasterDataFromAPI(masterDataRequest);
                             }
                         }
                     }
@@ -496,8 +495,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                 field.setErrorViewId(editTextError.getId());
 
                 // set pre value
-                textBox.setText(field.getValue());
-                final String preValue = field.getValue();
+                textBox.setText(field.getValue().toString());
+                final String preValue = field.getValue().toString();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -522,22 +521,22 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 int month;
                                 int day;
 
-                                if (field.getValue().isEmpty()) {
+                                if (field.getValue().toString().isEmpty()) {
                                     Calendar now = Calendar.getInstance();
                                     year = now.get(Calendar.YEAR);
                                     month = now.get(Calendar.MONTH);
                                     day = now.get(Calendar.DAY_OF_MONTH);
                                 } else {
 
-                                    if (CommonMethods.getFormattedDate(field.getValue(), DD_MM_YYYY, "yyyy").isEmpty()) {
+                                    if (CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "yyyy").isEmpty()) {
                                         Calendar now = Calendar.getInstance();
                                         year = now.get(Calendar.YEAR);
                                         month = now.get(Calendar.MONTH);
                                         day = now.get(Calendar.DAY_OF_MONTH);
                                     } else {
-                                        year = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue(), DD_MM_YYYY, "yyyy"));
-                                        month = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue(), DD_MM_YYYY, "MM"));
-                                        day = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue(), DD_MM_YYYY, "dd"));
+                                        year = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "yyyy"));
+                                        month = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "MM"));
+                                        day = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "dd"));
                                     }
                                 }
                                 // As of version 2.3.0, `BottomSheetDatePickerDialog` is deprecated.
@@ -628,9 +627,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(String.valueOf(editable).trim());
+                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue()));
+                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
                     }
                 });
 
@@ -652,18 +651,18 @@ public class PageFragment extends Fragment implements HelperResponse {
                 radioGroupError.setId(CommonMethods.generateViewId());
                 field.setErrorViewId(radioGroupError.getId());
 
-                ArrayList<String> dataList = field.getDataList();
+                ArrayList<ValuesObject> dataList = field.getDataList();
 
-                final String preValue = field.getValue();
+                final String preValue = field.getValue().toString();
 
                 for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-                    String data = dataList.get(dataIndex);
+                    String data = dataList.get(dataIndex).toString();
                     RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, radioGroup, false);
                     radioButton.setId(CommonMethods.generateViewId());
                     radioButton.setText(data);
 
                     // set pre value
-                    if (field.getValue().equalsIgnoreCase(radioButton.getText().toString()))
+                    if (field.getValue().toString().equalsIgnoreCase(radioButton.getText().toString()))
                         radioButton.setChecked(true);
 
                     radioGroup.addView(radioButton);
@@ -676,10 +675,10 @@ public class PageFragment extends Fragment implements HelperResponse {
                         CommonMethods.hideKeyboard(getContext());
 
                         RadioButton radioButton = group.findViewById(checkedId);
-                        field.setValue(radioButton.getText().toString());
+                        field.setValue(new ValuesObject(radioButton.getText().toString()));
                         radioGroupError.setText("");
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue()));
+                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
                     }
                 });
 
@@ -700,17 +699,17 @@ public class PageFragment extends Fragment implements HelperResponse {
                 checkBoxGroupError.setId(CommonMethods.generateViewId());
                 field.setErrorViewId(checkBoxGroupError.getId());
 
-                ArrayList<String> dataList = field.getDataList();
-                final ArrayList<String> values = field.getValues();
-                final ArrayList<String> preValues = new ArrayList<>(values);
+                ArrayList<ValuesObject> dataList = field.getDataList();
+                final ArrayList<ValuesObject> values = field.getValues();
+                final ArrayList<ValuesObject> preValues = new ArrayList<>(values);
 
                 for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-                    String data = dataList.get(dataIndex);
+                    String data = dataList.get(dataIndex).toString();
                     final CheckBox checkBox = (CheckBox) inflater.inflate(R.layout.checkbox, checkBoxGroup, false);
 
                     // set pre value
-                    for (String value : values)
-                        if (value.equalsIgnoreCase(data))
+                    for (ValuesObject value : values)
+                        if (value.toString().equalsIgnoreCase(data))
                             checkBox.setChecked(true);
 
                     checkBox.setId(CommonMethods.generateViewId());
@@ -725,7 +724,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                             // set latest value
 
                             if (isChecked) {
-                                values.add(checkBox.getText().toString());
+                                values.add(new ValuesObject(checkBox.getText().toString()));
                             } else {
                                 values.remove(checkBox.getText().toString());
                             }
@@ -758,8 +757,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                 dropDownError.setId(CommonMethods.generateViewId());
                 field.setErrorViewId(dropDownError.getId());
 
-                final ArrayList<String> dataList = field.getDataList();
-                final ArrayList<String> dataListTemp = field.getDataListTemp();
+                final ArrayList<ValuesObject> dataList = field.getDataList();
+                final ArrayList<ValuesObject> dataListTemp = field.getDataListTemp();
 
                 if (!dataList.isEmpty() && (dataListTemp.isEmpty() || dataListTemp.size() == 1)) {
                     dataListTemp.clear();
@@ -767,18 +766,18 @@ public class PageFragment extends Fragment implements HelperResponse {
                 }
 
                 if (dataListTemp.size() > 1)
-                    if (!dataListTemp.get(0).toLowerCase().equals("select"))
-                        dataListTemp.add(0, "Select");
+                    if (!dataListTemp.get(0).getName().toLowerCase().equals("select"))
+                        dataListTemp.add(0, new ValuesObject("select"));
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataListTemp);
+                ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataListTemp);
                 dropDown.setAdapter(adapter);
 
-                if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty() && !field.getValue().isEmpty()) {
+                if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty() && !field.getValue().toString().isEmpty()) {
                     dataListTemp.add(field.getValue());
                     adapter.notifyDataSetChanged();
                 } else dropDown.setSelection(dataListTemp.indexOf(field.getValue()));
 
-                final String preValue = field.getValue();
+                final String preValue = field.getValue().toString();
 
                 dropDown.setOnTouchListener(new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
@@ -788,7 +787,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 tempField = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterData(masterDataRequest);
+                                patientHelper.getMasterDataFromAPI(masterDataRequest);
                             }
                         }
                         return false;
@@ -806,9 +805,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                             dropDown.setBackgroundResource(R.drawable.dropdown_selector);
 
                         } else if (dataListTemp.size() != 1)
-                            field.setValue("");
+                            field.setValue(new ValuesObject());
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue()));
+                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
                     }
 
                     @Override
@@ -1002,24 +1001,24 @@ public class PageFragment extends Fragment implements HelperResponse {
         if (mOldDataTag.equals(Constants.GET_MASTER_DATA)) {
             MasterDataModel masterDataModel = (MasterDataModel) customResponse;
             if (masterDataModel.getCommon().isSuccess()) {
-                final ArrayList<String> dataList = tempField.getDataListTemp();
+                final ArrayList<ValuesObject> dataList = tempField.getDataListTemp();
 
                 if ((dataList.isEmpty() || dataList.size() == 1) && !masterDataModel.getData().getMasterData().isEmpty()) {
                     dataList.clear();
-                    dataList.addAll(masterDataModel.getData().getMasterData());
+                    for (ValuesObject object : masterDataModel.getData().getMasterData())
+                        dataList.add(object);
                 }
 
                 if (!dataList.isEmpty()) {
-
                     switch (tempField.getType()) {
 
                         case Constants.TYPE.DROPDOWN: {
 
                             final Spinner dropDown = mSectionsContainer.findViewById(tempField.getFieldId());
-                            if (!dataList.get(0).toLowerCase().contains("select"))
-                                dataList.add(0, "Select");
+                            if (!dataList.get(0).toString().toLowerCase().contains("select"))
+                                dataList.add(0, new ValuesObject("Select"));
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataList);
+                            ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataList);
                             dropDown.setAdapter(adapter);
 
                             // set pre value
@@ -1033,7 +1032,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                             final AutoCompleteTextView textBox = mSectionsContainer.findViewById(tempField.getFieldId());
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                            ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
                                     android.R.layout.simple_dropdown_item_1line, dataList);
                             textBox.setAdapter(adapter);
 

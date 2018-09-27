@@ -437,7 +437,7 @@ public class FormFragment extends Fragment {
                 switch (field.getInputType()) {
                     case Constants.INPUT_TYPE.EMAIL:
                         if (!field.getValue().equals("")) {
-                            if (!Valid.validateEmail(field.getValue(), getContext(), false)) {
+                            if (!Valid.validateEmail(field.getValue().toString(), getContext(), false)) {
                                 if (isShowError) {
                                     if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
                                         CustomEditText editText = roolView.findViewById(field.getFieldId());
@@ -475,7 +475,7 @@ public class FormFragment extends Fragment {
                         break;*/
                     case Constants.INPUT_TYPE.PIN_CODE:
                         if (!field.getValue().equals("")) {
-                            if (field.getValue().length() != 6) {
+                            if (field.getValue().toString().length() != 6) {
                                 if (isShowError) {
                                     if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
                                         CustomEditText editText = roolView.findViewById(field.getFieldId());

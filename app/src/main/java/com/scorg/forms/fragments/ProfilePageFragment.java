@@ -24,6 +24,7 @@ import com.scorg.forms.models.form.Form;
 import com.scorg.forms.models.form.FormsData;
 import com.scorg.forms.models.form.Page;
 import com.scorg.forms.models.form.Section;
+import com.scorg.forms.models.form.ValuesObject;
 import com.scorg.forms.preference.AppPreferencesManager;
 import com.scorg.forms.util.CommonMethods;
 import com.scorg.forms.util.Constants;
@@ -204,7 +205,7 @@ public class ProfilePageFragment extends Fragment {
 
             case Constants.TYPE.TEXT_BOX_GROUP: {
 
-                if (!field.getValue().equals("")) {
+                if (!field.getValue().toString().isEmpty()) {
 
                     View fieldLayout = inflater.inflate(R.layout.label_layout, (LinearLayout) fieldsContainer, false);
                     TextView labelView = fieldLayout.findViewById(R.id.labelView);
@@ -212,7 +213,7 @@ public class ProfilePageFragment extends Fragment {
                     TextView textBox = fieldLayout.findViewById(R.id.labelValueText);
                     textBox.setId(CommonMethods.generateViewId());
                     // set pre value
-                    textBox.setText(field.getValue());
+                    textBox.setText(field.getValue().toString());
                     // Add Parent First
                     if (indexToAddView != -1)
                         ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);
@@ -233,7 +234,7 @@ public class ProfilePageFragment extends Fragment {
 
             case Constants.TYPE.AUTO_COMPLETE: {
 
-                if (!field.getValue().equals("")) {
+                if (!field.getValue().toString().isEmpty()) {
 
                     View fieldLayout = inflater.inflate(R.layout.label_layout, (LinearLayout) fieldsContainer, false);
                     TextView labelView = fieldLayout.findViewById(R.id.labelView);
@@ -241,7 +242,7 @@ public class ProfilePageFragment extends Fragment {
                     TextView textBox = fieldLayout.findViewById(R.id.labelValueText);
                     textBox.setId(CommonMethods.generateViewId());
                     // set pre value
-                    textBox.setText(field.getValue());
+                    textBox.setText(field.getValue().toString());
 
                     if (indexToAddView != -1)
                         ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);
@@ -253,7 +254,7 @@ public class ProfilePageFragment extends Fragment {
 
             case Constants.TYPE.TEXT_BOX: {
 
-                if (!field.getValue().equals("")) {
+                if (!field.getValue().getName().isEmpty()) {
 
                     View fieldLayout = inflater.inflate(R.layout.label_layout, (LinearLayout) fieldsContainer, false);
                     TextView labelView = fieldLayout.findViewById(R.id.labelView);
@@ -261,7 +262,7 @@ public class ProfilePageFragment extends Fragment {
                     TextView textBox = fieldLayout.findViewById(R.id.labelValueText);
                     textBox.setId(CommonMethods.generateViewId());
                     // set pre value
-                    textBox.setText(field.getValue());
+                    textBox.setText(field.getValue().toString());
 
                     if (indexToAddView != -1)
                         ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);
@@ -273,7 +274,7 @@ public class ProfilePageFragment extends Fragment {
 
             case Constants.TYPE.RADIO_BUTTON: {
 
-                if (!field.getValue().equals("")) {
+                if (!field.getValue().toString().isEmpty()) {
 
                     View fieldLayout = inflater.inflate(R.layout.label_layout, (LinearLayout) fieldsContainer, false);
                     TextView labelView = fieldLayout.findViewById(R.id.labelView);
@@ -281,7 +282,7 @@ public class ProfilePageFragment extends Fragment {
                     TextView textBox = fieldLayout.findViewById(R.id.labelValueText);
                     textBox.setId(CommonMethods.generateViewId());
                     // set pre value
-                    textBox.setText(field.getValue());
+                    textBox.setText(field.getValue().toString());
 
                     if (indexToAddView != -1)
                         ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);
@@ -293,23 +294,23 @@ public class ProfilePageFragment extends Fragment {
             }
             case Constants.TYPE.CHECKBOX: {
 
-                ArrayList<String> dataList = field.getDataList();
-                ArrayList<String> values = field.getValues();
+                ArrayList<ValuesObject> dataList = field.getDataList();
+                ArrayList<ValuesObject> values = field.getValues();
 
                 StringBuilder valueText = new StringBuilder();
 
                 for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-                    String data = dataList.get(dataIndex);
+                    String data = dataList.get(dataIndex).toString();
                     // set pre value
-                    for (String value : values)
-                        if (value.equals(data)) {
-                            if (!valueText.toString().equals(""))
+                    for (ValuesObject value : values)
+                        if (value.toString().equals(data)) {
+                            if (!valueText.toString().isEmpty())
                                 valueText.append(", ").append(value);
                             else valueText.append(value);
                         }
                 }
 
-                if (!valueText.toString().equals("")) {
+                if (!valueText.toString().isEmpty()) {
 
                     View fieldLayout = inflater.inflate(R.layout.label_layout, (LinearLayout) fieldsContainer, false);
                     TextView labelView = fieldLayout.findViewById(R.id.labelView);
@@ -327,7 +328,7 @@ public class ProfilePageFragment extends Fragment {
             }
             case Constants.TYPE.DROPDOWN: {
 
-                if (!field.getValue().equals("")) {
+                if (!field.getValue().toString().isEmpty()) {
 
                     View fieldLayout = inflater.inflate(R.layout.label_layout, (LinearLayout) fieldsContainer, false);
                     TextView labelView = fieldLayout.findViewById(R.id.labelView);
@@ -335,7 +336,7 @@ public class ProfilePageFragment extends Fragment {
                     TextView textBox = fieldLayout.findViewById(R.id.labelValueText);
                     textBox.setId(CommonMethods.generateViewId());
                     // set pre value
-                    textBox.setText(field.getValue());
+                    textBox.setText(field.getValue().toString());
 
                     if (indexToAddView != -1)
                         ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);

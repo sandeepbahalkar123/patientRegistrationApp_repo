@@ -2,21 +2,21 @@ package com.scorg.forms.models.master;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.scorg.forms.models.form.ValuesObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MasterDataList {
 
     @SerializedName("masterData")
     @Expose
-    private ArrayList<String> masterData = new ArrayList<>();
+    private ArrayList<ValuesObject> masterData = new ArrayList<>();
 
-    public ArrayList<String> getMasterData() {
+    public ArrayList<ValuesObject> getMasterData() {
         return masterData;
     }
 
-    public void setMasterData(ArrayList<String> masterData) {
+    public void setMasterData(ArrayList<ValuesObject> masterData) {
         this.masterData = masterData;
     }
 }

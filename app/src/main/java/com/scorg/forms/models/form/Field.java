@@ -24,16 +24,16 @@ public class Field implements Parcelable, Cloneable {
     private int length;
     @SerializedName("value")
     @Expose
-    private String value = "";
+    private ValuesObject value = new ValuesObject();
     @SerializedName("values")
     @Expose
-    private ArrayList<String> values = new ArrayList<>();
+    private ArrayList<ValuesObject> values = new ArrayList<>();
     @SerializedName("inputType")
     @Expose
     private String inputType = "";
     @SerializedName("dataList")
     @Expose
-    private ArrayList<String> dataList = new ArrayList<>();
+    private ArrayList<ValuesObject> dataList = new ArrayList<>();
     @SerializedName("dataTable")
     @Expose
     private String dataTable = "";
@@ -87,7 +87,7 @@ public class Field implements Parcelable, Cloneable {
     private int errorViewId;
 //    private int otherTextBoxParentId;
     private boolean isUpdated = false;
-    private ArrayList<String> dataListTemp = new ArrayList<>();
+    private ArrayList<ValuesObject> dataListTemp = new ArrayList<>();
 
     public final static Parcelable.Creator<Field> CREATOR = new Creator<Field>() {
 
@@ -110,7 +110,7 @@ public class Field implements Parcelable, Cloneable {
         this.type = ((String) in.readValue((String.class.getClassLoader())));
         this.isMandatory = ((boolean) in.readValue((boolean.class.getClassLoader())));
         this.length = ((int) in.readValue((int.class.getClassLoader())));
-        this.value = ((String) in.readValue((String.class.getClassLoader())));
+        this.value = ((ValuesObject) in.readValue((ValuesObject.class.getClassLoader())));
         in.readList(this.values, (java.lang.String.class.getClassLoader()));
         this.inputType = ((String) in.readValue((String.class.getClassLoader())));
         in.readList(this.dataList, (java.lang.String.class.getClassLoader()));
@@ -168,19 +168,19 @@ public class Field implements Parcelable, Cloneable {
         this.length = length;
     }
 
-    public String getValue() {
-        return value;
+    public ValuesObject getValue() {
+        return value == null ? new ValuesObject() : value;
     }
 
-    public void setValue(String value) {
+    public void setValue(ValuesObject value) {
         this.value = value;
     }
 
-    public ArrayList<String> getValues() {
+    public ArrayList<ValuesObject> getValues() {
         return values;
     }
 
-    public void setValues(ArrayList<String> values) {
+    public void setValues(ArrayList<ValuesObject> values) {
         this.values = values;
     }
 
@@ -192,11 +192,11 @@ public class Field implements Parcelable, Cloneable {
         this.inputType = inputType;
     }
 
-    public ArrayList<String> getDataList() {
+    public ArrayList<ValuesObject> getDataList() {
         return dataList;
     }
 
-    public void setDataList(ArrayList<String> dataList) {
+    public void setDataList(ArrayList<ValuesObject> dataList) {
         this.dataList = dataList;
     }
 
@@ -328,11 +328,11 @@ public class Field implements Parcelable, Cloneable {
         isUpdated = updated;
     }
 
-    public ArrayList<String> getDataListTemp() {
+    public ArrayList<ValuesObject> getDataListTemp() {
         return dataListTemp;
     }
 
-    public void setDataListTemp(ArrayList<String> dataListTemp) {
+    public void setDataListTemp(ArrayList<ValuesObject> dataListTemp) {
         this.dataListTemp = dataListTemp;
     }
 

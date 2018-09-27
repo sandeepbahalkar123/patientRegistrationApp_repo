@@ -28,10 +28,6 @@ public class NewRegistrationFragment extends Fragment {
     private OnRegistrationListener mListener;
 
     private EditText mobileText;
-    private Button getInfoButton;
-    private TextView clinicTagLineTextView;
-    private ImageView clinicLogoBigImageView;
-    private TextView clinicNameTextView;
 
     public NewRegistrationFragment() {
         // Required empty public constructor
@@ -55,10 +51,10 @@ public class NewRegistrationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_new_registration, container, false);
 
         mobileText = rootView.findViewById(R.id.mobileText);
-        getInfoButton = rootView.findViewById(R.id.getInfoButton);
-        clinicTagLineTextView = rootView.findViewById(R.id.clinicTagLine);
-        clinicLogoBigImageView = rootView.findViewById(R.id.clinicLogoBig);
-        clinicNameTextView = rootView.findViewById(R.id.clinicName);
+        Button getInfoButton = rootView.findViewById(R.id.getInfoButton);
+        TextView clinicTagLineTextView = rootView.findViewById(R.id.clinicTagLine);
+        ImageView clinicLogoBigImageView = rootView.findViewById(R.id.clinicLogoBig);
+        TextView clinicNameTextView = rootView.findViewById(R.id.clinicName);
 
         String clinicName = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, getContext());
         String clinicLogoBig = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_BIG_LOGO, getContext());

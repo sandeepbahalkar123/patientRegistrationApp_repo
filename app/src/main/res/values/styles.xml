@@ -26,4 +26,12 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="SearchTextView">
+        <item name="android:textSize">@dimen/sp20</item>
+        <item name="android:layout_height">@dimen/dp50</item>
+    </style>
+
+    <dimen name="sp15">15sp</dimen>
+    <dimen name="dp32">32dp</dimen>
 </resources>

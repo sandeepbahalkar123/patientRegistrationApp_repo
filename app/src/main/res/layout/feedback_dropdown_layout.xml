@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.scorg.forms.customui.CustomSpinner
+            <com.scorg.forms.customui.searchablespinner.SearchableSpinner
                 android:id="@+id/dropDown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

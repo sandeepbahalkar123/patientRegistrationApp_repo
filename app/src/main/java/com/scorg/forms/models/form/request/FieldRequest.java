@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.scorg.forms.models.form.ValuesObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,10 @@ public class FieldRequest {
     private String key;
     @SerializedName("value")
     @Expose
-    private String value;
+    private ValuesObject value;
     @SerializedName("values")
     @Expose
-    private List<String> values = new ArrayList<String>();
+    private List<ValuesObject> values = new ArrayList<ValuesObject>();
 
     @SerializedName("rating")
     @Expose
@@ -44,19 +45,19 @@ public class FieldRequest {
         this.key = key;
     }
 
-    public String getValue() {
+    public ValuesObject getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(ValuesObject value) {
         this.value = value;
     }
 
-    public List<String> getValues() {
+    public List<ValuesObject> getValues() {
         return values;
     }
 
-    public void setValues(List<String> values) {
+    public void setValues(List<ValuesObject> values) {
         this.values = values;
     }
 

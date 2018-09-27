@@ -10,6 +10,9 @@ public class Header {
     @SerializedName("profileId")
     @Expose
     private String profileId;
+    @SerializedName("docId")
+    @Expose
+    private int docId;
 
 
     public String getMobileNumber() {
@@ -25,5 +28,13 @@ public class Header {
 
     public void setProfileId(String profileId) {
         this.profileId = profileId;
+    }
+
+    public int getDocId() {
+        return docId;
+    }
+
+    public void setDocId(int docId) {
+        this.docId = docId;
     }
 }

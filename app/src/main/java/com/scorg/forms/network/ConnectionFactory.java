@@ -52,6 +52,7 @@ public class ConnectionFactory extends ConnectRequest {
         headerParams.put(Constants.OS, device.getOS());
         headerParams.put(Constants.OSVERSION, device.getOSVersion());
         headerParams.put(Constants.DEVICE_TYPE, device.getDeviceType());
+
         CommonMethods.log(TAG, "setHeaderParams:" + headerParams.toString());
         this.mHeaderParams = headerParams;
     }
