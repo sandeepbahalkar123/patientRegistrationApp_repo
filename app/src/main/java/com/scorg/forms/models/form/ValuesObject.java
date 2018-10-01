@@ -47,7 +47,7 @@ public class ValuesObject implements Parcelable, Comparable {
     }
 
     public String getId() {
-        return id == null ? "0" : id;
+        return id == null ? "" : id;
     }
 
     public void setId(String id) {

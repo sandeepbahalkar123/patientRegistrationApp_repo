@@ -37,6 +37,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -53,7 +54,9 @@ import com.scorg.forms.models.CommonResponse;
 import com.scorg.forms.models.form.Field;
 import com.scorg.forms.models.form.Page;
 import com.scorg.forms.models.form.Section;
+import com.scorg.forms.models.form.ValidateResponse;
 import com.scorg.forms.models.form.ValuesObject;
+import com.scorg.forms.models.form.request.ValidateRequest;
 import com.scorg.forms.models.master.MasterDataModel;
 import com.scorg.forms.models.master.request.MasterDataRequest;
 import com.scorg.forms.preference.AppPreferencesManager;
@@ -76,6 +79,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -85,6 +90,8 @@ import static com.scorg.forms.fragments.FormFragment.FORM_NAME;
 import static com.scorg.forms.fragments.FormFragment.FORM_NUMBER;
 import static com.scorg.forms.fragments.ProfilePageFragment.PERSONAL_INFO_FORM;
 import static com.scorg.forms.util.Constants.DATE_PATTERN.DD_MM_YYYY;
+import static com.scorg.forms.util.Constants.SUCCESS;
+import static com.scorg.forms.util.Constants.VALIDATE_FIELD;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -112,8 +119,9 @@ public class PageFragment extends Fragment implements HelperResponse {
     private Page page;
     private PatientHelper patientHelper;
 
-    private Field tempField;
-    private boolean isSelected;
+    private Field tempFieldMasterData;
+    private Field tempFieldValidation;
+    private String profileId;
 
     public PageFragment() {
     }
@@ -154,6 +162,7 @@ public class PageFragment extends Fragment implements HelperResponse {
         mTitleTextView = rootView.findViewById(R.id.titleView);
         mSectionsContainer = rootView.findViewById(R.id.sectionsContainer);
 
+        profileId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, getContext());
         patientHelper = new PatientHelper(getContext(), PageFragment.this);
 
         initializeDataViews();
@@ -234,7 +243,6 @@ public class PageFragment extends Fragment implements HelperResponse {
 
     private void addField(final View fieldsContainer, final int sectionIndex, final ArrayList<Field> fields, final Field field, final int fieldsIndex, final LayoutInflater inflater, int indexToAddView) {
         switch (field.getType()) {
-
             case Constants.TYPE.TEXT_BOX_GROUP: {
                 // Added Extended Layout
                 final View fieldLayout = inflater.inflate(R.layout.field_autocomplete_textbox_layout, (LinearLayout) fieldsContainer, false);
@@ -299,33 +307,22 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        if (isSelected) {
-                            isSelected = false;
-                        } else {
-                            editTextError.setText("");
-                            textBox.setBackgroundResource(R.drawable.edittext_selector);
-                            // set latest value
-                            field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
-                            field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
-                        }
+                        editTextError.setText("");
+                        textBox.setBackgroundResource(R.drawable.edittext_selector);
+                        // set latest value
+                        field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
-                textBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                textBox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        isSelected = true;
-
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
                         field.setValue(field.getValues().get(position));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 
@@ -334,7 +331,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                     public void onFocusChange(View view, boolean hasFocus) {
                         if (hasFocus) {
                             if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty()) {
-                                tempField = field;
+                                tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
                                 patientHelper.getMasterDataFromAPI(masterDataRequest);
@@ -425,33 +422,31 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        if (isSelected) {
-                            isSelected = false;
-                        } else {
-                            editTextError.setText("");
-                            textBox.setBackgroundResource(R.drawable.edittext_selector);
-                            // set latest value
-                            field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
-                            field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                        editTextError.setText("");
+                        textBox.setBackgroundResource(R.drawable.edittext_selector);
+
+                        if ((fieldsIndex + 1) < fields.size()) {
+                            if (field.getName().equalsIgnoreCase("country") || field.getName().equalsIgnoreCase("state") || field.getName().equalsIgnoreCase("city")) {
+                                if (!field.getValue().getName().equalsIgnoreCase(editable.toString()))
+                                    fields.get(fieldsIndex + 1).getDataListTemp().clear();
+                            }
                         }
+
+                        // set latest value
+                        field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
-                textBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                textBox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        isSelected = true;
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(field.getValues().get(position));
+                        field.setValue((ValuesObject) textBox.getAdapter().getItem(position));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 
@@ -470,10 +465,36 @@ public class PageFragment extends Fragment implements HelperResponse {
                     public void onFocusChange(View view, boolean hasFocus) {
                         if (hasFocus) {
                             if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty()) {
-                                tempField = field;
+                                tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
-                                masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                boolean isValid = true;
+
+                                if (fieldsIndex > 0) {
+                                    if (field.getName().equalsIgnoreCase("state")) {
+                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                            Toast.makeText(getContext(), "Please select country first.", Toast.LENGTH_SHORT).show();
+                                            isValid = false;
+                                        } else
+                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                    } else if (field.getName().equalsIgnoreCase("city")) {
+                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                            Toast.makeText(getContext(), "Please select state first.", Toast.LENGTH_SHORT).show();
+                                            isValid = false;
+                                        } else
+                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                    } else if (field.getName().equalsIgnoreCase("area")) {
+                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                            Toast.makeText(getContext(), "Please select city first.", Toast.LENGTH_SHORT).show();
+                                            isValid = false;
+                                        } else
+                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                    }
+                                }
+
+                                if (isValid) {
+                                    masterDataRequest.setDataTable(field.getDataTable());
+                                    patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                }
                             }
                         }
                     }
@@ -492,6 +513,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                         break;
                     case Constants.INPUT_TYPE.PIN_CODE:
                         textBoxParams.width = getResources().getDimensionPixelSize(R.dimen.pincode_size);
+                        textBox.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        break;
+                    case Constants.INPUT_TYPE.AADHAR_CARD:
                         textBox.setInputType(InputType.TYPE_CLASS_NUMBER);
                         break;
                     case Constants.INPUT_TYPE.TEXT_BOX_BIG:
@@ -644,6 +668,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                         textBoxParams.width = getResources().getDimensionPixelSize(R.dimen.pincode_size);
                         textBox.setInputType(InputType.TYPE_CLASS_NUMBER);
                         break;
+                    case Constants.INPUT_TYPE.AADHAR_CARD:
+                        textBox.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        break;
                     case Constants.INPUT_TYPE.TEXT_BOX_BIG:
                         textBox.setSingleLine(false);
                         textBox.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
@@ -674,6 +701,32 @@ public class PageFragment extends Fragment implements HelperResponse {
                         // set latest value
                         field.getValue().setName(String.valueOf(editable).trim());
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+
+                        tempFieldValidation = field;
+
+                        if (field.isCheckServerValidation()) {
+                            if (field.getLength() == editable.length()) {
+
+                                ValidateRequest validateRequest = new ValidateRequest();
+                                validateRequest.setFieldName(field.getKey());
+                                validateRequest.setFieldValue(field.getValue().getName());
+                                validateRequest.setProfileId(profileId);
+
+                                if (!field.getRegularExpression().isEmpty()) {
+                                    String regularExpression = field.getRegularExpression().replace("/", "");
+                                    final Pattern pattern = Pattern.compile(regularExpression);
+                                    final Matcher matcher = pattern.matcher(field.getValue().getName());
+                                    if (matcher.find()) {
+                                        patientHelper.validateField(validateRequest);
+                                    } else {
+                                        editTextError.setText("Please enter valid " + field.getName().toLowerCase());
+                                        textBox.setBackgroundResource(R.drawable.edittext_error_selector);
+                                    }
+                                } else {
+                                    patientHelper.validateField(validateRequest);
+                                }
+                            }
+                        }
                     }
                 });
 
@@ -830,10 +883,36 @@ public class PageFragment extends Fragment implements HelperResponse {
                         if (event.getAction() == MotionEvent.ACTION_UP) {
                             CommonMethods.hideKeyboard(getContext());
                             if (!field.getDataTable().isEmpty() && (field.getDataListTemp().isEmpty() || field.getDataListTemp().size() == 1)) {
-                                tempField = field;
+                                tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
-                                masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                boolean isValid = true;
+
+                                if (fieldsIndex > 0) {
+                                    if (field.getName().equalsIgnoreCase("state")) {
+                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                            Toast.makeText(getContext(), "Please select country first.", Toast.LENGTH_SHORT).show();
+                                            isValid = false;
+                                        } else
+                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                    } else if (field.getName().equalsIgnoreCase("city")) {
+                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                            Toast.makeText(getContext(), "Please select state first.", Toast.LENGTH_SHORT).show();
+                                            isValid = false;
+                                        } else
+                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                    } else if (field.getName().equalsIgnoreCase("area")) {
+                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                            Toast.makeText(getContext(), "Please select city first.", Toast.LENGTH_SHORT).show();
+                                            isValid = false;
+                                        } else
+                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                    }
+                                }
+
+                                if (isValid) {
+                                    masterDataRequest.setDataTable(field.getDataTable());
+                                    patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                }
                             }
                         }
                         return false;
@@ -844,12 +923,18 @@ public class PageFragment extends Fragment implements HelperResponse {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                        if ((fieldsIndex + 1) < fields.size()) {
+                            if (field.getName().equalsIgnoreCase("country") || field.getName().equalsIgnoreCase("state") || field.getName().equalsIgnoreCase("city")) {
+                                if (!field.getValue().getName().equalsIgnoreCase(dataListTemp.get(position).getName()))
+                                    fields.get(fieldsIndex + 1).getDataListTemp().clear();
+                            }
+                        }
+
                         if (position != 0) {
                             // set latest value
                             field.setValue(dataListTemp.get(position));
                             dropDownError.setText("");
                             dropDown.setBackgroundResource(R.drawable.dropdown_selector);
-
                         } else if (dataListTemp.size() != 1)
                             field.setValue(new ValuesObject());
 
@@ -946,6 +1031,7 @@ public class PageFragment extends Fragment implements HelperResponse {
         PageFragmentPermissionsDispatcher.onRequestPermissionsResult(PageFragment.this, requestCode, grantResults);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         /*if (resultCode == RESULT_OK) {
@@ -1049,7 +1135,7 @@ public class PageFragment extends Fragment implements HelperResponse {
         if (mOldDataTag.equals(Constants.GET_MASTER_DATA)) {
             MasterDataModel masterDataModel = (MasterDataModel) customResponse;
             if (masterDataModel.getCommon().isSuccess()) {
-                final ArrayList<ValuesObject> dataList = tempField.getDataListTemp();
+                final ArrayList<ValuesObject> dataList = tempFieldMasterData.getDataListTemp();
 
                 if ((dataList.isEmpty() || dataList.size() == 1) && !masterDataModel.getData().getMasterData().isEmpty()) {
                     dataList.clear();
@@ -1058,11 +1144,11 @@ public class PageFragment extends Fragment implements HelperResponse {
                 }
 
                 if (!dataList.isEmpty()) {
-                    switch (tempField.getType()) {
+                    switch (tempFieldMasterData.getType()) {
 
                         case Constants.TYPE.DROPDOWN: {
 
-                            final Spinner dropDown = mSectionsContainer.findViewById(tempField.getFieldId());
+                            final Spinner dropDown = mSectionsContainer.findViewById(tempFieldMasterData.getFieldId());
                             if (!dataList.get(0).toString().toLowerCase().contains("Select"))
                                 dataList.add(0, new ValuesObject("", "Select"));
 
@@ -1070,7 +1156,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                             dropDown.setAdapter(adapter);
 
                             // set pre value
-                            dropDown.setSelection(dataList.indexOf(tempField.getValue()));
+                            dropDown.setSelection(dataList.indexOf(tempFieldMasterData.getValue()));
 
                             break;
                         }
@@ -1078,7 +1164,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                         case Constants.TYPE.AUTO_COMPLETE:
                         case Constants.TYPE.TEXT_BOX_GROUP: {
 
-                            final AutoCompleteTextView textBox = mSectionsContainer.findViewById(tempField.getFieldId());
+                            final AutoCompleteTextView textBox = mSectionsContainer.findViewById(tempFieldMasterData.getFieldId());
 
                             ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
                                     android.R.layout.simple_dropdown_item_1line, dataList);
@@ -1089,21 +1175,46 @@ public class PageFragment extends Fragment implements HelperResponse {
                     }
                 } else CommonMethods.showToast(getContext(), "Empty Data");
             }
+        } else if (mOldDataTag.equals(VALIDATE_FIELD)) {
+            ValidateResponse validateResponse = (ValidateResponse) customResponse;
+            if (validateResponse.getCommon().getStatusCode().equals(SUCCESS)) {
+                if (validateResponse.getData().getIsExists()) {
+                    final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
+                    editText.setText("");
+                    editText.setBackgroundResource(R.drawable.edittext_error_selector);
+
+                    final TextView errorView = mSectionsContainer.findViewById(tempFieldValidation.getErrorViewId());
+                    errorView.setText(tempFieldValidation.getName() + " already exist");
+                    Toast.makeText(getContext(), tempFieldValidation.getName() + " already exist", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
     @Override
     public void onParseError(String mOldDataTag, String errorMessage) {
-
+        if (mOldDataTag.equals(VALIDATE_FIELD)) {
+            final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
+            editText.setText("");
+            Toast.makeText(getContext(), tempFieldValidation.getName() + " already exist", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onServerError(String mOldDataTag, String serverErrorMessage) {
-
+        if (mOldDataTag.equals(VALIDATE_FIELD)) {
+            final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
+            editText.setText("");
+            Toast.makeText(getContext(), tempFieldValidation.getName() + " already exist", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onNoConnectionError(String mOldDataTag, String serverErrorMessage) {
-
+        if (mOldDataTag.equals(VALIDATE_FIELD)) {
+            final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
+            editText.setText("");
+            Toast.makeText(getContext(), tempFieldValidation.getName() + " already exist", Toast.LENGTH_SHORT).show();
+        }
     }
 }

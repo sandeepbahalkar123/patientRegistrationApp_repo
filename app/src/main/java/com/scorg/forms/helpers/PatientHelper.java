@@ -84,7 +84,7 @@ public class PatientHelper implements ConnectionListener {
 
         // Stored profile Mobile and Id in Preferences.
 
-        AppPreferencesManager.putInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, Integer.parseInt(profileId), mContext);
+        AppPreferencesManager.putInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, Integer.parseInt(hospitalPatId), mContext);
         AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, profileId, mContext);
         AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, mobileText, mContext);
 

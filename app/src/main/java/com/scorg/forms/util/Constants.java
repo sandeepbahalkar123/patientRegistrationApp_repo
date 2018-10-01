@@ -61,6 +61,8 @@ public class Constants {
         String DATE = "date";
         String EMAIL = "email";
         String PIN_CODE = "pincode";
+        String PAN_CARD = "pancard";
+        String AADHAR_CARD = "aadharcard";
         String NUMBER = "number";
         String TEXT_BOX_BIG = "textboxbig";
     }

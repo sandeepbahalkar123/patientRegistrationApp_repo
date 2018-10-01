@@ -33,6 +33,8 @@ import com.scorg.forms.util.Constants;
 import com.scorg.forms.util.Valid;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.scorg.forms.activities.FormsActivity.FORM;
 import static com.scorg.forms.activities.PersonalInfoActivity.PATIENT_NAME;
@@ -41,17 +43,14 @@ public class FormFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String FORM_NUMBER = "form_number";
+    public static final String FORM_NAME = "form_name";
     private static final String TAG = "Form";
     private static final String PAGES = "pages";
-    public static final String FORM_NAME = "form_name";
-
+    ButtonClickListener mListener;
     private int formNumber;
-
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private CustomViewPager mViewPager;
     private TabLayout mTabLayout;
-
-    ButtonClickListener mListener;
     private Button preButton;
     private Button nextButton;
     private Button submitButton;
@@ -338,33 +337,6 @@ public class FormFragment extends Fragment {
         }
     }
 
-    private class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        private final ArrayList<Fragment> pageFragments;
-
-        public SectionsPagerAdapter(ArrayList<Fragment> pageFragments, FragmentManager fm) {
-            super(fm);
-            this.pageFragments = pageFragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return pageFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return form.getPages().size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return form.getPages().get(position).getPageName();
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -380,15 +352,6 @@ public class FormFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    // Listener
-    public interface ButtonClickListener {
-        void backClick(int formNumber);
-
-        void nextClick(int formNumber);
-
-        void submitClick(int formNumber, Form form);
     }
 
     private void fieldValidation(Field field, View roolView, boolean isShowError) {
@@ -492,6 +455,64 @@ public class FormFragment extends Fragment {
                             }
                         }
                         break;
+                    case Constants.INPUT_TYPE.AADHAR_CARD:
+                        if (!field.getValue().getName().isEmpty()) {
+                            if (field.getValue().getName().length() != 12) {
+                                if (isShowError) {
+                                    if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
+                                        CustomEditText editText = roolView.findViewById(field.getFieldId());
+                                        editText.setBackgroundResource(R.drawable.edittext_error_selector);
+                                    } else {
+                                        CustomAutoCompleteEditText editText = roolView.findViewById(field.getFieldId());
+                                        editText.setBackgroundResource(R.drawable.edittext_error_selector);
+                                    }
+                                    TextView errorTextView = roolView.findViewById(field.getErrorViewId());
+                                    errorTextView.setText("Please enter valid " + field.getName());
+                                }
+                                isValid = false;
+                                return;
+                            }
+                        }
+                        break;
+                    case Constants.INPUT_TYPE.PAN_CARD:
+                        if (!field.getValue().getName().isEmpty()) {
+                            if (field.getValue().getName().length() != 10) {
+                                if (isShowError) {
+                                    if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
+                                        CustomEditText editText = roolView.findViewById(field.getFieldId());
+                                        editText.setBackgroundResource(R.drawable.edittext_error_selector);
+                                    } else {
+                                        CustomAutoCompleteEditText editText = roolView.findViewById(field.getFieldId());
+                                        editText.setBackgroundResource(R.drawable.edittext_error_selector);
+                                    }
+                                    TextView errorTextView = roolView.findViewById(field.getErrorViewId());
+                                    errorTextView.setText("Please enter valid " + field.getName());
+                                }
+                                isValid = false;
+                                return;
+                            } else if (!field.getRegularExpression().isEmpty()) {
+                                String regulerExpression = field.getRegularExpression().replace("/", "");
+                                Pattern compile = Pattern.compile(regulerExpression);
+                                Matcher matcher = compile.matcher(field.getValue().getName());
+                                if (!matcher.find()) {
+                                    if (isShowError) {
+                                        if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
+                                            CustomEditText editText = roolView.findViewById(field.getFieldId());
+                                            editText.setBackgroundResource(R.drawable.edittext_error_selector);
+                                        } else {
+                                            CustomAutoCompleteEditText editText = roolView.findViewById(field.getFieldId());
+                                            editText.setBackgroundResource(R.drawable.edittext_error_selector);
+                                        }
+                                        TextView errorTextView = roolView.findViewById(field.getErrorViewId());
+                                        errorTextView.setText("Please enter valid " + field.getName());
+                                    }
+                                    isValid = false;
+                                    return;
+                                }
+                            }
+
+                        }
+                        break;
                 }
 
                 break;
@@ -547,5 +568,41 @@ public class FormFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         pageFragments.get(mTabLayout.getSelectedTabPosition()).onActivityResult(requestCode, resultCode, data);
+    }
+
+    // Listener
+    public interface ButtonClickListener {
+        void backClick(int formNumber);
+
+        void nextClick(int formNumber);
+
+        void submitClick(int formNumber, Form form);
+    }
+
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        private final ArrayList<Fragment> pageFragments;
+
+        public SectionsPagerAdapter(ArrayList<Fragment> pageFragments, FragmentManager fm) {
+            super(fm);
+            this.pageFragments = pageFragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return pageFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return form.getPages().size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return form.getPages().get(position).getPageName();
+        }
     }
 }

@@ -66,9 +66,9 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
     private String mReceivedFormName;
     private DatePickerDialog datePickerDialog;
     private PatientHelper patientHelper;
-    private Field tempField;
+    private Field tempFieldMasterData;
+    private Field tempFieldValidation;
     private LinearLayout fieldsContainer;
-    private boolean isSelected;
 
     public FeedbackPageFragment() {
         // Required empty public constructor
@@ -193,7 +193,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     public void onFocusChange(View view, boolean hasFocus) {
                         if (hasFocus) {
                             if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty()) {
-                                tempField = field;
+                                tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
                                 patientHelper.getMasterDataFromAPI(masterDataRequest);
@@ -285,16 +285,11 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        if (isSelected) {
-                            isSelected = false;
-                        } else {
-                            editTextError.setText("");
-                            textBox.setBackgroundResource(R.drawable.edittext_selector);
-                            // set latest value
-                            field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
-
-                            field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
-                        }
+                        editTextError.setText("");
+                        textBox.setBackgroundResource(R.drawable.edittext_selector);
+                        // set latest value
+                        field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
@@ -307,20 +302,14 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     }
                 });
 
-                textBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                textBox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        isSelected = true;
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
                         field.setValue(field.getValues().get(position));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 
@@ -329,7 +318,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     public void onFocusChange(View view, boolean hasFocus) {
                         if (hasFocus) {
                             if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty()) {
-                                tempField = field;
+                                tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
                                 patientHelper.getMasterDataFromAPI(masterDataRequest);
@@ -543,7 +532,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     CommonMethods.hideKeyboard(getContext());
                     if (!field.getDataTable().isEmpty() && (dataListTemp.isEmpty() || dataListTemp.size() == 1)) {
-                        tempField = field;
+                        tempFieldMasterData = field;
                         MasterDataRequest masterDataRequest = new MasterDataRequest();
                         masterDataRequest.setDataTable(field.getDataTable());
                         patientHelper.getMasterDataFromAPI(masterDataRequest);
@@ -710,6 +699,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 textBox.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 break;
             case Constants.INPUT_TYPE.PIN_CODE:
+            case Constants.INPUT_TYPE.AADHAR_CARD:
 //                textBoxParams.width = getResources().getDimensionPixelSize(R.dimen.pincode_size);
                 textBox.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
@@ -744,6 +734,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 textBox.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 break;
             case Constants.INPUT_TYPE.PIN_CODE:
+            case Constants.INPUT_TYPE.AADHAR_CARD:
 //                textBoxParams.width = getResources().getDimensionPixelSize(R.dimen.pincode_size);
                 textBox.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
@@ -1017,7 +1008,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
         if (mOldDataTag.equals(Constants.GET_MASTER_DATA)) {
             MasterDataModel masterDataModel = (MasterDataModel) customResponse;
             if (masterDataModel.getCommon().isSuccess()) {
-                final ArrayList<ValuesObject> dataList = tempField.getDataListTemp();
+                final ArrayList<ValuesObject> dataList = tempFieldMasterData.getDataListTemp();
 
                 if ((dataList.isEmpty() || dataList.size() == 1) && !masterDataModel.getData().getMasterData().isEmpty()) {
                     dataList.clear();
@@ -1025,11 +1016,11 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 }
 
                 if (!dataList.isEmpty()) {
-                    switch (tempField.getType()) {
+                    switch (tempFieldMasterData.getType()) {
 
                         case Constants.TYPE.DROPDOWN: {
 
-                            final Spinner dropDown = fieldsContainer.findViewById(tempField.getFieldId());
+                            final Spinner dropDown = fieldsContainer.findViewById(tempFieldMasterData.getFieldId());
                             if (!dataList.get(0).toString().toLowerCase().contains("select"))
                                 dataList.add(0, new ValuesObject("0", "Select"));
 
@@ -1037,7 +1028,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                             dropDown.setAdapter(adapter);
 
                             // set pre value
-                            dropDown.setSelection(dataList.indexOf(tempField.getValue()));
+                            dropDown.setSelection(dataList.indexOf(tempFieldMasterData.getValue()));
 
                             break;
                         }
@@ -1045,7 +1036,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                         case Constants.TYPE.AUTO_COMPLETE:
                         case Constants.TYPE.TEXT_BOX_GROUP: {
 
-                            final AutoCompleteTextView textBox = fieldsContainer.findViewById(tempField.getFieldId());
+                            final AutoCompleteTextView textBox = fieldsContainer.findViewById(tempFieldMasterData.getFieldId());
 
                             ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
                                     android.R.layout.simple_dropdown_item_1line, dataList);
