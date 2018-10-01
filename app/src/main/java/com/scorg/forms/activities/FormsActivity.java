@@ -135,7 +135,7 @@ public class FormsActivity extends AppCompatActivity implements FormFragment.But
         String mobileNumber = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, mContext);
 
         int doctorId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_DOCTOR_ID, mContext);
-        int clinicPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, mContext);
+        int clinicPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, mContext);
 
         FormRequest formRequest = new FormRequest();
         Header header = new Header();
@@ -157,7 +157,7 @@ public class FormsActivity extends AppCompatActivity implements FormFragment.But
     @Override
     public void onSuccess(String mOldDataTag, CustomResponse customResponse) {
         switch (mOldDataTag) {
-            case Constants.POST_FORM_DATA:
+            case Constants.SAVE_FORM_DATA:
                 CommonResponse commonResponse = (CommonResponse) customResponse;
                 if (commonResponse.getCommon().isSuccess()) {
                     mIntent.putExtra(FORM, form);

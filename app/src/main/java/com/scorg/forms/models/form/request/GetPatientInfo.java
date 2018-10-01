@@ -15,9 +15,12 @@ public class GetPatientInfo implements CustomResponse {
     @SerializedName("docId")
     @Expose
     private int docId;
-    @SerializedName("hospitalId")
+    @SerializedName("clinicId")
     @Expose
     private int hospitalId;
+    @SerializedName("hospitalPatId")
+    @Expose
+    private int hospitalPatId = -1;
     @SerializedName("locationId")
     @Expose
     private int locationId;
@@ -47,6 +50,14 @@ public class GetPatientInfo implements CustomResponse {
 
     public void setHospitalId(int hospitalId) {
         this.hospitalId = hospitalId;
+    }
+
+    public int getHospitalPatId() {
+        return hospitalPatId;
+    }
+
+    public void setHospitalPatId(int hospitalPatId) {
+        this.hospitalPatId = hospitalPatId;
     }
 
     public int getLocationId() {

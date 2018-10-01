@@ -155,7 +155,7 @@ public class UndertakingFragment extends Fragment {
                 page.setUndertakingContent(page.getUndertakingContent().replace(PATIENT_NAME_TO_REPLACE, page.getName()));
 
             if (page.getSignatureData() != null) {
-                if (!page.getSignatureData().equals("")) {
+                if (!page.getSignatureData().isEmpty()) {
                     byte[] decodedString = Base64.decode(page.getSignatureData(), Base64.NO_WRAP);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     mSignature_pad.setSignatureBitmap(decodedByte);
@@ -303,14 +303,14 @@ public class UndertakingFragment extends Fragment {
         String mobileNumber = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, getContext());
         String uploadUrl = Config.HTTP + AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.SERVER_PATH, getContext()) + "/" + Config.POST_PROFILE_IMAGE;
         String profileId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, getContext());
-        String hospitalPatId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, getContext());
+        int hospitalPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, getContext());
 
         try {
             String uploadId = new MultipartUploadRequest(getContext(), uploadUrl)
                     .addFileToUpload(filePath, "profilePhoto")
                     .addParameter("mobileNo", mobileNumber)
                     .addParameter("profileId", profileId)
-                    .addParameter("hospitalPatId", hospitalPatId)
+                    .addParameter("hospitalPatId", String.valueOf(hospitalPatId))
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override

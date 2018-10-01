@@ -47,11 +47,12 @@ public class Constants {
 
     public static final String TASK_LOGIN = Constants.BLANK + 1;
     public static final String TASK_CHECK_SERVER_CONNECTION = Constants.BLANK + 2;
-    public static final String GET_PROFILE_INFO = Constants.BLANK + 3;
+    public static final String GET_PROFILE_LIST = Constants.BLANK + 3;
     public static final String POST_PERSONAL_DATA = Constants.BLANK + 4;
     public static final String GET_MASTER_DATA = Constants.BLANK + 5;
-    public static final String POST_FORM_DATA = Constants.BLANK + 6;
-    public static final String GET_PROFILE = Constants.BLANK + 7;
+    public static final String SAVE_FORM_DATA = Constants.BLANK + 6;
+    public static final String GET_REGISTERED_USER = Constants.BLANK + 7;
+    public static final String VALIDATE_FIELD = Constants.BLANK + 8;
     public static final Integer SUCCESS = 200;
 
     public interface INPUT_TYPE {

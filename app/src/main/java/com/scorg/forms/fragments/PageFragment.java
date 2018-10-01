@@ -113,6 +113,7 @@ public class PageFragment extends Fragment implements HelperResponse {
     private PatientHelper patientHelper;
 
     private Field tempField;
+    private boolean isSelected;
 
     public PageFragment() {
     }
@@ -262,8 +263,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                 textBox.setAdapter(adapter);
 
                 // set pre value
-                textBox.setText(field.getValue().toString());
-                final String preValue = field.getValue().toString();
+                textBox.setText(field.getValue().getName());
+                final ValuesObject preValue = field.getValue();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -298,15 +299,35 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        editTextError.setText("");
-                        textBox.setBackgroundResource(R.drawable.edittext_selector);
-                        // set latest value
-                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
-
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                        if (isSelected) {
+                            isSelected = false;
+                        } else {
+                            editTextError.setText("");
+                            textBox.setBackgroundResource(R.drawable.edittext_selector);
+                            // set latest value
+                            field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
+                            field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                        }
                     }
                 });
 
+                textBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        isSelected = true;
+
+                        editTextError.setText("");
+                        textBox.setBackgroundResource(R.drawable.edittext_selector);
+                        // set latest value
+                        field.setValue(field.getValues().get(position));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
 
                 textBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
@@ -374,8 +395,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                 field.setErrorViewId(editTextError.getId());
 
                 // set pre value
-                textBox.setText(field.getValue().toString());
-                final String preValue = field.getValue().toString();
+                textBox.setText(field.getValue().getName());
+                final ValuesObject preValue = field.getValue();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -404,14 +425,36 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
+                        if (isSelected) {
+                            isSelected = false;
+                        } else {
+                            editTextError.setText("");
+                            textBox.setBackgroundResource(R.drawable.edittext_selector);
+                            // set latest value
+                            field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
+                            field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                        }
+                    }
+                });
+
+                textBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        isSelected = true;
+
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
+                        field.setValue(field.getValues().get(position));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                    }
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
                     }
                 });
+
 
                 textBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
@@ -487,7 +530,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                 textBox.setEnabled(field.isEditable());
 
-                if (!field.getHint().equals(""))
+                if (!field.getHint().isEmpty())
                     textBox.setHint(field.getHint());
 
                 field.setFieldId(textBox.getId());
@@ -497,8 +540,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                 field.setErrorViewId(editTextError.getId());
 
                 // set pre value
-                textBox.setText(field.getValue().toString());
-                final String preValue = field.getValue().toString();
+                textBox.setText(field.getValue().getName());
+                final ValuesObject preValue = field.getValue();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -523,22 +566,22 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 int month;
                                 int day;
 
-                                if (field.getValue().toString().isEmpty()) {
+                                if (field.getValue().getName().isEmpty()) {
                                     Calendar now = Calendar.getInstance();
                                     year = now.get(Calendar.YEAR);
                                     month = now.get(Calendar.MONTH);
                                     day = now.get(Calendar.DAY_OF_MONTH);
                                 } else {
 
-                                    if (CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "yyyy").isEmpty()) {
+                                    if (CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "yyyy").isEmpty()) {
                                         Calendar now = Calendar.getInstance();
                                         year = now.get(Calendar.YEAR);
                                         month = now.get(Calendar.MONTH);
                                         day = now.get(Calendar.DAY_OF_MONTH);
                                     } else {
-                                        year = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "yyyy"));
-                                        month = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "MM"));
-                                        day = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "dd"));
+                                        year = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "yyyy"));
+                                        month = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "MM"));
+                                        day = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "dd"));
                                     }
                                 }
                                 // As of version 2.3.0, `BottomSheetDatePickerDialog` is deprecated.
@@ -629,9 +672,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
-
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                        field.getValue().setName(String.valueOf(editable).trim());
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
@@ -655,16 +697,17 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                 ArrayList<ValuesObject> dataList = field.getDataList();
 
-                final String preValue = field.getValue().toString();
+                final ValuesObject preValue = field.getValue();
 
                 for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-                    String data = dataList.get(dataIndex).toString();
+                    ValuesObject data = dataList.get(dataIndex);
                     RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, radioGroup, false);
                     radioButton.setId(CommonMethods.generateViewId());
-                    radioButton.setText(data);
+                    radioButton.setText(data.getName());
+                    radioButton.setTag(data);
 
                     // set pre value
-                    if (field.getValue().toString().equalsIgnoreCase(radioButton.getText().toString()))
+                    if (field.getValue().getName().equalsIgnoreCase(radioButton.getText().toString()))
                         radioButton.setChecked(true);
 
                     radioGroup.addView(radioButton);
@@ -673,14 +716,13 @@ public class PageFragment extends Fragment implements HelperResponse {
                 radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
                         CommonMethods.hideKeyboard(getContext());
-
                         RadioButton radioButton = group.findViewById(checkedId);
-                        field.setValue(new ValuesObject(radioButton.getText().toString()));
+                        ValuesObject valuesObject = (ValuesObject) radioButton.getTag();
+                        field.setValue(valuesObject);
                         radioGroupError.setText("");
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
@@ -706,16 +748,18 @@ public class PageFragment extends Fragment implements HelperResponse {
                 final ArrayList<ValuesObject> preValues = new ArrayList<>(values);
 
                 for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-                    String data = dataList.get(dataIndex).toString();
+                    ValuesObject data = dataList.get(dataIndex);
                     final CheckBox checkBox = (CheckBox) inflater.inflate(R.layout.checkbox, checkBoxGroup, false);
 
                     // set pre value
                     for (ValuesObject value : values)
-                        if (value.toString().equalsIgnoreCase(data))
+                        if (value.getName().equalsIgnoreCase(data.getName()))
                             checkBox.setChecked(true);
 
                     checkBox.setId(CommonMethods.generateViewId());
-                    checkBox.setText(data);
+                    checkBox.setText(data.getName());
+                    checkBox.setTag(data);
+
                     checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -726,9 +770,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                             // set latest value
 
                             if (isChecked) {
-                                values.add(new ValuesObject(checkBox.getText().toString()));
+                                values.add((ValuesObject) checkBox.getTag());
                             } else {
-                                values.remove(checkBox.getText().toString());
+                                values.remove(checkBox.getTag());
                             }
 
                             Collections.sort(preValues);
@@ -768,18 +812,18 @@ public class PageFragment extends Fragment implements HelperResponse {
                 }
 
                 if (dataListTemp.size() > 1)
-                    if (!dataListTemp.get(0).getName().toLowerCase().equals("select"))
-                        dataListTemp.add(0, new ValuesObject("select"));
+                    if (!dataListTemp.get(0).getName().toLowerCase().equals("Select"))
+                        dataListTemp.add(0, new ValuesObject("", "Select"));
 
                 ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataListTemp);
                 dropDown.setAdapter(adapter);
 
-                if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty() && !field.getValue().toString().isEmpty()) {
+                if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty() && !field.getValue().getName().isEmpty()) {
                     dataListTemp.add(field.getValue());
                     adapter.notifyDataSetChanged();
                 } else dropDown.setSelection(dataListTemp.indexOf(field.getValue()));
 
-                final String preValue = field.getValue().toString();
+                final ValuesObject preValue = field.getValue();
 
                 dropDown.setOnTouchListener(new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
@@ -809,7 +853,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                         } else if (dataListTemp.size() != 1)
                             field.setValue(new ValuesObject());
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
 
                     @Override
@@ -839,7 +883,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                 ratingBar.setNumStars(field.getMaxRating());
 
                 final EditText ratingReasonTextBox = fieldLayout.findViewById(R.id.ratingReasonTextBox);
-                if (!field.getHint().equals(""))
+                if (!field.getHint().isEmpty())
                     ratingReasonTextBox.setHint(field.getHint());
 
                 ratingReasonTextBox.addTextChangedListener(new TextWatcher() {
@@ -956,7 +1000,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
         String mobileNumber = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.MOBILE, getContext());
         String profileId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, getContext());
-        String hospitalPatId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, getContext());
+        int hospitalPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, getContext());
 
         String uploadUrl = Config.HTTP + AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.SERVER_PATH, getContext()) + "/" + Config.POST_PROFILE_IMAGE;
 
@@ -965,7 +1009,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                     .addFileToUpload(filePath, "profilePhoto")
                     .addParameter("mobileNo", mobileNumber)
                     .addParameter("profileId", profileId)
-                    .addParameter("hospitalPatId", hospitalPatId)
+                    .addParameter("hospitalPatId", String.valueOf(hospitalPatId))
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
@@ -1019,8 +1063,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                         case Constants.TYPE.DROPDOWN: {
 
                             final Spinner dropDown = mSectionsContainer.findViewById(tempField.getFieldId());
-                            if (!dataList.get(0).toString().toLowerCase().contains("select"))
-                                dataList.add(0, new ValuesObject("Select"));
+                            if (!dataList.get(0).toString().toLowerCase().contains("Select"))
+                                dataList.add(0, new ValuesObject("", "Select"));
 
                             ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataList);
                             dropDown.setAdapter(adapter);

@@ -41,11 +41,6 @@ public class ValuesObject implements Parcelable, Comparable {
         this.name = name;
     }
 
-    public ValuesObject(String name) {
-        this.id = "";
-        this.name = name;
-    }
-
     public ValuesObject() {
         this.id = "";
         this.name = "";

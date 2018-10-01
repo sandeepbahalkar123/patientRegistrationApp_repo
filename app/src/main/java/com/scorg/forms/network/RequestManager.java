@@ -34,6 +34,7 @@ import com.scorg.forms.interfaces.CustomResponse;
 import com.scorg.forms.models.Common;
 import com.scorg.forms.models.CommonResponse;
 import com.scorg.forms.models.PatientData;
+import com.scorg.forms.models.form.ValidateResponse;
 import com.scorg.forms.models.login.IpTestResponseModel;
 import com.scorg.forms.models.login.LoginModel;
 import com.scorg.forms.models.login.request.LoginRequestModel;
@@ -438,12 +439,12 @@ public class RequestManager extends ConnectRequest implements Connector, Request
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, ipTestResponseModel, mOldDataTag);
                         break;
 
-                    case Constants.GET_PROFILE_INFO: //This is for get archived list
+                    case Constants.GET_PROFILE_LIST: //This is for get archived list
                         ProfilesModel profilesModel = gson.fromJson(data, ProfilesModel.class);
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, profilesModel, mOldDataTag);
                         break;
 
-                    case Constants.GET_PROFILE: //This is for get archived list
+                    case Constants.GET_REGISTERED_USER: //This is for get archived list
                         PatientData patientData = gson.fromJson(data, PatientData.class);
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, patientData, mOldDataTag);
                         break;
@@ -453,7 +454,7 @@ public class RequestManager extends ConnectRequest implements Connector, Request
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, commonResPersonal, mOldDataTag);
                         break;
 
-                    case Constants.POST_FORM_DATA: //This is for get archived list
+                    case Constants.SAVE_FORM_DATA: //This is for get archived list
                         CommonResponse commonResForm = gson.fromJson(data, CommonResponse.class);
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, commonResForm, mOldDataTag);
                         break;
@@ -461,6 +462,11 @@ public class RequestManager extends ConnectRequest implements Connector, Request
                     case Constants.GET_MASTER_DATA: //This is for get archived list
                         MasterDataModel masterDataModel = gson.fromJson(data, MasterDataModel.class);
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, masterDataModel, mOldDataTag);
+                        break;
+
+                    case Constants.VALIDATE_FIELD: //This is for get archived list
+                        ValidateResponse validateResponse = gson.fromJson(data, ValidateResponse.class);
+                        this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, validateResponse, mOldDataTag);
                         break;
 
                     default:

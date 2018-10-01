@@ -61,12 +61,12 @@ public class NewRegistrationFragment extends Fragment {
         String clinicTagLine = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_TAG_LINE, getContext());
         String clinicLogSmall = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_SMALL_LOGO, getContext());
 
-        if (clinicTagLine.equals(""))
+        if (clinicTagLine.isEmpty())
             clinicTagLineTextView.setVisibility(View.GONE);
         else
             clinicTagLineTextView.setText(clinicTagLine);
 
-        if (clinicName.equals(""))
+        if (clinicName.isEmpty())
             clinicNameTextView.setVisibility(View.GONE);
         else
             clinicNameTextView.setText(clinicName);

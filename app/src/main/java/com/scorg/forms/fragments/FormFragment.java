@@ -398,7 +398,7 @@ public class FormFragment extends Fragment {
             case Constants.TYPE.TEXT_BOX_GROUP: {
 
                 if (field.isMandatory()) {
-                    if (field.getValue().equals("")) {
+                    if (field.getValue().getName().isEmpty()) {
                         if (isShowError) {
                             CustomAutoCompleteEditText editText = roolView.findViewById(field.getFieldId());
                             TextView errorTextView = roolView.findViewById(field.getErrorViewId());
@@ -417,7 +417,7 @@ public class FormFragment extends Fragment {
             case Constants.TYPE.TEXT_BOX: {
 
                 if (field.isMandatory()) {
-                    if (field.getValue().equals("")) {
+                    if (field.getValue().getName().isEmpty()) {
                         if (isShowError) {
                             if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
                                 CustomEditText editText = roolView.findViewById(field.getFieldId());
@@ -436,8 +436,8 @@ public class FormFragment extends Fragment {
 
                 switch (field.getInputType()) {
                     case Constants.INPUT_TYPE.EMAIL:
-                        if (!field.getValue().equals("")) {
-                            if (!Valid.validateEmail(field.getValue().toString(), getContext(), false)) {
+                        if (!field.getValue().getName().isEmpty()) {
+                            if (!Valid.validateEmail(field.getValue().getName(), getContext(), false)) {
                                 if (isShowError) {
                                     if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
                                         CustomEditText editText = roolView.findViewById(field.getFieldId());
@@ -455,7 +455,7 @@ public class FormFragment extends Fragment {
                         }
                         break;
                     /*case Constants.INPUT_TYPE.MOBILE:
-                        if (!field.getValue().equals("")) {
+                        if (!field.getValue().getName().isEmpty()) {
                             if (!Valid.validateMobileNo(field.getValue(), getContext(), false)) {
                                 if (isShowError) {
                                     if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
@@ -474,8 +474,8 @@ public class FormFragment extends Fragment {
                         }
                         break;*/
                     case Constants.INPUT_TYPE.PIN_CODE:
-                        if (!field.getValue().equals("")) {
-                            if (field.getValue().toString().length() != 6) {
+                        if (!field.getValue().getName().isEmpty()) {
+                            if (field.getValue().getName().length() != 6) {
                                 if (isShowError) {
                                     if (roolView.findViewById(field.getFieldId()) instanceof CustomEditText) {
                                         CustomEditText editText = roolView.findViewById(field.getFieldId());
@@ -500,7 +500,7 @@ public class FormFragment extends Fragment {
             case Constants.TYPE.RADIO_BUTTON: {
 
                 if (field.isMandatory()) {
-                    if (field.getValue().equals("")) {
+                    if (field.getValue().getName().isEmpty()) {
                         if (isShowError) {
                             TextView errorTextView = roolView.findViewById(field.getErrorViewId());
                             errorTextView.setText("Please Select " + field.getName());
@@ -528,7 +528,7 @@ public class FormFragment extends Fragment {
             case Constants.TYPE.DROPDOWN: {
 
                 if (field.isMandatory()) {
-                    if (field.getValue().equals("")) {
+                    if (field.getValue().getName().isEmpty()) {
                         if (isShowError) {
                             Spinner dropDown = roolView.findViewById(field.getFieldId());
                             TextView errorTextView = roolView.findViewById(field.getErrorViewId());

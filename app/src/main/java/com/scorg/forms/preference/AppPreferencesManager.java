@@ -56,7 +56,7 @@ public class AppPreferencesManager {
         //String mKey = encrypt(key);
         /*CommonMethods.log("value", "value--getBoolean----->" + mKey);
         final String encryptedValue = getSharedPreference(context).getString(mKey, "");
-        if (encryptedValue == null || encryptedValue.equals("")) {
+        if (encryptedValue == null || encryptedValue.isEmpty()) {
             return false;
         }
         try {
@@ -100,7 +100,7 @@ public class AppPreferencesManager {
 //        String mKey = encrypt(key);
         /*CommonMethods.log("value", "value--getBoolean----->" + mKey);
         final String encryptedValue = getSharedPreference(context).getString(mKey, "");
-        if (encryptedValue == null || encryptedValue.equals("")) {
+        if (encryptedValue == null || encryptedValue.isEmpty()) {
             return 0;
         }
         try {
@@ -117,7 +117,7 @@ public class AppPreferencesManager {
        /* String mKey = encrypt(key);
         CommonMethods.log("value", "value--getBoolean----->" + mKey);
         final String encryptedValue = getSharedPreference(context).getLong(mKey, "");
-        if (encryptedValue == null || encryptedValue.equals("")) {
+        if (encryptedValue == null || encryptedValue.isEmpty()) {
             return 0;
         }
         try {
@@ -220,7 +220,7 @@ public class AppPreferencesManager {
         String USER_NAME = "doctorname";
         String PROFILE_PHOTO = "doctorprofile";
         String PROFILE_ID = "doctorid";
-        String CLINIC_PAT_ID = "hospitalPatId";
+        String HOSPITAL_PAT_ID = "hospitalPatId";
     }
 
     public interface CLINIC_KEY {

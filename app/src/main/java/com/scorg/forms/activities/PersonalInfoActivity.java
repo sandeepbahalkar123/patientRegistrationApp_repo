@@ -337,7 +337,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
 
         int doctorId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_DOCTOR_ID, mContext);
         int clinicId = AppPreferencesManager.getInt(AppPreferencesManager.CLINIC_KEY.CLINIC_ID, mContext);
-        int clinicPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, mContext);
+        int clinicPatId = AppPreferencesManager.getInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, mContext);
 
         FormRequest formRequest = new FormRequest();
         Header header = new Header();
@@ -498,7 +498,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                     }, false);
                 }
                 break;
-            case Constants.GET_PROFILE_INFO:
+            case Constants.GET_PROFILE_LIST:
                 ProfilesModel profilesModel = (ProfilesModel) customResponse;
                 if (profilesModel.getCommon().isSuccess()) {
                     ProfileList data = profilesModel.getData();
@@ -506,11 +506,12 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                         selectProfileDialog(data);
                     else {
                         profileId = "-1";
-                        mPatientHelper.getPatientProfile(mobileText, profileId);
+                        hospitalPatId = "-1";
+                        mPatientHelper.getPatientProfile(mobileText, profileId, hospitalPatId);
                     }
                 }
                 break;
-            case Constants.GET_PROFILE:
+            case Constants.GET_REGISTERED_USER:
                 PatientData patientData = (PatientData) customResponse;
                 if (patientData.getCommon().isSuccess()) {
                     formsData = patientData.getData();
@@ -525,7 +526,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                     profileId = commonResPersonal.getPatientData().getProfileId();
                     hospitalPatId = commonResPersonal.getPatientData().getHospitalPatId();
                     AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, profileId, mContext);
-                    AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.CLINIC_PAT_ID, hospitalPatId, mContext);
+                    AppPreferencesManager.putInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, Integer.parseInt(hospitalPatId), mContext);
                     addProfileFragment();
                 } else
                     CommonMethods.showToast(mContext, commonResPersonal.getCommon().getStatusMessage());
@@ -567,7 +568,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                     ProfileData profileD = (ProfileData) radioB.getTag();
                     profileId = profileD.getProfileId();
                     hospitalPatId = profileD.getHospitalPatId();
-                    mPatientHelper.getPatientProfile(mobileText, profileId);
+                    mPatientHelper.getPatientProfile(mobileText, profileId, hospitalPatId);
                     dialog.dismiss();
                 } else
                     CommonMethods.showToast(okButton.getContext(), getResources().getString(R.string.select_at_least_one_profile));

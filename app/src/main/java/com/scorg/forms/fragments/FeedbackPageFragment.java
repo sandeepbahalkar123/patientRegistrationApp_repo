@@ -68,6 +68,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
     private PatientHelper patientHelper;
     private Field tempField;
     private LinearLayout fieldsContainer;
+    private boolean isSelected;
 
     public FeedbackPageFragment() {
         // Required empty public constructor
@@ -142,8 +143,8 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 textBox.setAdapter(adapter);
 
                 // set pre value
-                textBox.setText(field.getValue().toString());
-                final String preValue = field.getValue().toString();
+                textBox.setText(field.getValue().getName());
+                final ValuesObject preValue = field.getValue();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -181,9 +182,9 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
+                        field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
@@ -262,8 +263,8 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 textBox.setAdapter(adapter);
 
                 // set pre value
-                textBox.setText(field.getValue().toString());
-                final String preValue = field.getValue().toString();
+                textBox.setText(field.getValue().getName());
+                final ValuesObject preValue = field.getValue();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -284,12 +285,16 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        editTextError.setText("");
-                        textBox.setBackgroundResource(R.drawable.edittext_selector);
-                        // set latest value
-                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
+                        if (isSelected) {
+                            isSelected = false;
+                        } else {
+                            editTextError.setText("");
+                            textBox.setBackgroundResource(R.drawable.edittext_selector);
+                            // set latest value
+                            field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                            field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                        }
                     }
                 });
 
@@ -299,6 +304,23 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                         if (arg1 == EditorInfo.IME_ACTION_DONE)
                             CommonMethods.hideKeyboard(getContext());
                         return false;
+                    }
+                });
+
+                textBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        isSelected = true;
+                        editTextError.setText("");
+                        textBox.setBackgroundResource(R.drawable.edittext_selector);
+                        // set latest value
+                        field.setValue(field.getValues().get(position));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
                     }
                 });
 
@@ -343,8 +365,8 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 field.setErrorViewId(editTextError.getId());
 
                 // set pre value
-                textBox.setText(field.getValue().toString());
-                final String preValue = field.getValue().toString();
+                textBox.setText(field.getValue().getName());
+                final ValuesObject preValue = field.getValue();
 
                 if (field.getLength() > 0) {
                     InputFilter[] fArray = new InputFilter[1];
@@ -368,9 +390,9 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
                         // set latest value
-                        field.setValue(new ValuesObject(String.valueOf(editable).trim()));
+                        field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
 
-                        field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
                     }
                 });
 
@@ -441,7 +463,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     }
                 });
 
-                if (!field.getHint().equals(""))
+                if (!field.getHint().isEmpty())
                     ratingReasonTextBox.setHint(field.getHint());
 
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -477,7 +499,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
         final EditText otherTextBox = fieldLayout.findViewById(R.id.otherTextBox);
         final TextView unitTextView = fieldLayout.findViewById(R.id.unitTextView);
 
-        if (!field.getUnit().equals(""))
+        if (!field.getUnit().isEmpty())
             unitTextView.setText(field.getUnit());
 
         final LinearLayout otherTextBoxParent = fieldLayout.findViewById(R.id.otherTextBoxParent);
@@ -500,7 +522,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
         if (dataListTemp.size() > 1)
             if (!dataListTemp.get(0).toString().toLowerCase().equals("select"))
-                dataListTemp.add(0, new ValuesObject("Select"));
+                dataListTemp.add(0, new ValuesObject("", "Select"));
 
         if (!field.getShowWhenSelect().isEmpty())
             isOthersThere = true;
@@ -508,12 +530,12 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
         ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataListTemp);
         dropDown.setAdapter(adapter);
 
-        if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty() && !field.getValue().toString().isEmpty()) {
+        if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty() && !field.getValue().getName().isEmpty()) {
             dataListTemp.add(field.getValue());
             adapter.notifyDataSetChanged();
         } else dropDown.setSelection(dataListTemp.indexOf(field.getValue()));
 
-        final String preValue = field.getValue().toString();
+        final ValuesObject preValue = field.getValue();
         final String preOtherValue = field.getTextValue();
 
         dropDown.setOnTouchListener(new View.OnTouchListener() {
@@ -555,7 +577,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 } else if (dataListTemp.size() != 1)
                     field.setValue(new ValuesObject());
 
-                field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
             }
 
             @Override
@@ -568,7 +590,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
         if (isMixed) {
 
             if (isOthersThere) {
-                if (field.getValue().toString().equalsIgnoreCase(field.getShowWhenSelect())) {
+                if (field.getValue().getName().equalsIgnoreCase(field.getShowWhenSelect())) {
                     otherTextBoxParent.setVisibility(View.VISIBLE);
                     otherTextBox.setText(field.getTextValue());
                 } else otherTextBoxParent.setVisibility(View.GONE);
@@ -577,7 +599,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 otherTextBox.setText(field.getTextValue());
             }
 
-            if (!field.getHint().equals(""))
+            if (!field.getHint().isEmpty())
                 otherTextBox.setHint(field.getHint());
             setTextBoxInputType(field, otherTextBox, fields, -1);
             otherTextBox.addTextChangedListener(new TextWatcher() {
@@ -620,15 +642,15 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                         int month;
                         int day;
 
-                        if (field.getValue().toString().isEmpty()) {
+                        if (field.getValue().getName().isEmpty()) {
                             Calendar now = Calendar.getInstance();
                             year = now.get(Calendar.YEAR);
                             month = now.get(Calendar.MONTH);
                             day = now.get(Calendar.DAY_OF_MONTH);
                         } else {
-                            year = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "yyyy"));
-                            month = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "MM"));
-                            day = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().toString(), DD_MM_YYYY, "dd"));
+                            year = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "yyyy"));
+                            month = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "MM"));
+                            day = Integer.parseInt(CommonMethods.getFormattedDate(field.getValue().getName(), DD_MM_YYYY, "dd"));
                         }
 
                         // As of version 2.3.0, `BottomSheetDatePickerDialog` is deprecated.
@@ -753,7 +775,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
         final EditText otherTextBox = fieldLayout.findViewById(R.id.otherTextBox);
         final TextView unitTextView = fieldLayout.findViewById(R.id.unitTextView);
-        if (!field.getUnit().equals(""))
+        if (!field.getUnit().isEmpty())
             unitTextView.setText(field.getUnit());
         final LinearLayout otherTextBoxParent = fieldLayout.findViewById(R.id.otherTextBoxParent);
 
@@ -772,9 +794,9 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
         int matrix = field.getMatrix() == 0 ? 2 : field.getMatrix();
 
         for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-            String data = dataList.get(dataIndex).toString();
+            ValuesObject data = dataList.get(dataIndex);
 
-            if (data.equalsIgnoreCase(field.getShowWhenSelect()))
+            if (data.getName().equalsIgnoreCase(field.getShowWhenSelect()))
                 isOthersThere = true;
 
             final CheckBox checkBox = (CheckBox) inflater.inflate(R.layout.checkbox, checkBoxGroup, false);
@@ -783,13 +805,14 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     TableRow.LayoutParams.WRAP_CONTENT
             ));
             checkBox.setId(CommonMethods.generateViewId());
+            checkBox.setTag(data);
 
             // set pre value
             for (ValuesObject value : values)
-                if (value.toString().equalsIgnoreCase(data))
+                if (value.getName().equalsIgnoreCase(data.getName()))
                     checkBox.setChecked(true);
 
-            checkBox.setText(data);
+            checkBox.setText(data.getName());
             final boolean finalIsOthersThere = isOthersThere;
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -797,12 +820,12 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
                     CommonMethods.hideKeyboard(getContext());
 
-                    String valueText = checkBox.getText().toString();
+                    ValuesObject valuesObject = (ValuesObject) checkBox.getTag();
 
                     if (finalIsOthersThere) {
-                        if (valueText.equalsIgnoreCase(field.getShowWhenSelect()) && isChecked)
+                        if (valuesObject.getName().equalsIgnoreCase(field.getShowWhenSelect()) && isChecked)
                             otherTextBoxParent.setVisibility(View.VISIBLE);
-                        else if (valueText.equalsIgnoreCase(field.getShowWhenSelect()) && !isChecked) {
+                        else if (valuesObject.getName().equalsIgnoreCase(field.getShowWhenSelect()) && !isChecked) {
                             otherTextBox.setText("");
                             otherTextBoxParent.setVisibility(View.GONE);
                         }
@@ -813,9 +836,9 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     // set latest value
 
                     if (isChecked) {
-                        values.add(new ValuesObject(valueText));
+                        values.add(valuesObject);
                     } else {
-                        values.remove(valueText);
+                        values.remove(valuesObject);
                     }
 
                     Collections.sort(preValues);
@@ -852,7 +875,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 otherTextBox.setText(field.getTextValue());
             }
 
-            if (!field.getHint().equals(""))
+            if (!field.getHint().isEmpty())
                 otherTextBox.setHint(field.getHint());
             setTextBoxInputType(field, otherTextBox, fields, -1);
             otherTextBox.addTextChangedListener(new TextWatcher() {
@@ -890,7 +913,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
         final EditText otherTextBox = fieldLayout.findViewById(R.id.otherTextBox);
         final TextView unitTextView = fieldLayout.findViewById(R.id.unitTextView);
-        if (!field.getUnit().equals(""))
+        if (!field.getUnit().isEmpty())
             unitTextView.setText(field.getUnit());
         final LinearLayout otherTextBoxParent = fieldLayout.findViewById(R.id.otherTextBoxParent);
 
@@ -900,23 +923,24 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
         ArrayList<ValuesObject> dataList = field.getDataList();
 
-        final String preValue = field.getValue().toString();
+        final ValuesObject preValue = field.getValue();
         final String preOtherValue = field.getTextValue();
 
         boolean isOthersThere = false;
 
         for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
-            String data = dataList.get(dataIndex).toString();
+            ValuesObject data = dataList.get(dataIndex);
 
-            if (data.equalsIgnoreCase(field.getShowWhenSelect()))
+            if (data.getName().equalsIgnoreCase(field.getShowWhenSelect()))
                 isOthersThere = true;
 
             RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, radioGroup, false);
             radioButton.setId(CommonMethods.generateViewId());
-            radioButton.setText(data);
+            radioButton.setTag(data);
+            radioButton.setText(data.getName());
 
             // set pre value
-            if (field.getValue().toString().equalsIgnoreCase(radioButton.getText().toString()))
+            if (field.getValue().getName().equalsIgnoreCase(radioButton.getText().toString()))
                 radioButton.setChecked(true);
 
             radioGroup.addView(radioButton);
@@ -928,11 +952,11 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
 
                 CommonMethods.hideKeyboard(getContext());
-
-                String valueText = ((RadioButton) group.findViewById(checkedId)).getText().toString();
+                RadioButton radioButton = group.findViewById(checkedId);
+                ValuesObject valuesObject = (ValuesObject) radioButton.getTag();
 
                 if (finalIsOthersThere) {
-                    if (valueText.equalsIgnoreCase(field.getShowWhenSelect()))
+                    if (valuesObject.getName().equalsIgnoreCase(field.getShowWhenSelect()))
                         otherTextBoxParent.setVisibility(View.VISIBLE);
                     else {
                         otherTextBox.setText("");
@@ -940,10 +964,10 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                     }
                 }
 
-                field.setValue(new ValuesObject(valueText));
+                field.setValue(valuesObject);
                 radioGroupError.setText("");
 
-                field.setUpdated(!preValue.equalsIgnoreCase(field.getValue().toString()));
+                field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
             }
         });
 
@@ -952,7 +976,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
         if (isMixed) {
 
             if (isOthersThere) {
-                if (field.getValue().toString().equalsIgnoreCase(field.getShowWhenSelect())) {
+                if (field.getValue().getName().equalsIgnoreCase(field.getShowWhenSelect())) {
                     otherTextBoxParent.setVisibility(View.VISIBLE);
                     otherTextBox.setText(field.getTextValue());
                 } else otherTextBoxParent.setVisibility(View.GONE);
@@ -961,7 +985,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                 otherTextBox.setText(field.getTextValue());
             }
 
-            if (!field.getHint().equals(""))
+            if (!field.getHint().isEmpty())
                 otherTextBox.setHint(field.getHint());
             setTextBoxInputType(field, otherTextBox, fields, -1);
 
@@ -1007,7 +1031,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
 
                             final Spinner dropDown = fieldsContainer.findViewById(tempField.getFieldId());
                             if (!dataList.get(0).toString().toLowerCase().contains("select"))
-                                dataList.add(0, new ValuesObject("Select"));
+                                dataList.add(0, new ValuesObject("0", "Select"));
 
                             ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataList);
                             dropDown.setAdapter(adapter);

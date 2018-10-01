@@ -83,6 +83,14 @@ public class Field implements Parcelable, Cloneable {
     @Expose
     private boolean dobFlow;
 
+    @SerializedName("regularExpression")
+    @Expose
+    private String regularExpression = "";
+
+    @SerializedName("checkServerValidation")
+    @Expose
+    private boolean checkServerValidation;
+
     private int fieldId;
     private int errorViewId;
 //    private int otherTextBoxParentId;
@@ -130,6 +138,10 @@ public class Field implements Parcelable, Cloneable {
         this.fieldId = ((int) in.readValue((int.class.getClassLoader())));
         this.errorViewId = ((int) in.readValue((int.class.getClassLoader())));
         this.isUpdated = ((boolean) in.readValue((boolean.class.getClassLoader())));
+
+        this.regularExpression = ((String) in.readValue((String.class.getClassLoader())));
+        this.checkServerValidation = ((boolean) in.readValue((boolean.class.getClassLoader())));
+
         in.readList(this.dataListTemp, (java.lang.String.class.getClassLoader()));
     }
 
@@ -328,6 +340,22 @@ public class Field implements Parcelable, Cloneable {
         isUpdated = updated;
     }
 
+    public String getRegularExpression() {
+        return regularExpression;
+    }
+
+    public void setRegularExpression(String regularExpression) {
+        this.regularExpression = regularExpression;
+    }
+
+    public boolean isCheckServerValidation() {
+        return checkServerValidation;
+    }
+
+    public void setCheckServerValidation(boolean checkServerValidation) {
+        this.checkServerValidation = checkServerValidation;
+    }
+
     public ArrayList<ValuesObject> getDataListTemp() {
         return dataListTemp;
     }
@@ -361,6 +389,10 @@ public class Field implements Parcelable, Cloneable {
         dest.writeValue(fieldId);
         dest.writeValue(errorViewId);
         dest.writeValue(isUpdated);
+
+        dest.writeValue(regularExpression);
+        dest.writeValue(checkServerValidation);
+
         dest.writeList(dataListTemp);
     }
 

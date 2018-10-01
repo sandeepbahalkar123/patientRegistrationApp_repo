@@ -284,7 +284,7 @@ public class CommonMethods {
 
     public static String getFormattedDate(String strDate, String sourceFormat, String destinyFormat) {
 
-        if (!strDate.equals("")) {
+        if (!strDate.isEmpty()) {
             SimpleDateFormat df;
             df = new SimpleDateFormat(sourceFormat, Locale.US);
             Date date;
