@@ -77,7 +77,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
     private static final int FORM_REQUEST = 25454;
     private RelativeLayout bottomTabLayout;
 
-    private String[] relationArray = {"SELF", "CHILD", "SPOUSE", "FATHER", "MOTHER", "BROTHER", "SISTER"};
+    private String[] relationArray = {"Self", "Son", "Daughter", "Wife", "Father", "Mother", "Husband", "Other"};
 
     // show
     private CustomProgressDialog customProgressDialog;
@@ -296,10 +296,10 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
     @Override
     public void submitClick(int formNumber, Form personalInfo) {
 
-        if (profileId.equals("-1") || personalInfo.getRelation() == null)
+//        if (profileId.equals("-1") || personalInfo.getRelation() == null)
             selectRelationDialog(formNumber, personalInfo);
-        else
-            postPersonalInfo(hospitalPatId, profileId, formNumber, personalInfo);
+//        else
+//            postPersonalInfo(hospitalPatId, profileId, formNumber, personalInfo);
 
 
        /* // call api with Updated fields.
