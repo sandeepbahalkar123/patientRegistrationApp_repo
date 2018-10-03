@@ -704,27 +704,27 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                         tempFieldValidation = field;
 
-                        if (field.isCheckServerValidation()) {
-                            if (field.getLength() == editable.length()) {
+                        if (field.getLength() == editable.length()) {
 
-                                ValidateRequest validateRequest = new ValidateRequest();
-                                validateRequest.setFieldName(field.getKey());
-                                validateRequest.setFieldValue(field.getValue().getName());
-                                validateRequest.setProfileId(profileId);
+                            ValidateRequest validateRequest = new ValidateRequest();
+                            validateRequest.setFieldName(field.getKey());
+                            validateRequest.setFieldValue(field.getValue().getName());
+                            validateRequest.setProfileId(profileId);
 
-                                if (!field.getRegularExpression().isEmpty()) {
-                                    String regularExpression = field.getRegularExpression().replace("/", "");
-                                    final Pattern pattern = Pattern.compile(regularExpression);
-                                    final Matcher matcher = pattern.matcher(field.getValue().getName());
-                                    if (matcher.find()) {
+                            if (!field.getRegularExpression().isEmpty()) {
+                                String regularExpression = field.getRegularExpression().replace("/", "");
+                                final Pattern pattern = Pattern.compile(regularExpression);
+                                final Matcher matcher = pattern.matcher(field.getValue().getName());
+                                if (matcher.find()) {
+                                    if (field.isCheckServerValidation())
                                         patientHelper.validateField(validateRequest);
-                                    } else {
-                                        editTextError.setText("Please enter valid " + field.getName().toLowerCase());
-                                        textBox.setBackgroundResource(R.drawable.edittext_error_selector);
-                                    }
                                 } else {
-                                    patientHelper.validateField(validateRequest);
+                                    editTextError.setText("Please enter valid " + field.getName().toLowerCase());
+                                    textBox.setBackgroundResource(R.drawable.edittext_error_selector);
                                 }
+                            } else {
+                                if (field.isCheckServerValidation())
+                                    patientHelper.validateField(validateRequest);
                             }
                         }
                     }
@@ -1093,9 +1093,12 @@ public class PageFragment extends Fragment implements HelperResponse {
         try {
             String uploadId = new MultipartUploadRequest(getContext(), uploadUrl)
                     .addFileToUpload(filePath, "profilePhoto")
-                    .addParameter("mobileNo", mobileNumber)
-                    .addParameter("profileId", profileId)
-                    .addParameter("hospitalPatId", String.valueOf(hospitalPatId))
+                    .addHeader("mobileNo", mobileNumber)
+                    .addHeader("profileId", profileId)
+                    .addHeader("hospitalPatId", String.valueOf(hospitalPatId))
+                    .addParameter("mobileNo", mobileNumber) // optional
+                    .addParameter("profileId", profileId) // optional
+                    .addParameter("hospitalPatId", String.valueOf(hospitalPatId)) // optional
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override

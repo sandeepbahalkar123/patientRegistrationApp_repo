@@ -61,8 +61,8 @@ import static com.scorg.forms.fragments.PageFragment.PAGE_NUMBER;
 @RuntimePermissions
 public class UndertakingFragment extends Fragment {
 
-    private static final String TAG = "Undertaking";
     public static final int MAX_ATTACHMENT_COUNT = 1;
+    private static final String TAG = "Undertaking";
     private static final String PATIENT_NAME_TO_REPLACE = "patientName";
     private static final String CLINIC_NAME_TO_REPLACE = "clinicName";
 
@@ -75,7 +75,16 @@ public class UndertakingFragment extends Fragment {
     private ProfilePhotoUpdater mListener;
     private String patientName;
 //    private OnSubmitListener mListener;
+    //    private ImageView mLogo;
+    private CustomTextView mTitleTextView;
+    private CustomTextView mDateTextView;
+    private CustomTextView mContentTextView;
 
+    // Content View Elements
+    private SignaturePad mSignature_pad;
+    private CustomButton mClearButton;
+    private TextView mEditButton;
+    private TextView mPatientName;
     public UndertakingFragment() {
         // Required empty public constructor
     }
@@ -98,17 +107,6 @@ public class UndertakingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-    // Content View Elements
-
-    //    private ImageView mLogo;
-    private CustomTextView mTitleTextView;
-    private CustomTextView mDateTextView;
-    private CustomTextView mContentTextView;
-    private SignaturePad mSignature_pad;
-    private CustomButton mClearButton;
-    private TextView mEditButton;
-    private TextView mPatientName;
 
     // End Of Content View Elements
 
@@ -308,9 +306,12 @@ public class UndertakingFragment extends Fragment {
         try {
             String uploadId = new MultipartUploadRequest(getContext(), uploadUrl)
                     .addFileToUpload(filePath, "profilePhoto")
-                    .addParameter("mobileNo", mobileNumber)
-                    .addParameter("profileId", profileId)
-                    .addParameter("hospitalPatId", String.valueOf(hospitalPatId))
+                    .addHeader("mobileNo", mobileNumber)
+                    .addHeader("profileId", profileId)
+                    .addHeader("hospitalPatId", String.valueOf(hospitalPatId))
+                    .addParameter("mobileNo", mobileNumber) // optional
+                    .addParameter("profileId", profileId) // optional
+                    .addParameter("hospitalPatId", String.valueOf(hospitalPatId)) // optional
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override

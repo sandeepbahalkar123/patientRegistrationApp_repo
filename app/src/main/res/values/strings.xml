@@ -53,7 +53,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="container_fragment">Container Fragment</string>
-    <string name="back_to_mobile_screen_message">Do you wish to return on the patient login page?</string>
+    <string name="back_to_mobile_screen_message">Do you wish to return on the patient search page?</string>
     <string name="need_to_save_profile">You need to save profile info first</string>
     <string name="enter_patient_mobile_no">Enter patient\'s mobile number</string>
 
