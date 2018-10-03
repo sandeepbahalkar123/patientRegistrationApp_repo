@@ -915,7 +915,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 }
                             }
                         }
-                        return false;
+                        return v.onTouchEvent(event);
                     }
                 });
 
@@ -1158,8 +1158,13 @@ public class PageFragment extends Fragment implements HelperResponse {
                             ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataList);
                             dropDown.setAdapter(adapter);
 
+                            for (int index = 0; index < dataList.size(); index++) {
+                                if (tempFieldMasterData.getValue().getName().equals(dataList.get(index).getName())){
+                                    dropDown.setSelection(index);
+                                    break;
+                                }
+                            }
                             // set pre value
-                            dropDown.setSelection(dataList.indexOf(tempFieldMasterData.getValue()));
 
                             break;
                         }

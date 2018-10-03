@@ -24,7 +24,7 @@ import com.scorg.forms.R;
 import java.io.Serializable;
 import java.util.List;
 
-public class SearchableListDialog extends DialogFragment implements
+public class SearchableListDialog extends android.support.v4.app.DialogFragment implements
         SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     private static final String ITEMS = "items";

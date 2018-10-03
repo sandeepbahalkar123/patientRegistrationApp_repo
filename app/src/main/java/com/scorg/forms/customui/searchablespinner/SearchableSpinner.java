@@ -1,10 +1,10 @@
 package com.scorg.forms.customui.searchablespinner;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -76,6 +76,33 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (_searchableListDialog.isAdded()) {
+            return true;
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+
+            if (null != _arrayAdapter) {
+
+                // Refresh content #6
+                // Change Start
+                // Description: The items were only set initially, not reloading the data in the
+                // spinner every time it is loaded with items in the adapter.
+                _items.clear();
+                for (int i = 0; i < _arrayAdapter.getCount(); i++) {
+                    _items.add(_arrayAdapter.getItem(i));
+                }
+                // Change end.
+
+                if (!_searchableListDialog.isAdded() && _items.size() > 1)
+                    _searchableListDialog.show(scanForActivity(_context).getSupportFragmentManager(), "TAG");
+                else return true;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (_searchableListDialog.isAdded()) {
             return true;
@@ -94,7 +121,8 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
                 }
                 // Change end.
 
-                _searchableListDialog.show(scanForActivity(_context).getFragmentManager(), "TAG");
+                if (!_searchableListDialog.isAdded())
+                    _searchableListDialog.show(scanForActivity(_context).getSupportFragmentManager(), "TAG");
             }
         }
         return true;
@@ -146,11 +174,11 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
         _searchableListDialog.setOnSearchTextChangedListener(onSearchTextChanged);
     }
 
-    private Activity scanForActivity(Context cont) {
+    private AppCompatActivity scanForActivity(Context cont) {
         if (cont == null)
             return null;
-        else if (cont instanceof Activity)
-            return (Activity) cont;
+        else if (cont instanceof AppCompatActivity)
+            return (AppCompatActivity) cont;
         else if (cont instanceof ContextWrapper)
             return scanForActivity(((ContextWrapper) cont).getBaseContext());
 
