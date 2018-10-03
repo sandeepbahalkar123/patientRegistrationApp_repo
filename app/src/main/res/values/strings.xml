@@ -40,7 +40,6 @@
     <string name="log_in">Login</string>
     <string name="your_health">Your Own Healthcare Repository</string>
     <string name="enter_password">Enter password</string>
-    <string name="enter_patient_mobile_no">Enter patient mobile number</string>
     <string name="logout">Logout</string>
     <string name="logout_message">Are you sure you want to logout</string>
     <string name="cancel">Cancel</string>
@@ -56,5 +55,6 @@
     <string name="container_fragment">Container Fragment</string>
     <string name="back_to_mobile_screen_message">Do you wish to return on the patient login page?</string>
     <string name="need_to_save_profile">You need to save profile info first</string>
+    <string name="enter_patient_mobile_no">Enter patient\'s mobile number</string>
 
 </resources>

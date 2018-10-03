@@ -590,7 +590,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 int month;
                                 int day;
 
-                                if (field.getValue().getName().isEmpty()) {
+                                if (field.getValue().getName().isEmpty() || field.getName().equalsIgnoreCase("age")) {
                                     Calendar now = Calendar.getInstance();
                                     year = now.get(Calendar.YEAR);
                                     month = now.get(Calendar.MONTH);
@@ -611,7 +611,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 // As of version 2.3.0, `BottomSheetDatePickerDialog` is deprecated.
                                 datePickerDialog = DatePickerDialog.newInstance(
                                         null, year
-                                        , month - 1
+                                        , month
                                         , day);
 
                                 datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
@@ -624,7 +624,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                         public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
 
                                             if (field.getName().equalsIgnoreCase("age") || field.getName().toLowerCase().contains("age"))
-                                                textBox.setText(CommonMethods.calculateAge((monthOfYear + 1) + "/" + dayOfMonth + "/" + year, DD_MM_YYYY));
+                                                textBox.setText(CommonMethods.calculateAge(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year, DD_MM_YYYY));
                                             else {
                                                 textBox.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
 

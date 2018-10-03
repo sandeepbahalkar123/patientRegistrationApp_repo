@@ -658,7 +658,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                                 @Override
                                 public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
                                     if (field.getName().equalsIgnoreCase("age") || field.getName().toLowerCase().contains("age"))
-                                        textBox.setText(CommonMethods.calculateAge((monthOfYear + 1) + "/" + dayOfMonth + "/" + year, "MM-dd-yyyy"));
+                                        textBox.setText(CommonMethods.calculateAge(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year, DD_MM_YYYY));
                                     else {
                                         textBox.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
 

@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.scorg.forms.R;
 import com.scorg.forms.activities.PersonalInfoActivity;
 import com.scorg.forms.preference.AppPreferencesManager;
+import com.scorg.forms.util.Valid;
 
 public class NewRegistrationFragment extends Fragment {
 
@@ -57,6 +56,7 @@ public class NewRegistrationFragment extends Fragment {
         TextView clinicNameTextView = rootView.findViewById(R.id.clinicName);
 
         String clinicName = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, getContext());
+        String clinicAddress = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_ADDRESS, getContext());
         String clinicLogoBig = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_BIG_LOGO, getContext());
         String clinicTagLine = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_TAG_LINE, getContext());
         String clinicLogSmall = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_SMALL_LOGO, getContext());
@@ -69,7 +69,7 @@ public class NewRegistrationFragment extends Fragment {
         if (clinicName.isEmpty())
             clinicNameTextView.setVisibility(View.GONE);
         else
-            clinicNameTextView.setText(clinicName);
+            clinicNameTextView.setText(clinicName + (clinicAddress.isEmpty() ? "" : ", ") + clinicAddress);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.dontAnimate();
@@ -107,7 +107,7 @@ public class NewRegistrationFragment extends Fragment {
 
     private void go() {
         String mobile = mobileText.getText().toString().trim();
-//        if (Valid.validateMobileNo(mobile, getContext(), true))
+        if (Valid.validateMobileNo(mobile, getContext(), true))
             mListener.onClickGetInfo(mobile);
     }
 

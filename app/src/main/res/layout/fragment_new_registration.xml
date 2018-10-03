@@ -80,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/view_margin"
                     android:gravity="center"
+                    android:maxLength="10"
                     android:imeOptions="actionGo"
                     android:inputType="phone"
                     android:textSize="@dimen/section_title_text_size" />

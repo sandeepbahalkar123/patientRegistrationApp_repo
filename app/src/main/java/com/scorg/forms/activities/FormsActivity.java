@@ -35,10 +35,9 @@ import static com.scorg.forms.preference.AppPreferencesManager.PREFERENCES_KEY.P
 
 public class FormsActivity extends AppCompatActivity implements FormFragment.ButtonClickListener, FeedbackFormFragment.ButtonClickListener, HelperResponse, UndertakingFragment.ProfilePhotoUpdater {
 
-    private static final String TAG = "Form";
-
     public static final String FORM = "form";
     public static final String FORM_INDEX = "form_index";
+    private static final String TAG = "Form";
     private Context mContext;
     private Form form;
     private int formIndex;
@@ -72,10 +71,11 @@ public class FormsActivity extends AppCompatActivity implements FormFragment.But
         //-------
 
         String clinicName = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, mContext);
+        String clinicAddress = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_ADDRESS, mContext);
         String clinicLogoSmall = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_SMALL_LOGO, mContext);
 
         TextView titleTextView = findViewById(R.id.titleTextView);
-        titleTextView.setText(clinicName);
+        titleTextView.setText(clinicName + (clinicAddress.isEmpty() ? "" : ", ") + clinicAddress);
         //-------
         ImageView logo = findViewById(R.id.logo);
 

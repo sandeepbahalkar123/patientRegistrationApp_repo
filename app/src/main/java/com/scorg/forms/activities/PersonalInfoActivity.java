@@ -71,10 +71,10 @@ import static com.scorg.forms.preference.AppPreferencesManager.PREFERENCES_KEY.P
 
 public class PersonalInfoActivity extends AppCompatActivity implements FormFragment.ButtonClickListener, NewRegistrationFragment.OnRegistrationListener, ProfilePageFragment.ButtonClickListener, ContainerFragment.OnContainerLoadListener, HelperResponse {
 
-    private static final String TAG = "PersonalInfo";
-    private static final int FORM_REQUEST = 25454;
     public static final String PATIENT_NAME = "patient_name";
     public static final String PROFILE_ID = "profile_id";
+    private static final String TAG = "PersonalInfo";
+    private static final int FORM_REQUEST = 25454;
     private RelativeLayout bottomTabLayout;
 
     private String[] relationArray = {"SELF", "CHILD", "SPOUSE", "FATHER", "MOTHER", "BROTHER", "SISTER"};
@@ -119,6 +119,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
         toolbarTitleTextView = findViewById(R.id.toolbarTitleTextView);
 
         String clinicName = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, mContext);
+        String clinicAddress = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_ADDRESS, mContext);
         String clinicLogoSmall = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_SMALL_LOGO, mContext);
 
         RequestOptions requestOptions = new RequestOptions();
@@ -133,7 +134,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                 .apply(requestOptions)
                 .into(smallLogo);
 
-        toolbarTitleTextView.setText(clinicName);
+        toolbarTitleTextView.setText(clinicName + (clinicAddress.isEmpty() ? "" : ", ") + clinicAddress);
 
       /*  if (Device.getInstance(mContext).getDeviceType().equals(PHONE)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -575,7 +576,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
             }
         });
 
-        dialog.show();
+        if (!isFinishing())
+            dialog.show();
     }
 
     private void selectRelationDialog(final int formNumber, final Form personalInfo) {
