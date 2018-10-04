@@ -30,6 +30,7 @@ import com.scorg.forms.models.form.Page;
 import com.scorg.forms.models.form.Section;
 import com.scorg.forms.util.CommonMethods;
 import com.scorg.forms.util.Constants;
+import com.scorg.forms.util.GlideApp;
 import com.scorg.forms.util.Valid;
 
 import java.util.ArrayList;
@@ -217,7 +218,7 @@ public class FormFragment extends Fragment {
             requestOptions.error(R.drawable.ic_assignment_black);
             requestOptions.placeholder(R.drawable.ic_assignment_black);
 
-            Glide.with(getContext())
+            GlideApp.with(getContext())
                     .load(pages.get(position).getPageIcon())
                     .apply(requestOptions)
                     .into(indicatorIcon);

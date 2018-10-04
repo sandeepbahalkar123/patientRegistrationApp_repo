@@ -57,6 +57,7 @@ import com.scorg.forms.models.profile.ProfilesModel;
 import com.scorg.forms.preference.AppPreferencesManager;
 import com.scorg.forms.util.CommonMethods;
 import com.scorg.forms.util.Constants;
+import com.scorg.forms.util.GlideApp;
 
 import java.util.List;
 import java.util.Timer;
@@ -129,7 +130,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
         requestOptions.error(R.drawable.small_app);
         requestOptions.placeholder(R.drawable.small_app);
 
-        Glide.with(mContext)
+        GlideApp.with(mContext)
                 .load(clinicLogoSmall)
                 .apply(requestOptions)
                 .into(smallLogo);
@@ -714,7 +715,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
             ImageView formIcon = tabView.findViewById(R.id.formIcon);
             TextView titleTextView = tabView.findViewById(R.id.titleTextView);
 
-            Glide.with(mContext)
+            GlideApp.with(mContext)
                     .load(form.getFormIcon())
                     .apply(requestOptions)
                     .into(formIcon);

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -29,6 +30,7 @@ import com.scorg.forms.models.form.ValuesObject;
 import com.scorg.forms.preference.AppPreferencesManager;
 import com.scorg.forms.util.CommonMethods;
 import com.scorg.forms.util.Constants;
+import com.scorg.forms.util.GlideApp;
 
 import java.util.ArrayList;
 
@@ -125,7 +127,7 @@ public class ProfilePageFragment extends Fragment {
             ImageView formIcon = tabView.findViewById(R.id.formIcon);
             TextView titleTextView = tabView.findViewById(R.id.titleTextView);
 
-            Glide.with(getContext())
+            GlideApp.with(getContext())
                     .load(form.getFormIcon())
                     .apply(requestOptions)
                     .thumbnail(.5f)
@@ -377,8 +379,8 @@ public class ProfilePageFragment extends Fragment {
         requestOpt.error(R.drawable.ic_camera);
         requestOpt.placeholder(R.drawable.ic_camera);
 
-        Glide.with(getContext())
-                .load(sectionHasProfilePhoto.getProfilePhoto())
+        GlideApp.with(getActivity())
+                .load(Uri.parse(sectionHasProfilePhoto.getProfilePhoto()))
                 .apply(requestOpt)
                 .thumbnail(.5f)
                 .into(profilePhoto);

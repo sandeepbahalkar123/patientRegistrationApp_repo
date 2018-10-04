@@ -63,6 +63,7 @@ import com.scorg.forms.preference.AppPreferencesManager;
 import com.scorg.forms.util.CommonMethods;
 import com.scorg.forms.util.Config;
 import com.scorg.forms.util.Constants;
+import com.scorg.forms.util.GlideApp;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -216,7 +217,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                 requestOptions.error(R.drawable.ic_camera);
                 requestOptions.placeholder(R.drawable.ic_camera);
 
-                Glide.with(getContext())
+                GlideApp.with(getContext())
                         .load(section.getProfilePhoto())
                         .apply(requestOptions)
                         .thumbnail(.5f)
@@ -1044,7 +1045,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                     requestOptions.error(R.drawable.ic_camera);
                     requestOptions.placeholder(R.drawable.ic_camera);
 
-                    Glide.with(getContext())
+                    GlideApp.with(getContext())
                             .load(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0))
                             .apply(requestOptions)
                             .thumbnail(.5f)
@@ -1067,7 +1068,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                 requestOptions.error(R.drawable.ic_camera);
                 requestOptions.placeholder(R.drawable.ic_camera);
 
-                Glide.with(getContext())
+                GlideApp.with(getContext())
                         .load(filePath)
                         .apply(requestOptions)
                         .thumbnail(.5f)
@@ -1165,6 +1166,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 }
                             }
                             // set pre value
+
+//                            dropDown.showContextMenu();
 
                             break;
                         }

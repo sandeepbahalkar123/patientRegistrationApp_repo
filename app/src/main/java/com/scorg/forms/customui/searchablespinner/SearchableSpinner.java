@@ -75,6 +75,14 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
         }
     }
 
+    /*@Override
+    public boolean showContextMenu() {
+        if (!_searchableListDialog.isAdded())
+            _searchableListDialog.show(scanForActivity(_context).getSupportFragmentManager(), "TAG");
+
+        return super.showContextMenu();
+    }*/
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (_searchableListDialog.isAdded()) {
@@ -94,6 +102,7 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
                 }
                 // Change end.
 
+                _arrayAdapter.notifyDataSetChanged();
                 if (!_searchableListDialog.isAdded() && _items.size() > 1)
                     _searchableListDialog.show(scanForActivity(_context).getSupportFragmentManager(), "TAG");
                 else return true;

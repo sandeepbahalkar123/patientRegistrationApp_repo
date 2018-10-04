@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.scorg.forms.R;
 import com.scorg.forms.activities.PersonalInfoActivity;
 import com.scorg.forms.preference.AppPreferencesManager;
+import com.scorg.forms.util.GlideApp;
 import com.scorg.forms.util.Valid;
 
 public class NewRegistrationFragment extends Fragment {
@@ -78,7 +79,7 @@ public class NewRegistrationFragment extends Fragment {
         requestOptions.placeholder(R.drawable.imgpsh_fullsize);
         requestOptions.error(R.drawable.imgpsh_fullsize);
 
-        Glide.with(getContext())
+        GlideApp.with(getContext())
                 .load(clinicLogoBig)
                 .apply(requestOptions)
                 .into(clinicLogoBigImageView);

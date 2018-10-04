@@ -28,6 +28,7 @@ import com.scorg.forms.models.form.request.Header;
 import com.scorg.forms.preference.AppPreferencesManager;
 import com.scorg.forms.util.CommonMethods;
 import com.scorg.forms.util.Constants;
+import com.scorg.forms.util.GlideApp;
 
 import static com.scorg.forms.activities.PersonalInfoActivity.PATIENT_NAME;
 import static com.scorg.forms.activities.PersonalInfoActivity.PROFILE_ID;
@@ -88,7 +89,7 @@ public class FormsActivity extends AppCompatActivity implements FormFragment.But
         requestOptions.error(R.drawable.small_app);
         requestOptions.skipMemoryCache(true);
 
-        Glide.with(FormsActivity.this)
+        GlideApp.with(FormsActivity.this)
                 .load(clinicLogoSmall)
                 .apply(requestOptions)
                 .into(logo);
