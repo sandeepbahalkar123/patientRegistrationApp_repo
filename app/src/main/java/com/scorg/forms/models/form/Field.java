@@ -2,6 +2,7 @@ package com.scorg.forms.models.form;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -92,6 +93,9 @@ public class Field implements Parcelable, Cloneable {
     private boolean checkServerValidation;
 
     private int fieldId;
+    private int fieldParentId;
+    private int visibility = View.VISIBLE;
+
     private int errorViewId;
 //    private int otherTextBoxParentId;
     private boolean isUpdated = false;
@@ -136,6 +140,8 @@ public class Field implements Parcelable, Cloneable {
         this.key = ((String) in.readValue((String.class.getClassLoader())));
         this.dobFlow = ((boolean) in.readValue((boolean.class.getClassLoader())));
         this.fieldId = ((int) in.readValue((int.class.getClassLoader())));
+        this.fieldParentId = ((int) in.readValue((int.class.getClassLoader())));
+        this.visibility = ((int) in.readValue((int.class.getClassLoader())));
         this.errorViewId = ((int) in.readValue((int.class.getClassLoader())));
         this.isUpdated = ((boolean) in.readValue((boolean.class.getClassLoader())));
 
@@ -324,6 +330,22 @@ public class Field implements Parcelable, Cloneable {
         this.fieldId = fieldId;
     }
 
+    public int getFieldParentId() {
+        return fieldParentId;
+    }
+
+    public void setFieldParentId(int fieldParentId) {
+        this.fieldParentId = fieldParentId;
+    }
+
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
     public int getErrorViewId() {
         return errorViewId;
     }
@@ -387,12 +409,12 @@ public class Field implements Parcelable, Cloneable {
         dest.writeValue(key);
         dest.writeValue(dobFlow);
         dest.writeValue(fieldId);
+        dest.writeValue(fieldParentId);
+        dest.writeValue(visibility);
         dest.writeValue(errorViewId);
         dest.writeValue(isUpdated);
-
         dest.writeValue(regularExpression);
         dest.writeValue(checkServerValidation);
-
         dest.writeList(dataListTemp);
     }
 

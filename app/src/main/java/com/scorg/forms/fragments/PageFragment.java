@@ -39,7 +39,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
@@ -249,6 +248,9 @@ public class PageFragment extends Fragment implements HelperResponse {
             case Constants.TYPE.TEXT_BOX_GROUP: {
                 // Added Extended Layout
                 final View fieldLayout = inflater.inflate(R.layout.field_autocomplete_textbox_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
 
@@ -379,6 +381,9 @@ public class PageFragment extends Fragment implements HelperResponse {
             case Constants.TYPE.AUTO_COMPLETE: {
                 // Added Extended Layout
                 final View fieldLayout = inflater.inflate(R.layout.field_autocomplete_textbox_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
 
@@ -546,6 +551,8 @@ public class PageFragment extends Fragment implements HelperResponse {
 
             case Constants.TYPE.TEXT_BOX: {
                 View fieldLayout = inflater.inflate(R.layout.field_textbox_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
 
                 final TextView labelView = fieldLayout.findViewById(R.id.labelView);
 
@@ -741,6 +748,9 @@ public class PageFragment extends Fragment implements HelperResponse {
 
             case Constants.TYPE.RADIO_BUTTON: {
                 View fieldLayout = inflater.inflate(R.layout.field_radiobutton_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
 
@@ -789,6 +799,9 @@ public class PageFragment extends Fragment implements HelperResponse {
             }
             case Constants.TYPE.CHECKBOX: {
                 View fieldLayout = inflater.inflate(R.layout.field_checkbox_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
 
@@ -847,6 +860,8 @@ public class PageFragment extends Fragment implements HelperResponse {
             }
             case Constants.TYPE.DROPDOWN: {
                 View fieldLayout = inflater.inflate(R.layout.field_dropdown_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
 
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
@@ -938,6 +953,10 @@ public class PageFragment extends Fragment implements HelperResponse {
                             field.setValue(dataListTemp.get(position));
                             dropDownError.setText("");
                             dropDown.setBackgroundResource(R.drawable.dropdown_selector);
+
+                            if (field.getKey().toLowerCase().contains("referred_type"))
+                                manageVisibility(field, fields, mSectionsContainer);
+
                         } else if (dataListTemp.size() != 1)
                             field.setValue(new ValuesObject());
 
@@ -958,6 +977,9 @@ public class PageFragment extends Fragment implements HelperResponse {
             case Constants.TYPE.RATING_BAR: {
 
                 View fieldLayout = inflater.inflate(R.layout.field_ratingbar_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
 
@@ -1009,6 +1031,64 @@ public class PageFragment extends Fragment implements HelperResponse {
             }
         }
 
+        if (!fields.isEmpty() && fieldsIndex == fields.size() - 1) {
+            if (fields.get(0).getKey().toLowerCase().contains("referred_type"))
+                manageVisibility(fields.get(0), fields, fieldsContainer);
+        }
+    }
+
+    private void manageVisibility(Field field, ArrayList<Field> fields, View mSectionsContainer) {
+        if (field.getValue().getName().equalsIgnoreCase("doctor")) {
+            for (int index = 1; index < fields.size(); index++) {
+                View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
+                if (fields.get(index).getKey().contains("doctor")) {
+                    if (view != null)
+                        view.setVisibility(View.VISIBLE);
+                } else {
+                    if (view != null)
+                        view.setVisibility(View.GONE);
+                }
+            }
+        } else if (field.getValue().getName().equalsIgnoreCase("patient")) {
+            for (int index = 1; index < fields.size(); index++) {
+                View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
+                if (fields.get(index).getKey().contains("patient")) {
+                    if (view != null)
+                        view.setVisibility(View.VISIBLE);
+                } else {
+                    if (view != null)
+                        view.setVisibility(View.GONE);
+                }
+            }
+        } else if (field.getValue().getName().equalsIgnoreCase("person")) {
+            for (int index = 1; index < fields.size(); index++) {
+                View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
+                if (fields.get(index).getKey().contains("person")) {
+                    if (view != null)
+                        view.setVisibility(View.VISIBLE);
+                } else {
+                    if (view != null)
+                        view.setVisibility(View.GONE);
+                }
+            }
+        } else if (field.getValue().getName().isEmpty()) {
+            for (int index = 1; index < fields.size(); index++) {
+                View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
+                if (view != null)
+                    view.setVisibility(View.GONE);
+            }
+        } else {
+            for (int index = 1; index < fields.size(); index++) {
+                View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
+                if (fields.get(index).getKey().contains("description")) {
+                    if (view != null)
+                        view.setVisibility(View.VISIBLE);
+                } else {
+                    if (view != null)
+                        view.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
@@ -1162,7 +1242,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                             dropDown.setAdapter(adapter);
 
                             for (int index = 0; index < dataList.size(); index++) {
-                                if (tempFieldMasterData.getValue().getName().equals(dataList.get(index).getName())){
+                                if (tempFieldMasterData.getValue().getName().equals(dataList.get(index).getName())) {
                                     dropDown.setSelection(index);
                                     break;
                                 }
