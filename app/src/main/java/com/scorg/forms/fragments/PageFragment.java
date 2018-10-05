@@ -47,6 +47,7 @@ import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 import com.scorg.forms.R;
 import com.scorg.forms.customui.FlowLayout;
 import com.scorg.forms.customui.FlowRadioGroup;
+import com.scorg.forms.customui.searchablespinner.SearchableSpinner;
 import com.scorg.forms.helpers.PatientHelper;
 import com.scorg.forms.interfaces.CustomResponse;
 import com.scorg.forms.interfaces.HelperResponse;
@@ -242,6 +243,7 @@ public class PageFragment extends Fragment implements HelperResponse {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addField(final View fieldsContainer, final int sectionIndex, final ArrayList<Field> fields, final Field field, final int fieldsIndex, final LayoutInflater inflater, int indexToAddView) {
         switch (field.getType()) {
             case Constants.TYPE.TEXT_BOX_GROUP: {
@@ -849,7 +851,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                 TextView labelView = fieldLayout.findViewById(R.id.labelView);
                 labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
 
-                final Spinner dropDown = fieldLayout.findViewById(R.id.dropDown);
+                final SearchableSpinner dropDown = fieldLayout.findViewById(R.id.dropDown);
                 dropDown.setId(CommonMethods.generateViewId());
                 field.setFieldId(dropDown.getId());
 
@@ -866,7 +868,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                 }
 
                 if (dataListTemp.size() > 1)
-                    if (!dataListTemp.get(0).getName().toLowerCase().equals("Select"))
+                    if (!dataListTemp.get(0).getName().toLowerCase().equals("select"))
                         dataListTemp.add(0, new ValuesObject("", "Select"));
 
                 ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataListTemp);
@@ -1153,7 +1155,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                         case Constants.TYPE.DROPDOWN: {
 
                             final Spinner dropDown = mSectionsContainer.findViewById(tempFieldMasterData.getFieldId());
-                            if (!dataList.get(0).toString().toLowerCase().contains("Select"))
+                            if (!dataList.get(0).toString().toLowerCase().contains("select"))
                                 dataList.add(0, new ValuesObject("", "Select"));
 
                             ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<>(dropDown.getContext(), R.layout.dropdown_item, dataList);
@@ -1165,9 +1167,9 @@ public class PageFragment extends Fragment implements HelperResponse {
                                     break;
                                 }
                             }
-                            // set pre value
 
-//                            dropDown.showContextMenu();
+                            // set pre value
+                            dropDown.showContextMenu();
 
                             break;
                         }

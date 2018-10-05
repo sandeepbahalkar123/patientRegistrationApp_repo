@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.scorg.forms.R;
+import com.scorg.forms.util.CommonMethods;
 
 import java.io.Serializable;
 import java.util.List;
@@ -210,11 +211,21 @@ public class SearchableListDialog extends android.support.v4.app.DialogFragment 
         return true;
     }
 
+    public void updateList(List _items) {
+        listAdapter.addAll(_items);
+    }
+
     public interface SearchableItem<T> extends Serializable {
         void onSearchableItemClicked(T item, int position);
     }
 
     public interface OnSearchTextChanged {
         void onSearchTextChanged(String strText);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        CommonMethods.hideKeyboard(getActivity());
     }
 }
