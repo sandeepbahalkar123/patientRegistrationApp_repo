@@ -328,6 +328,46 @@ public class PageFragment extends Fragment implements HelperResponse {
                         // set latest value
                         field.setValue(field.getValues().get(position));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+
+                        // Autofilled things
+
+                        if (field.getKey().contains("referred_doctor_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("doctor_mobile")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getMobile());
+                                } else if (field1.getKey().contains("doctor_email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getEmail());
+                                }
+                            }
+                        }
+
+                        if (field.getKey().contains("referred_patient_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("patient_mobile")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getMobile());
+                                } else if (field1.getKey().contains("patient_email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getEmail());
+                                }
+                            }
+                        }
+
+                        if (field.getKey().contains("referred_person_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("person_mobile")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getMobile());
+                                } else if (field1.getKey().contains("person_email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getEmail());
+                                }
+                            }
+                        }
+
+                        // End Autofilled things
                     }
                 });
 
@@ -905,6 +945,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 boolean isValid = true;
 
+                                // Country, State, City and Area things
+
                                 if (fieldsIndex > 0) {
                                     if (field.getName().equalsIgnoreCase("state")) {
                                         if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
@@ -926,6 +968,8 @@ public class PageFragment extends Fragment implements HelperResponse {
                                             masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
                                     }
                                 }
+
+                                // End Country, State, City and Area things
 
                                 if (isValid) {
                                     masterDataRequest.setDataTable(field.getDataTable());
@@ -1042,50 +1086,76 @@ public class PageFragment extends Fragment implements HelperResponse {
             for (int index = 1; index < fields.size(); index++) {
                 View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
                 if (fields.get(index).getKey().contains("doctor")) {
-                    if (view != null)
-                        view.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
                 } else {
-                    if (view != null)
-                        view.setVisibility(View.GONE);
+                    fields.get(index).getValue().setId("");
+                    fields.get(index).getValue().setName("");
+                    View viewTemp = mSectionsContainer.findViewById(fields.get(index).getFieldId());
+                    if (viewTemp instanceof TextView)
+                        ((TextView) viewTemp).setText("");
+                    else if (viewTemp instanceof Spinner)
+                        ((Spinner) viewTemp).setSelection(0);
+                    view.setVisibility(View.GONE);
                 }
             }
         } else if (field.getValue().getName().equalsIgnoreCase("patient")) {
             for (int index = 1; index < fields.size(); index++) {
                 View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
                 if (fields.get(index).getKey().contains("patient")) {
-                    if (view != null)
-                        view.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
                 } else {
-                    if (view != null)
-                        view.setVisibility(View.GONE);
+                    fields.get(index).getValue().setId("");
+                    fields.get(index).getValue().setName("");
+                    View viewTemp = mSectionsContainer.findViewById(fields.get(index).getFieldId());
+                    if (viewTemp instanceof TextView)
+                        ((TextView) viewTemp).setText("");
+                    else if (viewTemp instanceof Spinner)
+                        ((Spinner) viewTemp).setSelection(0);
+                    view.setVisibility(View.GONE);
                 }
             }
         } else if (field.getValue().getName().equalsIgnoreCase("person")) {
             for (int index = 1; index < fields.size(); index++) {
                 View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
                 if (fields.get(index).getKey().contains("person")) {
-                    if (view != null)
-                        view.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
                 } else {
-                    if (view != null)
-                        view.setVisibility(View.GONE);
+                    fields.get(index).getValue().setId("");
+                    fields.get(index).getValue().setName("");
+                    View viewTemp = mSectionsContainer.findViewById(fields.get(index).getFieldId());
+                    if (viewTemp instanceof TextView)
+                        ((TextView) viewTemp).setText("");
+                    else if (viewTemp instanceof Spinner)
+                        ((Spinner) viewTemp).setSelection(0);
+                    view.setVisibility(View.GONE);
                 }
             }
         } else if (field.getValue().getName().isEmpty()) {
             for (int index = 1; index < fields.size(); index++) {
                 View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
-                if (view != null)
-                    view.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
+                fields.get(index).getValue().setId("");
+                fields.get(index).getValue().setName("");
+                View viewTemp = mSectionsContainer.findViewById(fields.get(index).getFieldId());
+                if (viewTemp instanceof TextView)
+                    ((TextView) viewTemp).setText("");
+                else if (viewTemp instanceof Spinner)
+                    ((Spinner) viewTemp).setSelection(0);
             }
         } else {
             for (int index = 1; index < fields.size(); index++) {
                 View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
                 if (fields.get(index).getKey().contains("description")) {
-                    if (view != null)
-                        view.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
                 } else {
-                    if (view != null)
-                        view.setVisibility(View.GONE);
+                    fields.get(index).getValue().setId("");
+                    fields.get(index).getValue().setName("");
+                    View viewTemp = mSectionsContainer.findViewById(fields.get(index).getFieldId());
+                    if (viewTemp instanceof TextView)
+                        ((TextView) viewTemp).setText("");
+                    else if (viewTemp instanceof Spinner)
+                        ((Spinner) viewTemp).setSelection(0);
+                    view.setVisibility(View.GONE);
                 }
             }
         }

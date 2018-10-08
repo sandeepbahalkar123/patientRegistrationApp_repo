@@ -30,20 +30,32 @@ public class ValuesObject implements Parcelable, Comparable {
     @SerializedName("name")
     @Expose
     private String name = "";
+    @SerializedName("mobile")
+    @Expose
+    private String mobile = "";
+    @SerializedName("email")
+    @Expose
+    private String email = "";
 
     protected ValuesObject(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
+        this.mobile = ((String) in.readValue((String.class.getClassLoader())));
+        this.email = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public ValuesObject(String id, String name) {
         this.id = id;
         this.name = name;
+        this.mobile = "";
+        this.email = "";
     }
 
     public ValuesObject() {
         this.id = "";
         this.name = "";
+        this.mobile = "";
+        this.email = "";
     }
 
     public String getId() {
@@ -62,6 +74,22 @@ public class ValuesObject implements Parcelable, Comparable {
         this.name = name;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return name;
@@ -70,6 +98,8 @@ public class ValuesObject implements Parcelable, Comparable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
         dest.writeValue(name);
+        dest.writeValue(mobile);
+        dest.writeValue(email);
     }
 
     public int describeContents() {
