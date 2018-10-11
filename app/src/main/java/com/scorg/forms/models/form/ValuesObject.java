@@ -75,7 +75,7 @@ public class ValuesObject implements Parcelable, Comparable {
     }
 
     public String getMobile() {
-        return mobile;
+        return mobile == null ? "" : mobile;
     }
 
     public void setMobile(String mobile) {
@@ -83,7 +83,7 @@ public class ValuesObject implements Parcelable, Comparable {
     }
 
     public String getEmail() {
-        return email;
+        return email == null ? "" : email;
     }
 
     public void setEmail(String email) {

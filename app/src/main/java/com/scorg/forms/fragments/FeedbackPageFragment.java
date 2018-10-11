@@ -196,7 +196,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                                 tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                patientHelper.getMasterDataFromAPI(masterDataRequest, true);
                             }
                         }
                     }
@@ -321,7 +321,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                                 tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                patientHelper.getMasterDataFromAPI(masterDataRequest, true);
                             }
                         }
                     }
@@ -535,7 +535,7 @@ public class FeedbackPageFragment extends Fragment implements HelperResponse {
                         tempFieldMasterData = field;
                         MasterDataRequest masterDataRequest = new MasterDataRequest();
                         masterDataRequest.setDataTable(field.getDataTable());
-                        patientHelper.getMasterDataFromAPI(masterDataRequest);
+                        patientHelper.getMasterDataFromAPI(masterDataRequest, true);
                     }
                 }
                 return false;

@@ -40,8 +40,8 @@ dependencies {
         exclude module: "support-v13"
     }
 
-    implementation 'com.mcxiaoke.volley:library:1.0.19'
-
+//    implementation 'com.mcxiaoke.volley:library:1.0.19'
+    implementation 'dev.dworks.libs:volleyplus:+'
     implementation 'net.danlew:android.joda:2.9.9'
     implementation 'com.github.gcacace:signature-pad:1.2.1'
 

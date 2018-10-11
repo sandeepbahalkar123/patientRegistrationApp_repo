@@ -123,6 +123,7 @@ public class PageFragment extends Fragment implements HelperResponse {
     private Field tempFieldMasterData;
     private Field tempFieldValidation;
     private String profileId;
+    private boolean isAutoCompleteSelected = false;
 
     public PageFragment() {
     }
@@ -328,46 +329,6 @@ public class PageFragment extends Fragment implements HelperResponse {
                         // set latest value
                         field.setValue(field.getValues().get(position));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
-
-                        // Autofilled things
-
-                        if (field.getKey().contains("referred_doctor_name")) {
-                            for (Field field1 : fields) {
-                                if (field1.getKey().contains("doctor_mobile")) {
-                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
-                                    mobileTextView.setText(field.getValue().getMobile());
-                                } else if (field1.getKey().contains("doctor_email")) {
-                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
-                                    mobileTextView.setText(field.getValue().getEmail());
-                                }
-                            }
-                        }
-
-                        if (field.getKey().contains("referred_patient_name")) {
-                            for (Field field1 : fields) {
-                                if (field1.getKey().contains("patient_mobile")) {
-                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
-                                    mobileTextView.setText(field.getValue().getMobile());
-                                } else if (field1.getKey().contains("patient_email")) {
-                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
-                                    mobileTextView.setText(field.getValue().getEmail());
-                                }
-                            }
-                        }
-
-                        if (field.getKey().contains("referred_person_name")) {
-                            for (Field field1 : fields) {
-                                if (field1.getKey().contains("person_mobile")) {
-                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
-                                    mobileTextView.setText(field.getValue().getMobile());
-                                } else if (field1.getKey().contains("person_email")) {
-                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
-                                    mobileTextView.setText(field.getValue().getEmail());
-                                }
-                            }
-                        }
-
-                        // End Autofilled things
                     }
                 });
 
@@ -379,7 +340,7 @@ public class PageFragment extends Fragment implements HelperResponse {
                                 tempFieldMasterData = field;
                                 MasterDataRequest masterDataRequest = new MasterDataRequest();
                                 masterDataRequest.setDataTable(field.getDataTable());
-                                patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                patientHelper.getMasterDataFromAPI(masterDataRequest, true);
                             }
                         }
                     }
@@ -470,6 +431,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
+
                         editTextError.setText("");
                         textBox.setBackgroundResource(R.drawable.edittext_selector);
 
@@ -483,6 +445,26 @@ public class PageFragment extends Fragment implements HelperResponse {
                         // set latest value
                         field.setValue(new ValuesObject("", String.valueOf(editable).trim()));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+
+                        if (field.getKey().contains("referred_doctor_name") || field.getKey().contains("referred_patient_name")) {
+                            if (editable.length() > 2) {
+                                tempFieldMasterData = field;
+                                MasterDataRequest masterDataRequest = new MasterDataRequest();
+                                masterDataRequest.setSelectedValue(editable.toString());
+                                masterDataRequest.setDataTable(field.getDataTable());
+                                patientHelper.getMasterDataFromAPI(masterDataRequest, false);
+                            }
+                        }
+
+                        if (field.getKey().contains("referred_doctor_name") || field.getKey().contains("referred_patient_name") || field.getKey().contains("referred_person_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("mobile") || field1.getKey().contains("email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    if (mobileTextView != null)
+                                        mobileTextView.setEnabled(true);
+                                }
+                            }
+                        }
                     }
                 });
 
@@ -495,6 +477,49 @@ public class PageFragment extends Fragment implements HelperResponse {
                         // set latest value
                         field.setValue((ValuesObject) textBox.getAdapter().getItem(position));
                         field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+
+                        // Autofilled things
+
+                        if (field.getKey().contains("referred_doctor_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("doctor_mobile")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getMobile());
+                                    mobileTextView.setEnabled(field.getValue().getMobile().isEmpty());
+                                } else if (field1.getKey().contains("doctor_email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getEmail());
+                                    mobileTextView.setEnabled(field.getValue().getEmail().isEmpty());
+                                }
+                            }
+                        } else if (field.getKey().contains("referred_patient_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("patient_mobile")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getMobile());
+                                    mobileTextView.setEnabled(field.getValue().getMobile().isEmpty());
+                                } else if (field1.getKey().contains("patient_email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getEmail());
+                                    mobileTextView.setEnabled(field.getValue().getEmail().isEmpty());
+                                }
+                            }
+                        } else if (field.getKey().contains("referred_person_name")) {
+                            for (Field field1 : fields) {
+                                if (field1.getKey().contains("person_mobile")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getMobile());
+                                    mobileTextView.setEnabled(field.getValue().getMobile().isEmpty());
+                                } else if (field1.getKey().contains("person_email")) {
+                                    TextView mobileTextView = mSectionsContainer.findViewById(field1.getFieldId());
+                                    mobileTextView.setText(field.getValue().getEmail());
+                                    mobileTextView.setEnabled(field.getValue().getEmail().isEmpty());
+                                }
+                            }
+                        }
+
+                        // End Autofilled things
+                        isAutoCompleteSelected = true;
                     }
                 });
 
@@ -508,46 +533,51 @@ public class PageFragment extends Fragment implements HelperResponse {
                     }
                 });
 
-                textBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (hasFocus) {
-                            if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty()) {
-                                tempFieldMasterData = field;
-                                MasterDataRequest masterDataRequest = new MasterDataRequest();
-                                boolean isValid = true;
 
-                                if (fieldsIndex > 0) {
-                                    if (field.getName().equalsIgnoreCase("state")) {
-                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
-                                            Toast.makeText(getContext(), "Please select country first.", Toast.LENGTH_SHORT).show();
-                                            isValid = false;
-                                        } else
-                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
-                                    } else if (field.getName().equalsIgnoreCase("city")) {
-                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
-                                            Toast.makeText(getContext(), "Please select state first.", Toast.LENGTH_SHORT).show();
-                                            isValid = false;
-                                        } else
-                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
-                                    } else if (field.getName().equalsIgnoreCase("area")) {
-                                        if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
-                                            Toast.makeText(getContext(), "Please select city first.", Toast.LENGTH_SHORT).show();
-                                            isValid = false;
-                                        } else
-                                            masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                if (field.getKey().contains("referred_doctor_name") || field.getKey().contains("referred_patient_name")) {
+                    textBox.setThreshold(3);
+                } else {
+
+                    textBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View view, boolean hasFocus) {
+                            if (hasFocus) {
+                                if (!field.getDataTable().isEmpty() && dataListTemp.isEmpty()) {
+                                    tempFieldMasterData = field;
+                                    MasterDataRequest masterDataRequest = new MasterDataRequest();
+                                    boolean isValid = true;
+
+                                    if (fieldsIndex > 0) {
+                                        if (field.getName().equalsIgnoreCase("state")) {
+                                            if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                                Toast.makeText(getContext(), "Please select country first.", Toast.LENGTH_SHORT).show();
+                                                isValid = false;
+                                            } else
+                                                masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                        } else if (field.getName().equalsIgnoreCase("city")) {
+                                            if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                                Toast.makeText(getContext(), "Please select state first.", Toast.LENGTH_SHORT).show();
+                                                isValid = false;
+                                            } else
+                                                masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                        } else if (field.getName().equalsIgnoreCase("area")) {
+                                            if (fields.get(fieldsIndex - 1).getValue().getName().isEmpty()) {
+                                                Toast.makeText(getContext(), "Please select city first.", Toast.LENGTH_SHORT).show();
+                                                isValid = false;
+                                            } else
+                                                masterDataRequest.setSelectedValue(fields.get(fieldsIndex - 1).getValue().getId());
+                                        }
                                     }
-                                }
 
-                                if (isValid) {
-                                    masterDataRequest.setDataTable(field.getDataTable());
-                                    patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                    if (isValid) {
+                                        masterDataRequest.setDataTable(field.getDataTable());
+                                        patientHelper.getMasterDataFromAPI(masterDataRequest, true);
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-
+                    });
+                }
                 switch (field.getInputType()) {
                     case Constants.INPUT_TYPE.EMAIL:
                         textBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -973,7 +1003,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                                 if (isValid) {
                                     masterDataRequest.setDataTable(field.getDataTable());
-                                    patientHelper.getMasterDataFromAPI(masterDataRequest);
+                                    patientHelper.getMasterDataFromAPI(masterDataRequest, true);
                                 }
                             }
                         }
@@ -1081,7 +1111,8 @@ public class PageFragment extends Fragment implements HelperResponse {
         }
     }
 
-    private void manageVisibility(Field field, ArrayList<Field> fields, View mSectionsContainer) {
+    private void manageVisibility(Field field, ArrayList<Field> fields, View
+            mSectionsContainer) {
         if (field.getValue().getName().equalsIgnoreCase("doctor")) {
             for (int index = 1; index < fields.size(); index++) {
                 View view = mSectionsContainer.findViewById(fields.get(index).getFieldParentId());
@@ -1179,7 +1210,8 @@ public class PageFragment extends Fragment implements HelperResponse {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PageFragmentPermissionsDispatcher.onRequestPermissionsResult(PageFragment.this, requestCode, grantResults);
     }
@@ -1293,10 +1325,16 @@ public class PageFragment extends Fragment implements HelperResponse {
             if (masterDataModel.getCommon().isSuccess()) {
                 final ArrayList<ValuesObject> dataList = tempFieldMasterData.getDataListTemp();
 
-                if ((dataList.isEmpty() || dataList.size() == 1) && !masterDataModel.getData().getMasterData().isEmpty()) {
+                if (tempFieldMasterData.getKey().contains("referred_doctor_name") || tempFieldMasterData.getKey().contains("referred_patient_name")) {
                     dataList.clear();
                     for (ValuesObject object : masterDataModel.getData().getMasterData())
                         dataList.add(object);
+                } else {
+                    if ((dataList.isEmpty() || dataList.size() == 1) && !masterDataModel.getData().getMasterData().isEmpty()) {
+                        dataList.clear();
+                        for (ValuesObject object : masterDataModel.getData().getMasterData())
+                            dataList.add(object);
+                    }
                 }
 
                 if (!dataList.isEmpty()) {
@@ -1326,12 +1364,17 @@ public class PageFragment extends Fragment implements HelperResponse {
 
                         case Constants.TYPE.AUTO_COMPLETE:
                         case Constants.TYPE.TEXT_BOX_GROUP: {
+                            if (!isAutoCompleteSelected) {
+                                final AutoCompleteTextView textBox = mSectionsContainer.findViewById(tempFieldMasterData.getFieldId());
+                                ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
+                                        android.R.layout.simple_dropdown_item_1line, dataList);
+                                textBox.setAdapter(adapter);
 
-                            final AutoCompleteTextView textBox = mSectionsContainer.findViewById(tempFieldMasterData.getFieldId());
+                                if (tempFieldMasterData.getKey().contains("referred_doctor_name") || tempFieldMasterData.getKey().contains("referred_patient_name"))
+                                    textBox.showDropDown();
+                            }
 
-                            ArrayAdapter<ValuesObject> adapter = new ArrayAdapter<ValuesObject>(getContext(),
-                                    android.R.layout.simple_dropdown_item_1line, dataList);
-                            textBox.setAdapter(adapter);
+                            isAutoCompleteSelected = false;
 
                             break;
                         }
@@ -1356,6 +1399,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
     @Override
     public void onParseError(String mOldDataTag, String errorMessage) {
+        isAutoCompleteSelected = false;
         if (mOldDataTag.equals(VALIDATE_FIELD)) {
             final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
             editText.setText("");
@@ -1365,6 +1409,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
     @Override
     public void onServerError(String mOldDataTag, String serverErrorMessage) {
+        isAutoCompleteSelected = false;
         if (mOldDataTag.equals(VALIDATE_FIELD)) {
             final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
             editText.setText("");
@@ -1374,6 +1419,7 @@ public class PageFragment extends Fragment implements HelperResponse {
 
     @Override
     public void onNoConnectionError(String mOldDataTag, String serverErrorMessage) {
+        isAutoCompleteSelected = false;
         if (mOldDataTag.equals(VALIDATE_FIELD)) {
             final EditText editText = mSectionsContainer.findViewById(tempFieldValidation.getFieldId());
             editText.setText("");

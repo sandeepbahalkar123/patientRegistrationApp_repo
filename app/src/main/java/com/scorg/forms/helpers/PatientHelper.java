@@ -107,8 +107,8 @@ public class PatientHelper implements ConnectionListener {
         mConnectionFactory.createConnection(GET_REGISTERED_USER);
     }
 
-    public void getMasterDataFromAPI(MasterDataRequest masterDataRequest) {
-        ConnectionFactory mConnectionFactory = new ConnectionFactory(mContext, this, null, true, GET_MASTER_DATA, Request.Method.POST, false);
+    public void getMasterDataFromAPI(MasterDataRequest masterDataRequest, boolean isProgress) {
+        ConnectionFactory mConnectionFactory = new ConnectionFactory(mContext, this, null, isProgress, GET_MASTER_DATA, Request.Method.POST, false);
         mConnectionFactory.setHeaderParams();
         mConnectionFactory.setPostParams(masterDataRequest);
         mConnectionFactory.setUrl(Config.GET_MASTER_DATA);
