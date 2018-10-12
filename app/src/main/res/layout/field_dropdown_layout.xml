@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.scorg.forms.customui.searchablespinner.SearchableSpinner
+            <com.scorg.regform.customui.searchablespinner.SearchableSpinner
                 android:id="@+id/dropDown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
 
         </LinearLayout>
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/dropDownError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

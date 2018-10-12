@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".fragments.PageFragment">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

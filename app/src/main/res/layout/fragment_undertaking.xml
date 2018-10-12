@@ -7,7 +7,7 @@
     android:clickable="false"
     tools:context=".fragments.UndertakingFragment">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/titleTextView"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/ic_camera" />
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/editButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
 
         </LinearLayout>
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:layout_above="@+id/signaturePadLayout">
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/contentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
             app:penMaxWidth="2.5dp"
             app:penMinWidth=".5dp" />
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -121,7 +121,7 @@
             android:text="@string/digital_signature"
             android:textSize="28sp" />
 
-        <com.scorg.forms.customui.CustomButton
+        <com.scorg.regform.customui.CustomButton
             android:id="@+id/clearButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
 
     </RelativeLayout>
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/patientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

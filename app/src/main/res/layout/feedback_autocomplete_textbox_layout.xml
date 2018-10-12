@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.scorg.forms.customui.CustomAutoCompleteEditText
+                <com.scorg.regform.customui.CustomAutoCompleteEditText
                     android:id="@+id/editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
 
             </RelativeLayout>
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/editTextError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

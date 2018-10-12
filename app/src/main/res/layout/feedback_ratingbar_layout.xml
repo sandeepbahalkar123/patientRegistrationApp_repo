@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 tools:rating="2.5"
                 tools:visibility="visible" />
 
-            <com.scorg.forms.customui.CustomEditText
+            <com.scorg.regform.customui.CustomEditText
                 android:id="@+id/ratingReasonTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/editTextError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -29,7 +29,7 @@
 
         </android.support.v7.widget.AppCompatImageView>
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/mobileText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

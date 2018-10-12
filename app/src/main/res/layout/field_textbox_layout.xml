@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:orientation="vertical"
         android:paddingTop="@dimen/field_padding_top">
 
-        <com.scorg.forms.customui.CustomEditText
+        <com.scorg.regform.customui.CustomEditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:textSize="@dimen/field_text_size"
             tools:text="Ganesh Shirole" />
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/editTextError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

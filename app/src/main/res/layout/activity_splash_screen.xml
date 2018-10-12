@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/vector_smart_object" />
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

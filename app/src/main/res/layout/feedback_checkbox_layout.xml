@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:paddingTop="@dimen/dp12"
             tools:visibility="visible">
 
-            <com.scorg.forms.customui.CustomEditText
+            <com.scorg.regform.customui.CustomEditText
                 android:id="@+id/otherTextBox"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -47,7 +47,7 @@
                 android:hint="@string/others"
                 android:inputType="textMultiLine" />
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/unitTextView"
                 android:layout_width="0dp"
                 android:layout_weight=".7"
@@ -59,7 +59,7 @@
 
         </LinearLayout>
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/checkBoxGroupError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

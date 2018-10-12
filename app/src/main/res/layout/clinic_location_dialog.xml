@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/rounded_back_white">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:orientation="vertical"
         android:padding="@dimen/dp40">
 
-        <com.scorg.forms.customui.searchablespinner.SearchableSpinner
+        <com.scorg.regform.customui.searchablespinner.SearchableSpinner
             android:id="@+id/dropDownClinic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:orientation="horizontal"
             android:textSize="@dimen/field_text_size" />
 
-        <com.scorg.forms.customui.searchablespinner.SearchableSpinner
+        <com.scorg.regform.customui.searchablespinner.SearchableSpinner
             android:id="@+id/dropDownLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
 
     </LinearLayout>
 
-    <com.scorg.forms.customui.CustomButton
+    <com.scorg.regform.customui.CustomButton
         android:id="@+id/okButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

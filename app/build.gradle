@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
     defaultConfig {
-        applicationId "com.scorg.forms"
+        applicationId "com.scorg.regform"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1

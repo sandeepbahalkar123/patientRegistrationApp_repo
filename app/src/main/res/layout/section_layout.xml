@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/sectionTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@drawable/ic_camera" />
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/editButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             android:visibility="gone"
             android:gravity="center_horizontal">
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/mobileText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

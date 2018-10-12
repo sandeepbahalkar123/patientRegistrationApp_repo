@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             tools:visibility="visible"
             app:mrb_progressTint="@color/register_button"/>
 
-        <com.scorg.forms.customui.CustomEditText
+        <com.scorg.regform.customui.CustomEditText
             android:id="@+id/ratingReasonTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:hint="@string/rating_reason"
             android:visibility="gone" />
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/editTextError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

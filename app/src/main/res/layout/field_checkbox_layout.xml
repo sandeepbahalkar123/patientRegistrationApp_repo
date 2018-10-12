@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/labelView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -25,14 +25,14 @@
         android:orientation="vertical"
         android:paddingTop="@dimen/field_padding_top">
 
-        <com.scorg.forms.customui.FlowLayout
+        <com.scorg.regform.customui.FlowLayout
             android:id="@+id/checkBoxGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal" />
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/checkBoxGroupError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

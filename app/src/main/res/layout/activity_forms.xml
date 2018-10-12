@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/tab_unfilled_color"
     android:fitsSystemWindows="true"
-    tools:context="com.scorg.forms.activities.FormsActivity">
+    tools:context="com.scorg.regform.activities.FormsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 android:layout_toRightOf="@+id/backButton"
                 app:srcCompat="@drawable/ic_assignment" />
 
-            <com.scorg.forms.customui.CustomTextView
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

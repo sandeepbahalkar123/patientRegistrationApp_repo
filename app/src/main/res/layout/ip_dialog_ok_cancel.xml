@@ -13,7 +13,7 @@
         android:background="@drawable/rounded_back_white"
         android:orientation="vertical">
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:id="@+id/textView_dialog_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:textSize="@dimen/field_text_size"
             tools:text="@string/app_name" />
 
-        <com.scorg.forms.customui.CustomEditText
+        <com.scorg.regform.customui.CustomEditText
             android:id="@+id/et_server_path"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@color/white" />
 
-            <com.scorg.forms.customui.CustomButton
+            <com.scorg.regform.customui.CustomButton
                 android:id="@+id/button_ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:text="@string/ok"
                 android:textColor="@color/white" />
 
-            <com.scorg.forms.customui.CustomButton
+            <com.scorg.regform.customui.CustomButton
                 android:id="@+id/button_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

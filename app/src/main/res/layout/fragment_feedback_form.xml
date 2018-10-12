@@ -5,9 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context="com.scorg.forms.fragments.FeedbackFormFragment">
+    tools:context="com.scorg.regform.fragments.FeedbackFormFragment">
 
-    <com.scorg.forms.customui.CustomTextView
+    <com.scorg.regform.customui.CustomTextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         app:customFont="@string/roboto_medium"
         tools:text="@string/feedback" />
 
-    <com.scorg.forms.customui.CustomViewPager
+    <com.scorg.regform.customui.CustomViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,7 +32,7 @@
         android:paddingBottom="@dimen/dp10"
         android:paddingTop="@dimen/view_margin">
 
-        <com.scorg.forms.customui.CustomButton
+        <com.scorg.regform.customui.CustomButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="42dp"
@@ -44,7 +44,7 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/button_text_size" />
 
-        <com.scorg.forms.customui.CustomButton
+        <com.scorg.regform.customui.CustomButton
             android:id="@+id/nextButton"
             android:layout_width="wrap_content"
             android:layout_height="42dp"
@@ -56,7 +56,7 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/button_text_size" />
 
-        <com.scorg.forms.customui.CustomButton
+        <com.scorg.regform.customui.CustomButton
             android:id="@+id/submitEditButton"
             android:layout_width="wrap_content"
             android:layout_height="42dp"

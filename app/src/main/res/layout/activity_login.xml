@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="@color/white"
-    tools:context="com.scorg.forms.activities.LoginActivity">
+    tools:context="com.scorg.regform.activities.LoginActivity">
 
     <android.support.v4.widget.Space
         android:layout_width="0dp"
@@ -28,7 +28,7 @@
             android:paddingEnd="@dimen/view_margin"
             android:src="@drawable/vector_smart_object" />
 
-        <com.scorg.forms.customui.CustomTextView
+        <com.scorg.regform.customui.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.scorg.forms.customui.CustomEditText
+            <com.scorg.regform.customui.CustomEditText
                 android:id="@+id/userNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/section_title_text_size"/>
 
-            <com.scorg.forms.customui.CustomEditText
+            <com.scorg.regform.customui.CustomEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp80"/>
 
-            <com.scorg.forms.customui.CustomButton
+            <com.scorg.regform.customui.CustomButton
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
