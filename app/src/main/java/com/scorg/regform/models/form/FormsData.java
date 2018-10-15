@@ -13,6 +13,9 @@ public class FormsData implements Parcelable {
     @SerializedName("isRegisteredUser")
     @Expose
     private boolean isRegisteredUser;
+    @SerializedName("isDead")
+    @Expose
+    private boolean isDead;
     @SerializedName("isClinicReg")
     @Expose
     private boolean isClinicReg;
@@ -38,7 +41,8 @@ public class FormsData implements Parcelable {
     };
 
     protected FormsData(Parcel in) {
-        this.isRegisteredUser = ((boolean) in.readValue((String.class.getClassLoader())));
+        this.isDead = ((boolean) in.readValue((boolean.class.getClassLoader())));
+        this.isRegisteredUser = ((boolean) in.readValue((boolean.class.getClassLoader())));
         this.isClinicReg = ((boolean) in.readValue((String.class.getClassLoader())));
         this.personalInfo = ((Form) in.readValue((Form.class.getClassLoader())));
         in.readList(this.forms, (Form.class.getClassLoader()));
@@ -63,6 +67,14 @@ public class FormsData implements Parcelable {
         this.forms = forms;
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
     public boolean isRegisteredUser() {
         return isRegisteredUser;
     }
@@ -80,6 +92,7 @@ public class FormsData implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(isDead);
         dest.writeValue(isRegisteredUser);
         dest.writeValue(isClinicReg);
         dest.writeValue(personalInfo);

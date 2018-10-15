@@ -434,6 +434,11 @@ public class RequestManager extends ConnectRequest implements Connector, Request
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, loginModel, mOldDataTag);
                         break;
 
+                    case Constants.GET_REGIST_FORM: // This is for get archived list
+                        LoginModel loginModel1 = gson.fromJson(data, LoginModel.class);
+                        this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, loginModel1, mOldDataTag);
+                        break;
+
                     case Constants.TASK_CHECK_SERVER_CONNECTION: //This is for get archived list
                         IpTestResponseModel ipTestResponseModel = gson.fromJson(data, IpTestResponseModel.class);
                         this.mConnectionListener.onResponse(ConnectionListener.RESPONSE_OK, ipTestResponseModel, mOldDataTag);

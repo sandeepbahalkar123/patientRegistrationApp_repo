@@ -16,6 +16,19 @@
             android:layout_height="wrap_content">
 
             <com.scorg.regform.customui.CustomTextView
+                android:id="@+id/deadTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/dp10"
+                android:textColor="@color/red"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textSize="@dimen/title_text_size"
+                app:customFont="@string/roboto_medium"
+                android:text="Deceased Patient" />
+
+            <com.scorg.regform.customui.CustomTextView
                 android:id="@+id/titleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

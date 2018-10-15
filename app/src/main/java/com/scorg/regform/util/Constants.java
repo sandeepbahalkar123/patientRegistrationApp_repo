@@ -53,6 +53,7 @@ public class Constants {
     public static final String SAVE_FORM_DATA = Constants.BLANK + 6;
     public static final String GET_REGISTERED_USER = Constants.BLANK + 7;
     public static final String VALIDATE_FIELD = Constants.BLANK + 8;
+    public static final String GET_REGIST_FORM = Constants.BLANK + 9;
     public static final Integer SUCCESS = 200;
 
     public interface INPUT_TYPE {

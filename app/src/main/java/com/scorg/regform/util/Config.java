@@ -18,6 +18,7 @@ public class Config {
     public static final String SAVE_PATIENT_DATA = "PatientService/savePatient";
     public static final String SAVE_FORM_DATA = "PatientService/saveForm";
     public static final String VALIDATE_FIELD = "PatientService/validateField";
+    public static final String GET_REGISTRATION_FORM = "PatientService/getRegistrationForm?";
 }
 
 

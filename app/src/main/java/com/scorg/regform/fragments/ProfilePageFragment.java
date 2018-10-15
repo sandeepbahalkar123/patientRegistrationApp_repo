@@ -94,6 +94,7 @@ public class ProfilePageFragment extends Fragment {
         //------------
 
         TextView editButton = rootView.findViewById(R.id.editButton);
+        TextView deadTextView = rootView.findViewById(R.id.deadTextView);
         Drawable leftDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.ic_edit);
         editButton.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
 
@@ -103,6 +104,14 @@ public class ProfilePageFragment extends Fragment {
                 mListener.editClick(20);
             }
         });
+
+        if (formsData.isDead()) {
+            editButton.setVisibility(View.GONE);
+            deadTextView.setVisibility(View.VISIBLE);
+        } else {
+            editButton.setVisibility(View.VISIBLE);
+            deadTextView.setVisibility(View.GONE);
+        }
 
         /// Form Tab
 

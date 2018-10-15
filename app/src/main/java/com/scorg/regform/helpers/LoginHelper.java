@@ -37,6 +37,10 @@ public class LoginHelper implements ConnectionListener {
                         LoginModel loginModel = (LoginModel) customResponse;
                         mHelperResponseManager.onSuccess(mOldDataTag, loginModel);
                         break;
+                    case Constants.GET_REGIST_FORM:
+                        LoginModel loginModel1 = (LoginModel) customResponse;
+                        mHelperResponseManager.onSuccess(mOldDataTag, loginModel1);
+                        break;
                     case Constants.TASK_CHECK_SERVER_CONNECTION:
                         mHelperResponseManager.onSuccess(mOldDataTag, customResponse);
                         break;
@@ -75,6 +79,14 @@ public class LoginHelper implements ConnectionListener {
         mConnectionFactory.setPostParams(loginRequestModel);
         mConnectionFactory.setUrl(Config.LOGIN_URL);
         mConnectionFactory.createConnection(Constants.TASK_LOGIN);
+    }
+
+    //Do login using mobileNo and password
+    public void getRegistrationForm(String docId, String clinicId, String locationId) {
+        ConnectionFactory mConnectionFactory = new ConnectionFactory(mContext, this, null, true, Constants.GET_REGIST_FORM, Request.Method.GET, false);
+        mConnectionFactory.setHeaderParams();
+        mConnectionFactory.setUrl(Config.GET_REGISTRATION_FORM + "docId=" + docId + "&clinicId=" + clinicId + "&locationId=" + locationId);
+        mConnectionFactory.createConnection(Constants.GET_REGIST_FORM);
     }
 
     public void checkConnectionToServer(String serverPath) {

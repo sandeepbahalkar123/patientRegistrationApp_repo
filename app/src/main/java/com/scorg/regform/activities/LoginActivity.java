@@ -34,16 +34,25 @@ import com.scorg.regform.util.Constants;
 
 import java.util.ArrayList;
 
+import static com.scorg.regform.util.Constants.SUCCESS;
+
 public class LoginActivity extends AppCompatActivity implements HelperResponse {
 
     // Content View Elements
 
+    public ClinicLocationBrandingInfo clinicLocInfo;
+    public ClinicList clinicD;
     private CustomEditText mUserNameEditText;
     private CustomEditText mPasswordEditText;
     private CustomButton mLoginButton;
     private Context mContext;
+    private LoginHelper loginHelper;
+    private int docId;
+    private String docName;
 
     // End Of Content View Elements
+    private ClinicLocationBrandingInfo clinicLocationBrandingInfo;
+    private ClinicList clinicDetails;
 
     private void bindViews() {
         mUserNameEditText = findViewById(R.id.userNameEditText);
@@ -51,13 +60,12 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
         mLoginButton = findViewById(R.id.loginButton);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         mContext = LoginActivity.this;
+        loginHelper = new LoginHelper(mContext);
 
         bindViews();
 
@@ -84,7 +92,6 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
         String username = mUserNameEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
         if (validate(username, password)) {
-            LoginHelper loginHelper = new LoginHelper(mContext);
             loginHelper.doLogin(username, password);
         }
     }
@@ -137,10 +144,25 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
             } else {
                 CommonMethods.showToast(mContext, loginModel.getCommon().getStatusMessage());
             }
+        } else if (mOldDataTag.equalsIgnoreCase(Constants.GET_REGIST_FORM)) {
+            LoginModel loginModel = (LoginModel) customResponse;
+            if (loginModel.getCommon().getStatusCode().equals(SUCCESS))
+                nextScreen();
+            else CommonMethods.showToast(mContext, loginModel.getCommon().getStatusMessage());
         }
     }
 
+    // Selection
+
     private void storeInfo(int docId, String docName, ClinicList clinicDetails, ClinicLocationBrandingInfo clinicLocationBrandingInfo) {
+        this.docId = docId;
+        this.docName = docName;
+        this.clinicDetails = clinicDetails;
+        this.clinicLocationBrandingInfo = clinicLocationBrandingInfo;
+        loginHelper.getRegistrationForm(String.valueOf(docId), String.valueOf(clinicDetails.getClinicId()), String.valueOf(clinicLocationBrandingInfo.getLocationId()));
+    }
+
+    private void nextScreen() {
 
         AppPreferencesManager.putInt(AppPreferencesManager.CLINIC_KEY.CLINIC_ID, clinicDetails.getClinicId(), mContext);
         AppPreferencesManager.putString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, clinicDetails.getClinicName(), mContext);
@@ -162,11 +184,6 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
         startActivity(intentObj);
         finish();
     }
-
-    // Selection
-
-    public ClinicLocationBrandingInfo clinicLocInfo;
-    public ClinicList clinicDetails;
 
     public void showLocationDialog(final int docId, final String drName, final ArrayList<ClinicList> clinicList) {
 
@@ -212,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
 
                             if (position != 0) {
                                 // set latest value
-                                clinicDetails = clinicL;
+                                clinicD = clinicL;
                                 clinicLocInfo = clinicL.getClinicLocationBrandingInfo().get(position);
                             } else clinicLocInfo = null;
                         }
@@ -234,11 +251,10 @@ public class LoginActivity extends AppCompatActivity implements HelperResponse {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (clinicDetails != null && clinicLocInfo != null) {
+                if (clinicD != null && clinicLocInfo != null) {
                     dialog.dismiss();
-                    storeInfo(docId, drName, clinicDetails, clinicLocInfo);
-                }
-                else
+                    storeInfo(docId, drName, clinicD, clinicLocInfo);
+                } else
                     CommonMethods.showToast(okButton.getContext(), "Please Select Clinic and Location");
             }
         });

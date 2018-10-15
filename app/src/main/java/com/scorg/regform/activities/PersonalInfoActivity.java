@@ -26,6 +26,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -529,8 +530,10 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
                     AppPreferencesManager.putString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, profileId, mContext);
                     AppPreferencesManager.putInt(AppPreferencesManager.PREFERENCES_KEY.HOSPITAL_PAT_ID, Integer.parseInt(hospitalPatId), mContext);
                     addProfileFragment();
-                } else
-                    CommonMethods.showToast(mContext, commonResPersonal.getCommon().getStatusMessage());
+                }
+
+                Toast.makeText(mContext,  commonResPersonal.getCommon().getStatusMessage(), Toast.LENGTH_LONG).show();
+
                 break;
         }
     }
