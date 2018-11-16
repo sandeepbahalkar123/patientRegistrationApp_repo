@@ -161,7 +161,7 @@ public class RequestManager extends ConnectRequest implements Connector, Request
 
         {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 if (headerParams == null) {
                     return Collections.emptyMap();
                 } else {
@@ -211,7 +211,7 @@ public class RequestManager extends ConnectRequest implements Connector, Request
 
         {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 if (mHeaderParams == null) {
                     return Collections.emptyMap();
                 } else {
@@ -248,12 +248,12 @@ public class RequestManager extends ConnectRequest implements Connector, Request
                 }
         ) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 return headerParams;
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 return postParams;
             }
         };

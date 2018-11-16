@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.content.res.AppCompatResources;
@@ -19,6 +20,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,8 +34,12 @@ import com.google.gson.Gson;
 import com.scorg.regform.R;
 import com.scorg.regform.customui.CustomButton;
 import com.scorg.regform.customui.CustomTextView;
+import com.scorg.regform.customui.FlowLayout;
+import com.scorg.regform.customui.FlowRadioGroup;
 import com.scorg.regform.models.CommonResponse;
+import com.scorg.regform.models.form.Field;
 import com.scorg.regform.models.form.Page;
+import com.scorg.regform.models.form.ValuesObject;
 import com.scorg.regform.preference.AppPreferencesManager;
 import com.scorg.regform.util.CommonMethods;
 import com.scorg.regform.util.Config;
@@ -45,7 +55,10 @@ import net.gotev.uploadservice.UploadInfo;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
 
 import permissions.dispatcher.NeedsPermission;
@@ -74,7 +87,7 @@ public class UndertakingFragment extends Fragment {
     private String mReceivedFormName;
     private ProfilePhotoUpdater mListener;
     private String patientName;
-//    private OnSubmitListener mListener;
+    //    private OnSubmitListener mListener;
     //    private ImageView mLogo;
     private CustomTextView mTitleTextView;
     private CustomTextView mDateTextView;
@@ -85,6 +98,9 @@ public class UndertakingFragment extends Fragment {
     private CustomButton mClearButton;
     private TextView mEditButton;
     private TextView mPatientName;
+
+    private LinearLayout fieldsContainer;
+
     public UndertakingFragment() {
         // Required empty public constructor
     }
@@ -120,6 +136,7 @@ public class UndertakingFragment extends Fragment {
         mClearButton = view.findViewById(R.id.clearButton);
         mEditButton = view.findViewById(R.id.editButton);
         mPatientName = view.findViewById(R.id.patientName);
+        fieldsContainer = view.findViewById(R.id.fieldsContainer);
     }
 
     @SuppressLint("CheckResult")
@@ -196,7 +213,11 @@ public class UndertakingFragment extends Fragment {
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UndertakingFragmentPermissionsDispatcher.onPickPhotoWithCheck(UndertakingFragment.this);
+                String profileId = AppPreferencesManager.getString(AppPreferencesManager.PREFERENCES_KEY.PROFILE_ID, getContext());
+                if (profileId.equalsIgnoreCase("-1"))
+                    CommonMethods.showToast(getContext(), getResources().getString(R.string.need_to_save_profile));
+                else
+                    UndertakingFragmentPermissionsDispatcher.onPickPhotoWithCheck(UndertakingFragment.this);
             }
         });
 
@@ -220,23 +241,28 @@ public class UndertakingFragment extends Fragment {
             }
         });
 
+        // New Added -------------------------------------------------------------
+
+        if (page.getFields() != null) {
+            if (!page.getFields().isEmpty()) {
+                mPatientName.setVisibility(View.GONE);
+                for (int fieldsIndex = 0; fieldsIndex < page.getFields().size(); fieldsIndex++) {
+                    final Field field = page.getFields().get(fieldsIndex);
+                    addField(fieldsContainer, 0, page.getFields(), field, fieldsIndex, inflater, -1);
+                }
+            }
+        }
+
+        // ----------------------------------------------------------------------
+
         return rootView;
     }
 
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void onPickPhoto() {
-        /*FilePickerBuilder.getInstance().setMaxCount(MAX_ATTACHMENT_COUNT)
-                .setSelectedFiles(new ArrayList<String>())
-                .setActivityTheme(R.style.AppTheme)
-                .enableVideoPicker(false)
-                .enableCameraSupport(true)
-                .showGifs(false)
-                .showFolderView(true)
-                .pickPhoto(UndertakingFragment.this);*/
-
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .start(getContext(), UndertakingFragment.this);
+                .start(getActivity());
     }
 
     @Override
@@ -245,29 +271,10 @@ public class UndertakingFragment extends Fragment {
         UndertakingFragmentPermissionsDispatcher.onRequestPermissionsResult(UndertakingFragment.this, requestCode, grantResults);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO) {
-                if (!data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).isEmpty()) {
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.dontAnimate();
-                    requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
-                    requestOptions.skipMemoryCache(true);
-                    requestOptions.error(R.drawable.ic_camera);
-                    requestOptions.placeholder(R.drawable.ic_camera);
-
-                    GlideApp.with(getContext())
-                            .load(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0))
-                            .apply(requestOptions)
-                            .thumbnail(.5f)
-                            .into(mProfilePhoto);
-
-                    uploadProfilePhoto(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0));
-                }
-            }
-        }*/
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -364,6 +371,128 @@ public class UndertakingFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void addField(final View fieldsContainer, final int sectionIndex, final ArrayList<Field> fields, final Field field, final int fieldsIndex, final LayoutInflater inflater, int indexToAddView) {
+        switch (field.getType()) {
+            case Constants.TYPE.RADIO_BUTTON: {
+                View fieldLayout = inflater.inflate(R.layout.field_radiobutton_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
+                TextView labelView = fieldLayout.findViewById(R.id.labelView);
+                labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
+
+                final FlowRadioGroup radioGroup = fieldLayout.findViewById(R.id.radioGroup);
+                radioGroup.setId(CommonMethods.generateViewId());
+
+                final TextView radioGroupError = fieldLayout.findViewById(R.id.radioGroupError);
+                radioGroupError.setId(CommonMethods.generateViewId());
+                field.setErrorViewId(radioGroupError.getId());
+
+                ArrayList<ValuesObject> dataList = field.getDataList();
+
+                final ValuesObject preValue = field.getValue();
+
+                for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
+                    ValuesObject data = dataList.get(dataIndex);
+                    RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.radiobutton, radioGroup, false);
+                    radioButton.setId(CommonMethods.generateViewId());
+                    radioButton.setText(data.getName());
+                    radioButton.setTag(data);
+
+                    // set pre value
+                    if (field.getValue().getName().equalsIgnoreCase(radioButton.getText().toString()))
+                        radioButton.setChecked(true);
+
+                    radioGroup.addView(radioButton);
+                }
+
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                        CommonMethods.hideKeyboard(getContext());
+                        RadioButton radioButton = group.findViewById(checkedId);
+                        ValuesObject valuesObject = (ValuesObject) radioButton.getTag();
+                        field.setValue(valuesObject);
+                        radioGroupError.setText("");
+
+                        field.setUpdated(!preValue.getName().equalsIgnoreCase(field.getValue().getName()));
+                    }
+                });
+
+                if (indexToAddView != -1)
+                    ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);
+                else ((LinearLayout) fieldsContainer).addView(fieldLayout);
+                break;
+            }
+
+            case Constants.TYPE.CHECKBOX: {
+                View fieldLayout = inflater.inflate(R.layout.field_checkbox_layout, (LinearLayout) fieldsContainer, false);
+                fieldLayout.setId(CommonMethods.generateViewId());
+                field.setFieldParentId(fieldLayout.getId());
+
+                TextView labelView = fieldLayout.findViewById(R.id.labelView);
+                labelView.setText(field.isMandatory() ? "*" + field.getName() : field.getName());
+
+                FlowLayout checkBoxGroup = fieldLayout.findViewById(R.id.checkBoxGroup);
+                checkBoxGroup.setId(CommonMethods.generateViewId());
+
+                final TextView checkBoxGroupError = fieldLayout.findViewById(R.id.checkBoxGroupError);
+                checkBoxGroupError.setId(CommonMethods.generateViewId());
+                field.setErrorViewId(checkBoxGroupError.getId());
+
+                ArrayList<ValuesObject> dataList = field.getDataList();
+                final ArrayList<ValuesObject> values = field.getValues();
+                final ArrayList<ValuesObject> preValues = new ArrayList<>(values);
+
+                for (int dataIndex = 0; dataIndex < dataList.size(); dataIndex++) {
+                    ValuesObject data = dataList.get(dataIndex);
+                    final CheckBox checkBox = (CheckBox) inflater.inflate(R.layout.checkbox, checkBoxGroup, false);
+
+                    // set pre value
+                    for (ValuesObject value : values)
+                        if (value.getName().equalsIgnoreCase(data.getName()))
+                            checkBox.setChecked(true);
+
+                    checkBox.setId(CommonMethods.generateViewId());
+                    checkBox.setText(data.getName());
+                    checkBox.setTag(data);
+
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                            CommonMethods.hideKeyboard(getContext());
+                            checkBoxGroupError.setText("");
+
+                            // set latest value
+
+                            if (isChecked) {
+                                values.add((ValuesObject) checkBox.getTag());
+                            } else {
+                                values.remove(checkBox.getTag());
+                            }
+
+                            Collections.sort(preValues);
+                            Collections.sort(values);
+                            field.setUpdated(!Arrays.equals(preValues.toArray(), values.toArray()));
+                        }
+                    });
+                    checkBoxGroup.addView(checkBox);
+                }
+
+                if (indexToAddView != -1)
+                    ((LinearLayout) fieldsContainer).addView(fieldLayout, indexToAddView);
+                else ((LinearLayout) fieldsContainer).addView(fieldLayout);
+
+                break;
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Added
 
     // Listener
     public interface ProfilePhotoUpdater {

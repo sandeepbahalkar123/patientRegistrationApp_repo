@@ -1194,16 +1194,6 @@ public class PageFragment extends Fragment implements HelperResponse {
 
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void onPickPhoto() {
-        /*FilePickerBuilder.getInstance().setMaxCount(MAX_ATTACHMENT_COUNT)
-                .setSelectedFiles(new ArrayList<String>())
-                .setActivityTheme(R.style.AppTheme)
-                .enableVideoPicker(false)
-                .enableCameraSupport(true)
-                .showGifs(false)
-                .showFolderView(true)
-                .pickPhoto(getActivity());*/
-
-
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(getActivity());
@@ -1219,26 +1209,6 @@ public class PageFragment extends Fragment implements HelperResponse {
     @SuppressLint("CheckResult")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*if (resultCode == RESULT_OK) {
-            if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO) {
-                if (!data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).isEmpty()) {
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.dontAnimate();
-                    requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
-                    requestOptions.skipMemoryCache(true);
-                    requestOptions.error(R.drawable.ic_camera);
-                    requestOptions.placeholder(R.drawable.ic_camera);
-
-                    GlideApp.with(getContext())
-                            .load(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0))
-                            .apply(requestOptions)
-                            .thumbnail(.5f)
-                            .into(profilePhoto);
-
-                    uploadProfilePhoto(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0));
-                }
-            }
-        }*/
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);

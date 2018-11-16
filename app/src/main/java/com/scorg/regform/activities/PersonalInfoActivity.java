@@ -37,6 +37,7 @@ import com.scorg.regform.fragments.ContainerFragment;
 import com.scorg.regform.fragments.FormFragment;
 import com.scorg.regform.fragments.NewRegistrationFragment;
 import com.scorg.regform.fragments.ProfilePageFragment;
+import com.scorg.regform.fragments.UndertakingFragment;
 import com.scorg.regform.helpers.LoginHelper;
 import com.scorg.regform.helpers.PatientHelper;
 import com.scorg.regform.interfaces.CheckIpConnection;
@@ -70,7 +71,7 @@ import static com.scorg.regform.activities.FormsActivity.FORM_INDEX;
 import static com.scorg.regform.fragments.ProfilePageFragment.PERSONAL_INFO_FORM;
 import static com.scorg.regform.preference.AppPreferencesManager.PREFERENCES_KEY.PROFILE_PHOTO;
 
-public class PersonalInfoActivity extends AppCompatActivity implements FormFragment.ButtonClickListener, NewRegistrationFragment.OnRegistrationListener, ProfilePageFragment.ButtonClickListener, ContainerFragment.OnContainerLoadListener, HelperResponse {
+public class PersonalInfoActivity extends AppCompatActivity implements FormFragment.ButtonClickListener, NewRegistrationFragment.OnRegistrationListener, ProfilePageFragment.ButtonClickListener, UndertakingFragment.ProfilePhotoUpdater, ContainerFragment.OnContainerLoadListener, HelperResponse {
 
     public static final String PATIENT_NAME = "patient_name";
     public static final String PROFILE_ID = "profile_id";
@@ -747,5 +748,10 @@ public class PersonalInfoActivity extends AppCompatActivity implements FormFragm
         if (formsData.isRegisteredUser())
             addProfileFragment();
         else addFormFragment();
+    }
+
+    @Override
+    public void updateProfilePhoto(String filePath) {
+
     }
 }

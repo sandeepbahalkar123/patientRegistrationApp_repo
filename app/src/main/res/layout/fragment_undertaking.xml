@@ -50,12 +50,12 @@
                 android:layout_height="wrap_content"
                 android:background="@color/title_background"
                 android:gravity="center"
-                android:paddingBottom="@dimen/dp8"
-                android:paddingEnd="@dimen/dp5"
-                android:paddingLeft="@dimen/dp10"
-                android:paddingRight="@dimen/dp5"
                 android:paddingStart="@dimen/dp10"
+                android:paddingLeft="@dimen/dp10"
                 android:paddingTop="@dimen/dp8"
+                android:paddingEnd="@dimen/dp5"
+                android:paddingRight="@dimen/dp5"
+                android:paddingBottom="@dimen/dp8"
                 android:text="@string/change_photo"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -68,23 +68,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:padding="@dimen/view_margin"
             android:text="@string/date"
             android:textSize="@dimen/button_text_size"
-            app:customFont="@string/roboto_medium"
-            android:layout_alignParentRight="true" />
+            app:customFont="@string/roboto_medium" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/signaturePadLayout"
         android:layout_below="@+id/topLayout"
-        android:scrollbarFadeDuration="0"
-        android:scrollbars="vertical"
         android:fadeScrollbars="false"
         android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:layout_above="@+id/signaturePadLayout">
+        android:scrollbarFadeDuration="0"
+        android:scrollbars="vertical">
 
         <com.scorg.regform.customui.CustomTextView
             android:id="@+id/contentTextView"
@@ -100,8 +100,10 @@
         android:id="@+id/signaturePadLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/signature_height"
-        android:layout_margin="@dimen/view_margin"
-        android:layout_above="@+id/patientName"
+        android:layout_above="@+id/footerLayout"
+        android:layout_marginTop="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginEnd="@dimen/view_margin"
         android:background="@drawable/profile_photo_back">
 
         <com.github.gcacace.signaturepad.views.SignaturePad
@@ -125,22 +127,39 @@
             android:id="@+id/clearButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"
             android:text="@string/clear" />
 
     </RelativeLayout>
 
-    <com.scorg.regform.customui.CustomTextView
-        android:id="@+id/patientName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/footerLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/view_margin"
-        android:text="Name:"
         android:layout_alignParentBottom="true"
-        android:textSize="@dimen/button_text_size"
-        app:customFont="@string/roboto_medium" />
+        android:orientation="vertical">
+
+        <com.scorg.regform.customui.CustomTextView
+            android:id="@+id/patientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/view_margin"
+            android:text="Name:"
+            android:layout_marginTop="@dimen/view_margin"
+            android:textSize="@dimen/field_text_size"
+            app:customFont="@string/roboto_medium" />
+
+        <LinearLayout
+            android:id="@+id/fieldsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/view_margin"
+            android:paddingEnd="@dimen/view_margin" />
+
+    </LinearLayout>
 
 </RelativeLayout>

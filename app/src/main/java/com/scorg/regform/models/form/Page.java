@@ -10,6 +10,21 @@ import java.util.ArrayList;
 
 public class Page implements Parcelable {
 
+    public final static Parcelable.Creator<Page> CREATOR = new Creator<Page>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Page createFromParcel(Parcel in) {
+            return new Page(in);
+        }
+
+        public Page[] newArray(int size) {
+            return (new Page[size]);
+        }
+
+    };
     @SerializedName("pageId")
     @Expose
     private int pageId;
@@ -37,22 +52,6 @@ public class Page implements Parcelable {
     @SerializedName("value")
     @Expose
     private String signatureData;
-
-    public final static Parcelable.Creator<Page> CREATOR = new Creator<Page>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Page createFromParcel(Parcel in) {
-            return new Page(in);
-        }
-
-        public Page[] newArray(int size) {
-            return (new Page[size]);
-        }
-
-    };
 
     protected Page(Parcel in) {
         this.pageId = ((int) in.readValue((Integer.class.getClassLoader())));
@@ -111,7 +110,7 @@ public class Page implements Parcelable {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
