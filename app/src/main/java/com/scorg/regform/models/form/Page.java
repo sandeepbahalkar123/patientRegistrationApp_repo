@@ -110,7 +110,7 @@ public class Page implements Parcelable {
     }
 
     public String getName() {
-        return name == null ? "" : name;
+        return name;
     }
 
     public void setName(String name) {

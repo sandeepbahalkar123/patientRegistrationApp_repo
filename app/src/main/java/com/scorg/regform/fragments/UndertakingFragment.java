@@ -82,9 +82,9 @@ public class UndertakingFragment extends Fragment {
     private AppCompatImageView mProfilePhoto;
     private String mReceivedDate;
     private Page page;
-    private int pageNumber;
-    private int formNumber;
-    private String mReceivedFormName;
+//    private int pageNumber;
+//    private int formNumber;
+//    private String mReceivedFormName;
     private ProfilePhotoUpdater mListener;
     private String patientName;
     //    private OnSubmitListener mListener;
@@ -117,6 +117,16 @@ public class UndertakingFragment extends Fragment {
             args.putString(PATIENT_NAME, patientName);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setPatientName(String patientName) {
+        if (patientName != null) {
+            if (!patientName.isEmpty()) {
+                this.patientName = patientName;
+                String content = page.getUndertakingContent().replace(PATIENT_NAME_TO_REPLACE, patientName);
+                mContentTextView.setText(Html.fromHtml(content));
+            }
+        }
     }
 
     @Override
@@ -155,9 +165,9 @@ public class UndertakingFragment extends Fragment {
             mReceivedDate = df.format(c.getTime());
 
             page = getArguments().getParcelable(PAGE);
-            pageNumber = getArguments().getInt(PAGE_NUMBER);
-            formNumber = getArguments().getInt(FORM_NUMBER);
-            mReceivedFormName = getArguments().getString(FORM_NAME);
+//            pageNumber = getArguments().getInt(PAGE_NUMBER);
+//            formNumber = getArguments().getInt(FORM_NUMBER);
+//            mReceivedFormName = getArguments().getString(FORM_NAME);
             patientName = getArguments().getString(PATIENT_NAME);
 
             String clinicName = AppPreferencesManager.getString(AppPreferencesManager.CLINIC_KEY.CLINIC_NAME, getContext());
@@ -166,7 +176,7 @@ public class UndertakingFragment extends Fragment {
             if (patientName != null) {
                 page.setName(patientName);
                 page.setUndertakingContent(page.getUndertakingContent().replace(PATIENT_NAME_TO_REPLACE, patientName));
-            } else
+            } else if (page.getName() != null)
                 page.setUndertakingContent(page.getUndertakingContent().replace(PATIENT_NAME_TO_REPLACE, page.getName()));
 
             if (page.getSignatureData() != null) {

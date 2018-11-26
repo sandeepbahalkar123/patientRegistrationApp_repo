@@ -155,6 +155,9 @@ public class FormFragment extends Fragment {
 
     private void pageValidation(int selectedTabPosition, boolean isShowError) {
 
+        // new added
+        patientName = "";
+
         View parentView = null;
 
         if (isShowError)
@@ -253,7 +256,6 @@ public class FormFragment extends Fragment {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 if (isTabSelectedListener) {
 
                     if (unSelectedTab.getPosition() > tab.getPosition())
@@ -378,6 +380,15 @@ public class FormFragment extends Fragment {
 
             case Constants.TYPE.AUTO_COMPLETE:
             case Constants.TYPE.TEXT_BOX: {
+
+                // New Added
+
+                String key = field.getKey().toLowerCase();
+                if (pageFragments.get(mTabLayout.getSelectedTabPosition()) instanceof UndertakingFragment && key.contains("patient") && (key.contains("firstname") || key.contains("middlename") || key.contains("lastname"))) {
+                    patientName += " " + field.getValue().getName();
+                    // new added for showing patient name on undertaking
+                    ((UndertakingFragment) pageFragments.get(mTabLayout.getSelectedTabPosition())).setPatientName(patientName);
+                }
 
                 if (field.isMandatory()) {
                     if (field.getValue().getName().isEmpty()) {

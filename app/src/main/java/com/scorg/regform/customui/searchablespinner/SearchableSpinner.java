@@ -125,26 +125,23 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (_searchableListDialog.isAdded() || _arrayAdapter.isEmpty()) {
+        if (event.getAction() == MotionEvent.ACTION_UP && _arrayAdapter != null) {
+            if (_searchableListDialog.isAdded() || _arrayAdapter.isEmpty())
                 return true;
+
+            // Refresh content #6
+            // Change Start
+            // Description: The items were only set initially, not reloading the data in the
+            // spinner every time it is loaded with items in the adapter.
+            _items.clear();
+            for (int i = 0; i < _arrayAdapter.getCount(); i++) {
+                _items.add(_arrayAdapter.getItem(i));
             }
+            // Change end.
 
-            if (null != _arrayAdapter) {
+            if (!_searchableListDialog.isAdded() && !_items.isEmpty())
+                _searchableListDialog.show(scanForActivity(_context).getSupportFragmentManager(), "TAG");
 
-                // Refresh content #6
-                // Change Start
-                // Description: The items were only set initially, not reloading the data in the
-                // spinner every time it is loaded with items in the adapter.
-                _items.clear();
-                for (int i = 0; i < _arrayAdapter.getCount(); i++) {
-                    _items.add(_arrayAdapter.getItem(i));
-                }
-                // Change end.
-
-                if (!_searchableListDialog.isAdded() && !_items.isEmpty())
-                    _searchableListDialog.show(scanForActivity(_context).getSupportFragmentManager(), "TAG");
-            }
         }
         return true;
     }
